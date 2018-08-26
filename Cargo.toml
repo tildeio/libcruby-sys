@@ -1,0 +1,16 @@
+[package]
+name = "libcruby-sys"
+version = "0.1.0"
+authors = [
+  "Godfrey Chan <godfreykfc@gmail.com>",
+  "Yehuda Katz <wycats@gmail.com>"
+]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+libc = "0.2"
+cstr-macro = "0.1"
+"lazy_static" = "1.1"
+
