@@ -1,5 +1,5 @@
-use libc::{c_char, c_int, c_long, c_void, uintptr_t};
-use std::marker::PhantomData;
+use libc::{c_char, c_int, c_long, uintptr_t};
+use std::mem::transmute;
 
 #[repr(transparent)]
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
@@ -14,22 +14,13 @@ unsafe impl Sync for ID {}
 
 #[repr(transparent)]
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-pub struct ANYARGS<T> {
-    ptr: *const c_void,
-    rtn: PhantomData<T>,
-}
-
-impl<T> ANYARGS<T> {
-    pub unsafe fn from_ptr(ptr: *const c_void) -> Self {
-        ANYARGS { ptr, rtn: PhantomData }
-    }
-}
+pub struct ANYARGS<T>(extern "C" fn() -> T);
 
 macro_rules! impl_from_arity {
     ($name:ident $(, $arg:ty)*) => {
         impl<T> ANYARGS<T> {
             pub fn $name(func: extern "C" fn($($arg),*) -> T) -> Self {
-                unsafe { ANYARGS::from_ptr(func as *const c_void) }
+                unsafe { ANYARGS(transmute(func)) }
             }
         }
     }
