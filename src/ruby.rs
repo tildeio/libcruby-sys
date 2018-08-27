@@ -19,6 +19,7 @@ pub struct ANYARGS<T>(extern "C" fn() -> T);
 macro_rules! impl_from_arity {
     ($name:ident $(, $arg:ty)*) => {
         impl<T> ANYARGS<T> {
+            #[inline(always)]
             pub fn $name(func: extern "C" fn($($arg),*) -> T) -> Self {
                 unsafe { ANYARGS(transmute(func)) }
             }
