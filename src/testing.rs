@@ -54,7 +54,7 @@ pub trait ToRuby {
 impl ToRuby for str {
     fn to_ruby(&self) -> VALUE {
         let ptr = self.as_ptr() as *const c_char;
-        let len = self.as_bytes().len() as c_long;
+        let len = self.len() as c_long;
         unsafe { rb_utf8_str_new(ptr, len) }
     }
 }
