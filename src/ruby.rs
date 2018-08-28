@@ -139,6 +139,7 @@ extern {
     pub fn rb_id2sym(id: ID) -> VALUE;
 
     pub fn rb_define_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
+    pub fn rb_define_singleton_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
     pub fn rb_define_module_function(module: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
 }
 
@@ -617,6 +618,53 @@ tests! {
         assert.rb_eq(
             lazy_eval("::Object.new.__test_define_method_arity_3__(:foo, :bar, :baz)"),
             "__test_define_method_arity_3__ works!".to_ruby()
+        );
+    }
+
+    #[test]
+    fn test_define_singleton_method(assert: &mut Assertions) {
+        extern "C" fn __test_define_singleton_method_arity_0__(_self: VALUE) -> VALUE {
+            "__test_define_singleton_method_arity_0__ works!".to_ruby()
+        }
+
+        unsafe {
+            rb_define_singleton_method(
+                rb_cObject,
+                cstr!("__test_define_singleton_method_arity_0__"),
+                ANYARGS::from_arity_1(__test_define_singleton_method_arity_0__),
+                0
+            );
+        }
+
+        assert.rb_eq(
+            lazy_eval("::Object.__test_define_singleton_method_arity_0__"),
+            "__test_define_singleton_method_arity_0__ works!".to_ruby()
+        );
+
+        extern "C" fn __test_define_singleton_method_arity_3__(_self: VALUE, foo_sym: VALUE, bar_sym: VALUE, baz_sym: VALUE) -> VALUE {
+            if unsafe { rb_sym2id(foo_sym) != rb_intern(cstr!("foo")) } {
+                "__test_define_singleton_method_arity_3__ failed (expected :foo for first argument)".to_ruby()
+            } else if unsafe { rb_sym2id(bar_sym) != rb_intern(cstr!("bar")) } {
+                "__test_define_singleton_method_arity_3__ failed (expected :bar for second argument)".to_ruby()
+            } else if unsafe { rb_sym2id(baz_sym) != rb_intern(cstr!("baz")) } {
+                "__test_define_singleton_method_arity_3__ failed (expected :baz for third argument)".to_ruby()
+            } else {
+                "__test_define_singleton_method_arity_3__ works!".to_ruby()
+            }
+        }
+
+        unsafe {
+            rb_define_singleton_method(
+                rb_cObject,
+                cstr!("__test_define_singleton_method_arity_3__"),
+                ANYARGS::from_arity_4(__test_define_singleton_method_arity_3__),
+                3
+            );
+        }
+
+        assert.rb_eq(
+            lazy_eval("::Object.__test_define_singleton_method_arity_3__(:foo, :bar, :baz)"),
+            "__test_define_singleton_method_arity_3__ works!".to_ruby()
         );
     }
 
