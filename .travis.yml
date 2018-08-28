@@ -1,0 +1,28 @@
+os:
+  - linux
+  - osx
+
+language: ruby
+
+rvm:
+  - 2.4
+  - 2.5
+  - 2.6
+  - ruby-head
+
+cache:
+  directories:
+    - $HOME/.rvm
+    - $HOME/.cargo
+    - $HOME/.rustup
+
+env:
+  global:
+    - RUST_BACKTRACE=1
+    - RUST_VERSION=stable
+
+before_install:
+  # Install Rust
+  - if [ ! -e "$HOME/.cargo/bin" ]; then curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain $RUST_VERSION -y; fi
+  - export PATH="$HOME/.cargo/bin:$PATH"
+  - rustup default $RUST_VERSION

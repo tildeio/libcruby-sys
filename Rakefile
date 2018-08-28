@@ -1,5 +1,47 @@
 require 'rake/extensiontask'
 
+module Platform
+  OS = case os = RbConfig::CONFIG['host_os'].downcase
+  when /linux/
+    # The official ruby-alpine Docker containers pre-build Ruby. As a result,
+    #   Ruby doesn't know that it's on a musl-based platform. `ldd` is the
+    #   only reliable way to detect musl that we've found.
+    # See https://github.com/skylightio/skylight-ruby/issues/92
+    if `ldd --version 2>&1` =~ /musl/
+      "linux-musl"
+    else
+      "linux"
+    end
+  when /darwin/
+    "darwin"
+  when /freebsd/
+    "freebsd"
+  when /netbsd/
+    "netbsd"
+  when /openbsd/
+    "openbsd"
+  when /sunos|solaris/
+    "solaris"
+  when /mingw|mswin/
+    "windows"
+  else
+    os
+  end
+
+  LIBEXT = case OS
+  when /darwin/
+    'dylib'
+  when /linux|bsd|solaris/
+    'so'
+  when /windows|cygwin/
+    'dll'
+  else
+    'so'
+  end
+
+  DLEXT = RbConfig::CONFIG['DLEXT']
+end
+
 namespace :cargo do
   task :clean do
     sh 'cargo clean'
@@ -20,7 +62,7 @@ namespace :build do
 
   task :tests do
     sh 'cargo rustc -- --cfg test -C link-args="-Wl,-undefined,dynamic_lookup"'
-    cp 'target/debug/liblibcruby_sys.dylib', 'target/debug/tests.bundle'
+    cp "target/debug/liblibcruby_sys.#{Platform::LIBEXT}", "target/debug/tests.#{Platform::DLEXT}"
   end
 end
 
