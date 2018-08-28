@@ -1,0 +1,43 @@
+cache:
+  - '%HOMEDRIVE%%HOMEPATH%\.cargo -> .appveyor.yml'
+  - '%HOMEDRIVE%%HOMEPATH%\.rustup -> .appveyor.yml'
+  - vendor/bundle
+
+environment:
+  RUST_BACKTRACE: 1
+  RUST_VERSION: stable
+  matrix:
+    - RUBY_VERSION: 24
+    - RUBY_VERSION: 24-x64
+    - RUBY_VERSION: 25
+    - RUBY_VERSION: 25-x64
+    - RUBY_VERSION: head-x86
+    - RUBY_VERSION: head-x64
+  # TODO: Maybe try `gnu` as well as the default `msvc`
+
+install:
+  # Ruby
+  - ps: |
+      if ($env:RUBY_VERSION -like "*head*") {
+        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-head/rubyinstaller-$env:RUBY_VERSION.exe", "$pwd/ruby-setup.exe")
+        cmd /c ruby-setup.exe /verysilent /dir=C:/Ruby$env:RUBY_VERSION
+      }
+  - set PATH=C:\Ruby%RUBY_VERSION%\bin;C:\Ruby%RUBY_VERSION%\DevKit\bin;C:\Ruby%RUBY_VERSION%\DevKit\mingw\bin;%HOMEDRIVE%%HOMEPATH%\.cargo\bin;%PATH%
+  - echo %PATH%
+  - gem install bundler
+  - bundle config --local path vendor/bundle
+  - bundle install
+  # Rust
+  - IF NOT EXIST %HOMEDRIVE%%HOMEPATH%\.cargo\bin (curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain %RUST_VERSION% -y)
+  - rustup default %RUST_VERSION%
+
+before_test:
+  - ruby -v
+  - gem -v
+  - bundle -v
+  - rustc -V
+
+test_script:
+  - bundle exec rake
+
+build: off
