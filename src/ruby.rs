@@ -143,13 +143,17 @@ extern {
     pub fn rb_define_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
     pub fn rb_define_module_function(module: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
     pub fn rb_undef_method(class: VALUE, name: *const c_char);
+
+    pub fn rb_obj_classname(obj: VALUE) -> *const c_char;
 }
 
 tests! {
     use super::*;
+    use super::super::intern;
     use super::super::testing::{Assertions, ToRuby, lazy_eval};
+    use std::ptr::null;
 
-    use std::ffi::CString;
+    use std::ffi::{CStr, CString};
 
     #[test]
     fn test_false(assert: &mut Assertions) {
@@ -759,5 +763,19 @@ tests! {
             lazy_eval("::Kernel.respond_to?(:__test_undef_module_method__)"),
             unsafe { Qfalse }
         );
+    }
+
+    #[test]
+    fn test_obj_classname(assert: &mut Assertions) {
+        let class = unsafe { CStr::from_ptr(rb_obj_classname(rb_cObject)) };
+        let module = unsafe { CStr::from_ptr(rb_obj_classname(rb_mKernel)) };
+        let instance = unsafe {
+            let i = intern::rb_class_new_instance(0, null(), rb_cObject);
+            CStr::from_ptr(rb_obj_classname(i))
+        };
+
+        assert.rs_eq("Class", class.to_string_lossy());
+        assert.rs_eq("Module", module.to_string_lossy());
+        assert.rs_eq("Object", instance.to_string_lossy());
     }
 }
