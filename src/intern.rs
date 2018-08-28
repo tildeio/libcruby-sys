@@ -13,6 +13,7 @@ extern {
     pub fn rb_const_get(module: VALUE, name: ID) -> VALUE;
 
     pub fn rb_inspect(v: VALUE) -> VALUE;
+    pub fn rb_obj_class(obj: VALUE) -> VALUE;
 
     pub fn rb_define_singleton_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
 }
@@ -177,6 +178,18 @@ tests! {
             unsafe { rb_inspect(rb_class_new_instance(0, null(), class)) },
             "__test_inspect__ works!".to_ruby()
         );
+    }
+
+
+    #[test]
+    fn test_obj_class(assert: &mut Assertions) {
+        let class = unsafe { rb_obj_class(rb_cObject) };
+        let module = unsafe { rb_obj_class(rb_mKernel) };
+        let instance = unsafe { rb_obj_class(rb_class_new_instance(0, null(), rb_cObject)) };
+
+        assert.rb_eq(lazy_eval("::Class"), class);
+        assert.rb_eq(lazy_eval("::Module"), module);
+        assert.rb_eq(lazy_eval("::Object"), instance);
     }
 
     #[test]
