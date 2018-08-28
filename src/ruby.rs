@@ -724,7 +724,7 @@ tests! {
 
         unsafe {
             rb_define_method(
-                rb_cObject,
+                rb_mKernel,
                 cstr!("__test_define_module_function_arity_3__"),
                 ANYARGS::from_arity_4(__test_define_module_function_arity_3__),
                 3
