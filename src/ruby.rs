@@ -138,6 +138,8 @@ extern {
     pub fn rb_sym2id(symbol: VALUE) -> ID;
     pub fn rb_id2sym(id: ID) -> VALUE;
 
+    pub fn rb_define_class(name: *const c_char, superclass: VALUE) -> VALUE;
+
     pub fn rb_define_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
     pub fn rb_define_module_function(module: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
 }
@@ -571,6 +573,21 @@ tests! {
         assert.rb_eq(lazy_eval(":foo"), unsafe { rb_id2sym(foo2) });
         assert.rb_eq(lazy_eval(":foo"), unsafe { rb_id2sym(foo3) });
         assert.rb_eq(lazy_eval(":bar"), unsafe { rb_id2sym(bar) });
+    }
+
+    #[test]
+    fn test_define_class(assert: &mut Assertions) {
+        let foo = unsafe { rb_define_class(cstr!("TestDefineClass__Foo"), rb_cObject) };
+        let bar = unsafe { rb_define_class(cstr!("TestDefineClass__Bar"), foo) };
+
+        assert.rb_eq(lazy_eval("::TestDefineClass__Foo"), foo);
+        assert.rb_eq(lazy_eval("::TestDefineClass__Bar"), bar);
+
+        assert.rb_eq(lazy_eval("::TestDefineClass__Foo.class"), unsafe { rb_cClass });
+        assert.rb_eq(lazy_eval("::TestDefineClass__Bar.class"), unsafe { rb_cClass });
+
+        assert.rb_eq(lazy_eval("::TestDefineClass__Foo.superclass"), unsafe { rb_cObject });
+        assert.rb_eq(lazy_eval("::TestDefineClass__Bar.superclass"), foo);
     }
 
     #[test]
