@@ -19,7 +19,7 @@ environment:
       RUST_HOST: i686-pc-windows-gnu
     - RUBY_VERSION: head-x64
       RUST_HOST: x86_64-pc-windows-gnu
-  # TODO: Maybe try `gnu` as well as the default `msvc`
+  # TODO: Maybe try `mscv` for Rust as well
 
 install:
   # Ruby
