@@ -11,6 +11,8 @@ extern {
     pub fn rb_class_new_instance(argc: c_int, argv: *const VALUE, class: VALUE) -> VALUE;
 
     pub fn rb_const_get(module: VALUE, name: ID) -> VALUE;
+
+    pub fn rb_inspect(v: VALUE) -> VALUE;
 }
 
 tests! {
@@ -139,6 +141,39 @@ tests! {
         assert.rs_eq(
             unsafe { rb_eEncCompatError },
             unsafe { rb_const_get(rb_cEncoding, rb_intern(cstr!("CompatibilityError"))) }
+        );
+    }
+
+    #[test]
+    fn test_inspect(assert: &mut Assertions) {
+        assert.rb_eq(
+            lazy_eval("Kernel.inspect"),
+            unsafe { rb_inspect(rb_mKernel) }
+        );
+
+        assert.rb_eq(
+            lazy_eval("Object.inspect"),
+            unsafe { rb_inspect(rb_cObject) }
+        );
+
+        extern "C" fn __test_inspect__(_self: VALUE) -> VALUE {
+            "__test_inspect__ works!".to_ruby()
+        }
+
+        let class = unsafe { rb_define_class(cstr!("TestInspect"), rb_cObject) };
+
+        unsafe {
+            rb_define_method(
+                class,
+                cstr!("inspect"),
+                ANYARGS::from_arity_1(__test_inspect__),
+                0
+            );
+        }
+
+        assert.rb_eq(
+            unsafe { rb_inspect(rb_class_new_instance(0, null(), class)) },
+            "__test_inspect__ works!".to_ruby()
         );
     }
 }
