@@ -55,6 +55,22 @@ module Testing
 
       alias_method :to_s, :inspect
     end
+
+    class Nil
+      def initialize(value)
+        @value = value
+      end
+
+      def run!(context)
+        context.send(:assert_nil, @value)
+      end
+
+      def inspect
+        "assert_nil #{@value.inspect}"
+      end
+
+      alias_method :to_s, :inspect
+    end
   end
 
   class LazyValue
