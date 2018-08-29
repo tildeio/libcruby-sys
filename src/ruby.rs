@@ -142,6 +142,7 @@ extern {
 
     pub fn rb_define_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
     pub fn rb_define_module_function(module: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
+    pub fn rb_undef_method(class: VALUE, name: *const c_char);
 }
 
 tests! {
@@ -691,6 +692,72 @@ tests! {
         assert.rb_eq(
             lazy_eval("__test_define_module_function_arity_3__(:foo, :bar, :baz)"),
             "__test_define_module_function_arity_3__ works!".to_ruby()
+        );
+    }
+
+    #[test]
+    fn test_undef_method(assert: &mut Assertions) {
+        let class = unsafe {
+            rb_define_class(
+                cstr!("TestUndefClass"),
+                rb_cObject
+            )
+        };
+
+        unsafe { rb_undef_method(class, cstr!("to_s")) };
+
+        assert.rb_eq(
+            lazy_eval("::TestUndefClass.new.respond_to?(:to_s)"),
+            unsafe { Qfalse }
+        );
+
+        assert.rb_eq(
+            lazy_eval(r#"
+                exception = begin
+                TestUndefClass.new.to_s
+                rescue => e
+                e
+                end
+
+                exception.class
+            "#),
+            unsafe { rb_eNoMethodError }
+        );
+    }
+
+    #[test]
+    fn test_undef_module_method(assert: &mut Assertions) {
+        extern "C" fn __test_undef_module_method__(_self: VALUE) -> VALUE {
+            "__test_undef_module_method__ works!".to_ruby()
+        }
+
+        unsafe {
+            rb_define_method(
+                rb_mKernel,
+                cstr!("__test_undef_module_method__"),
+                ANYARGS::from_arity_1(__test_undef_module_method__),
+                0
+            );
+        }
+
+        // NOTE: Ideally we would test this just to make sure things are set up correctly,
+        //   but due to the lazy_eval this won't pass.
+        //
+        // assert.rb_eq(
+        //     lazy_eval("::Kernel.__test_undef_module_method__"),
+        //     "__test_undef_module_method__ works!".to_ruby()
+        // );
+
+        unsafe {
+            rb_undef_method(
+                rb_mKernel,
+                cstr!("__test_undef_module_method__")
+            );
+        }
+
+        assert.rb_eq(
+            lazy_eval("::Kernel.respond_to?(:__test_undef_module_method__)"),
+            unsafe { Qfalse }
         );
     }
 }
