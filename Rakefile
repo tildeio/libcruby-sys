@@ -75,7 +75,7 @@ namespace :build do
     link_args = '-Wl,--enable-auto-image-base,--enable-auto-import'
 
     sh "cargo rustc --verbose -- --cfg test -L #{libruby_path.inspect} -l #{libruby_name} -L #{libcruby_sys_path.inspect} -l #{libcruby_sys_name} -C link-args=#{link_args.inspect}"
-    cp "target/debug/liblibcruby_sys.#{Platform::LIBEXT}", "target/debug/tests.#{Platform::DLEXT}"
+    cp "target/debug/libcruby_sys.#{Platform::LIBEXT}", "target/debug/tests.#{Platform::DLEXT}"
   end
 end
 
