@@ -21,6 +21,22 @@ extern {
     ///     [encoding.c](https://github.com/ruby/ruby/blob/v2_5_1/encoding.c#L783-L815)
     /// * **2.6:** [encoding.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/encoding.h#L123)
     pub fn rb_enc_get_index(obj: VALUE) -> c_int;
+
+    /// Returns the encoding index for UTF-8
+    ///
+    /// # Safety
+    ///
+    /// No known issues
+    ///
+    /// # Defined In
+    ///
+    /// * **2.3:** [encoding.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/encoding.h#L261)
+    /// * **2.4:** [encoding.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/encoding.h#L265)
+    /// * **2.5:**
+    ///     [encoding.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/encoding.h#L265)
+    ///     [encoding.c](https://github.com/ruby/ruby/blob/v2_5_1/encoding.c#L1339-L1343)
+    /// * **2.6:** [encoding.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/encoding.h#L269)
+    pub fn rb_utf8_encindex() -> c_int;
 }
 
 tests! {
@@ -30,5 +46,10 @@ tests! {
     #[test]
     fn test_enc_get_index(assert: &mut Assertions) {
         assert.rs_eq(unsafe { rb_enc_get_index("foo".to_ruby()) } > 0, true);
+    }
+
+    #[test]
+    fn test_rb_utf8_encindex(assert: &mut Assertions) {
+        assert.rs_eq(unsafe { rb_enc_get_index("foo".to_ruby()) }, unsafe { rb_utf8_encindex() });
     }
 }
