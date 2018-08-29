@@ -5,15 +5,20 @@ cache:
 
 environment:
   RUST_BACKTRACE: 1
-  RUST_HOST: x86_64-pc-windows-gnu
   RUST_VERSION: stable
   matrix:
     - RUBY_VERSION: 24
+      RUST_HOST: i686-pc-windows-gnu
     - RUBY_VERSION: 24-x64
+      RUST_HOST: x86_64-pc-windows-gnu
     - RUBY_VERSION: 25
+      RUST_HOST: i686-pc-windows-gnu
     - RUBY_VERSION: 25-x64
+      RUST_HOST: x86_64-pc-windows-gnu
     - RUBY_VERSION: head-x86
+      RUST_HOST: i686-pc-windows-gnu
     - RUBY_VERSION: head-x64
+      RUST_HOST: x86_64-pc-windows-gnu
   # TODO: Maybe try `gnu` as well as the default `msvc`
 
 install:
@@ -26,6 +31,9 @@ install:
   - set PATH=C:\Ruby%RUBY_VERSION%\bin;%HOMEDRIVE%%HOMEPATH%\.cargo\bin;%PATH%
   - set RAKEOPT=-rdevkit
   - echo %PATH%
+  - dir C:\msys64\usr\bin
+  - C:\msys64\usr\bin\gcc.exe --help
+  - C:\msys64\usr\bin\ld.exe --help
   - gem install bundler
   - bundle config --local path vendor/bundle
   - bundle install
