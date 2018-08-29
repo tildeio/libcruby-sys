@@ -68,7 +68,7 @@ namespace :build do
     libruby_name = RbConfig::CONFIG['RUBY_SO_NAME']
 
     libcruby_sys_path = File.expand_path('lib')
-    libcruby_sys_path = 'cruby_sys'
+    libcruby_sys_name = 'cruby_sys'
 
     link_args = '-Wl,--enable-auto-image-base,--enable-auto-import'
 
