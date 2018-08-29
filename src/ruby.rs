@@ -134,6 +134,7 @@ extern {
 
     pub fn rb_intern(cstr: *const c_char) -> ID;
     pub fn rb_intern2(ptr: *const c_char, len: c_long) -> ID;
+    pub fn rb_intern_str(string: VALUE) -> ID;
 
     pub fn rb_sym2id(symbol: VALUE) -> ID;
     pub fn rb_id2sym(id: ID) -> VALUE;
@@ -555,28 +556,34 @@ tests! {
         let foo1 = unsafe { rb_intern(cstr!("foo")) };
         let foo2 = unsafe { rb_intern(CString::new("foo").unwrap().into_raw()) };
         let foo3 = unsafe { rb_intern2("foobar".as_ptr() as *const c_char, 3 as c_long) };
+        let foo4 = unsafe { rb_intern_str("foo".to_ruby()) };
 
         let bar = unsafe { rb_intern(cstr!("bar")) };
 
         assert.rs_eq(foo1, foo1);
         assert.rs_eq(foo1, foo2);
         assert.rs_eq(foo1, foo3);
+        assert.rs_eq(foo1, foo4);
 
         assert.rs_ne(foo1, bar);
         assert.rs_ne(foo2, bar);
         assert.rs_ne(foo3, bar);
+        assert.rs_ne(foo4, bar);
 
         assert.rs_eq(foo1, unsafe { rb_sym2id(rb_id2sym(foo1)) });
         assert.rs_eq(foo2, unsafe { rb_sym2id(rb_id2sym(foo2)) });
         assert.rs_eq(foo3, unsafe { rb_sym2id(rb_id2sym(foo3)) });
+        assert.rs_eq(foo4, unsafe { rb_sym2id(rb_id2sym(foo4)) });
 
         assert.rs_ne(foo1, unsafe { rb_sym2id(rb_id2sym(bar)) });
         assert.rs_ne(foo2, unsafe { rb_sym2id(rb_id2sym(bar)) });
         assert.rs_ne(foo3, unsafe { rb_sym2id(rb_id2sym(bar)) });
+        assert.rs_ne(foo4, unsafe { rb_sym2id(rb_id2sym(bar)) });
 
         assert.rb_eq(lazy_eval(":foo"), unsafe { rb_id2sym(foo1) });
         assert.rb_eq(lazy_eval(":foo"), unsafe { rb_id2sym(foo2) });
         assert.rb_eq(lazy_eval(":foo"), unsafe { rb_id2sym(foo3) });
+        assert.rb_eq(lazy_eval(":foo"), unsafe { rb_id2sym(foo4) });
         assert.rb_eq(lazy_eval(":bar"), unsafe { rb_id2sym(bar) });
     }
 
