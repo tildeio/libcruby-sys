@@ -67,7 +67,7 @@ namespace :build do
     libname  = RbConfig::CONFIG['RUBY_SO_NAME']
     linkargs = '-Wl,--enable-auto-image-base,--enable-auto-import'
 
-    sh "cargo rustc -- --cfg test -L #{libpath.inspect} -l #{libname} -C -link-args=#{linkargs.inspect}"
+    sh "cargo rustc -- --cfg test -L #{libpath.inspect} -l #{libname} -C link-args=#{linkargs.inspect}"
     cp "target/debug/liblibcruby_sys.#{Platform::LIBEXT}", "target/debug/tests.#{Platform::DLEXT}"
   end
 end
