@@ -37,7 +37,9 @@ macro_rules! init {
 init! {
     mod ruby;
     mod intern;
+    mod encoding;
 
     pub use ruby::*;
     pub use intern::*;
+    pub use encoding::*;
 }
