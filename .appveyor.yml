@@ -5,6 +5,7 @@ cache:
 
 environment:
   RUST_BACKTRACE: 1
+  RUST_HOST: x86_64-pc-windows-gnu
   RUST_VERSION: stable
   matrix:
     - RUBY_VERSION: 24
@@ -29,7 +30,7 @@ install:
   - bundle config --local path vendor/bundle
   - bundle install
   # Rust
-  - IF NOT EXIST %HOMEDRIVE%%HOMEPATH%\.cargo\bin (curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain %RUST_VERSION% -y)
+  - IF NOT EXIST %HOMEDRIVE%%HOMEPATH%\.cargo\bin (curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain %RUST_VERSION% --default-host %RUST_HOST% -y)
   - rustup default %RUST_VERSION%
 
 before_test:
