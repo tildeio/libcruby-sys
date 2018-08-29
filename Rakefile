@@ -62,7 +62,8 @@ namespace :build do
 
   task :tests do
     # sh 'cargo rustc -- --cfg test -C link-args="-Wl,-flat_namespace,-undefined,dynamic_lookup"'
-    sh 'cargo rustc -- --cfg test -C link-args="-z dynamic-undefined-weak"'
+    # sh 'cargo rustc -- --cfg test -C link-args="-z dynamic-undefined-weak"'
+    sh 'cargo rustc -- --cfg test -C link-args="--help"'
     cp "target/debug/liblibcruby_sys.#{Platform::LIBEXT}", "target/debug/tests.#{Platform::DLEXT}"
   end
 end
