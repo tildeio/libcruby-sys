@@ -86,6 +86,32 @@ extern {
     ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
     pub fn rb_ary_push(array: VALUE, item: VALUE) -> VALUE;
 
+    /// Returns the element at the given index or [`nil`](static.Qnil.html) if the index is
+    /// out-of-bounds for the array.
+    ///
+    /// * `array` - an [`Array`](static.rb_cArray.html)
+    /// * `idx` - the offset to retrieve. A negative value will count from the end of the array.
+    ///
+    /// # Safety
+    ///
+    /// * This function performs bounds checks which should be safer than some options.
+    /// * Undefined behavior if `array` is not an `Array`
+    ///
+    /// # Miscellaneous
+    ///
+    /// * [`RARRAY_AREF`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1035) has
+    /// a similar function but does not do bounds checking.
+    ///
+    /// # Defined In
+    ///
+    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L71)
+    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L71)
+    /// * **2.5:**
+    ///     [intern.h](ttps://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L71) |
+    ///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L1215-L1229)
+    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L71)
+    pub fn rb_ary_entry(array: VALUE, idx: c_long) -> VALUE;
+
     /// # Constructs a new, empty hash.
     ///
     /// * Returns a [`Hash`](static.rb_cHash.html)
@@ -364,6 +390,23 @@ tests! {
         unsafe { rb_ary_push(arr2, "world!".to_ruby()) };
 
         assert.rb_eq(lazy_eval("['hello', 'world!']"), arr2);
+    }
+
+    #[test]
+    fn test_ary_entry(assert: &mut Assertions) {
+        let arr1 = unsafe { rb_ary_new_capa(3) };
+
+        unsafe { rb_ary_push(arr1, Qtrue) };
+        unsafe { rb_ary_push(arr1, Qfalse) };
+        unsafe { rb_ary_push(arr1, Qnil) };
+        unsafe { rb_ary_push(arr1, "hello".to_ruby()) };
+
+        assert.rb_eq(unsafe { Qtrue }, unsafe { rb_ary_entry(arr1, 0) });
+        assert.rb_eq(unsafe { Qfalse }, unsafe { rb_ary_entry(arr1, 1) });
+        assert.rb_nil(unsafe { rb_ary_entry(arr1, 2) });
+        assert.rb_eq("hello".to_ruby(), unsafe { rb_ary_entry(arr1, 3) });
+        assert.rb_nil(unsafe { rb_ary_entry(arr1, 4) });
+        assert.rb_eq("hello".to_ruby(), unsafe { rb_ary_entry(arr1, -1) });
     }
 
     #[test]
