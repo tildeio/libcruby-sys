@@ -10,7 +10,10 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L50)
+    /// * **2.5:**
+    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L50) |
+    ///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L498-L502) |
+    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
     pub fn rb_ary_new() -> VALUE;
 
     /// Creates a new array with no elements, allocating an internal buffer
@@ -27,7 +30,10 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L51)
+    /// * **2.5:**
+    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L51) |
+    ///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L492-L496) |
+    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
     pub fn rb_ary_new_capa(capacity: c_long) -> VALUE;
 
     /// Pushes an item on to the end of an array, returning the array itself.
@@ -39,7 +45,10 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L67)
+    /// * **2.5:**
+    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L67) |
+    ///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L924-L934) |
+    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
     pub fn rb_ary_push(array: VALUE, item: VALUE) -> VALUE;
 
     /// Makes a new string from a char pointer of given length, treating it as UTF-8
@@ -51,7 +60,10 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L705)
+    /// * **2.5:**
+    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L705) |
+    ///     [string.c](https://github.com/ruby/ruby/blob/v2_5_1/string.c#L751-L757) |
+    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-String+Functions)
     pub fn rb_utf8_str_new(ptr: *const c_char, len: c_long) -> VALUE;
 
     /// Makes a new instance of a class
@@ -66,7 +78,9 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L405)
+    /// * **2.5:**
+    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L405) |
+    ///     [object.c](https://github.com/ruby/ruby/blob/v2_5_1/object.c#L2169-L2174)
     pub fn rb_class_new_instance(argc: c_int, argv: *const VALUE, class: VALUE) -> VALUE;
 
     /// Fetches a constant from a module or class
@@ -79,7 +93,10 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L930)
+    /// * **2.5:**
+    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L930) |
+    ///     [variable.c](https://github.com/ruby/ruby/blob/v2_5_1/variable.c#L2300-L2304) |
+    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Accessing+the+Variables+and+Constants)
     pub fn rb_const_get(class: VALUE, name: ID) -> VALUE;
 
     /// Returns a human-readable Ruby string representation of an object,
@@ -98,7 +115,9 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L568)
+    /// * **2.5:**
+    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L568) |
+    ///     [object.c](https://github.com/ruby/ruby/blob/v2_5_1/object.c#L655-L670)
     pub fn rb_inspect(obj: VALUE) -> VALUE;
 
     /// Looks up the nearest ancestor class of the object, skipping
@@ -114,7 +133,9 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L584)
+    /// * **2.5:**
+    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L584) |
+    ///     [object.c](https://github.com/ruby/ruby/blob/v2_5_1/object.c#L276-L280)
     pub fn rb_obj_class(obj: VALUE) -> VALUE;
 
     /// Defines a singleton method on a class
@@ -130,7 +151,11 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L210)
+    /// * **2.5:**
+    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L210) |
+    ///     [class.c](https://github.com/ruby/ruby/blob/v2_5_1/class.c#L1715-L1719) |
+    ///     documentation: [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+and+Singleton+Method+Definition),
+    ///                     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+Definition)
     pub fn rb_define_singleton_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
 }
 
