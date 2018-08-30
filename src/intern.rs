@@ -147,9 +147,12 @@ extern {
     ///
     /// # Defined In
     ///
+    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L591)
+    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L588)
     /// * **2.5:**
     ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L568) |
     ///     [object.c](https://github.com/ruby/ruby/blob/v2_5_1/object.c#L655-L670)
+    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L568)
     pub fn rb_inspect(obj: VALUE) -> VALUE;
 
     /// Looks up the nearest ancestor class of the object, skipping
@@ -166,11 +169,20 @@ extern {
     ///
     /// No known issues.
     ///
+    /// # Miscellaneous
+    ///
+    /// The `CLASS_OF` macro  calls `rb_class_of` (as of now). It
+    /// [appears](https://github.com/ruby/ruby/blob/8867f285da534970c98f8fd388ea4d92ca750a67/doc/ChangeLog-2.4.0#L1459-L1463)
+    /// that `rb_obj_class` is what you want most of the time.
+    ///
     /// # Defined In
     ///
+    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L607)
+    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L604)
     /// * **2.5:**
     ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L584) |
     ///     [object.c](https://github.com/ruby/ruby/blob/v2_5_1/object.c#L276-L280)
+    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L584)
     pub fn rb_obj_class(obj: VALUE) -> VALUE;
 
     /// Defines a singleton method on a class
@@ -188,11 +200,14 @@ extern {
     ///
     /// # Defined In
     ///
+    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L217)
+    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L212)
     /// * **2.5:**
     ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L210) |
     ///     [class.c](https://github.com/ruby/ruby/blob/v2_5_1/class.c#L1715-L1719) |
     ///     documentation: [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+and+Singleton+Method+Definition),
     ///                     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+Definition)
+    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L210)
     pub fn rb_define_singleton_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
 }
 
