@@ -2,19 +2,135 @@ use super::*;
 use libc::{c_char, c_int, c_long};
 
 extern {
+    /// Creates a new array with no elements
+    ///
+    /// # Safety
+    ///
+    /// No known issues
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L50)
     pub fn rb_ary_new() -> VALUE;
+
+    /// Creates a new array with no elements, allocating an internal buffer
+    /// for `capacity` elements.
+    ///
+    /// NOTE: [`rb_ary_new2`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L90)
+    /// is currently an alias for this.
+    ///
+    /// # Safety
+    ///
+    /// * Raises [`rb_eArgError`](static.rb_eArgError.html) if `capacity` is negative.
+    /// * Raises [`rb_eArgError`](static.rb_eArgError.html) if `capacity` is greater than
+    /// [`ARY_MAX_SIZE`](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L32).
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L51)
     pub fn rb_ary_new_capa(capacity: c_long) -> VALUE;
+
+    /// Pushes an item on to the end of an array, returning the array itself.
+    ///
+    /// # Safety
+    ///
+    /// * Raises [`rb_eIndexError`](static.rb_eIndexError.html) if array size would
+    /// exceed [`ARY_MAX_SIZE`](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L32).
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L67)
     pub fn rb_ary_push(array: VALUE, item: VALUE) -> VALUE;
 
+    /// Makes a new string from a char pointer of given length, treating it as UTF-8
+    /// encoded.
+    ///
+    /// # Safety
+    ///
+    /// No known issues.
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L705)
     pub fn rb_utf8_str_new(ptr: *const c_char, len: c_long) -> VALUE;
 
+    /// Makes a new instance of a class
+    ///
+    /// # Safety
+    ///
+    /// * Raises [`rb_eFatal`](https://ruby-doc.org/core-2.5.1/fatal.html) if `class`
+    /// is not a class
+    /// * Raises [`rb_eTypeError`](static.rb_eTypeError.html) if `class` cannot be
+    /// alloc'ed.
+    /// * User defined code for allocation or initialization may also cause exceptions.
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L405)
     pub fn rb_class_new_instance(argc: c_int, argv: *const VALUE, class: VALUE) -> VALUE;
 
-    pub fn rb_const_get(module: VALUE, name: ID) -> VALUE;
+    /// Fetches a constant from a module or class
+    ///
+    /// # Safety
+    ///
+    /// * May raise an exception if the constant is not defined.
+    /// * Unclear what happens if `class` is not a module or a class.
+    /// * Unclear what happens if the `ID` is invalid.
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L930)
+    pub fn rb_const_get(class: VALUE, name: ID) -> VALUE;
 
-    pub fn rb_inspect(v: VALUE) -> VALUE;
+    /// Returns a human-readable Ruby string representation of an object,
+    /// similarly to Ruby's `Object#inspect`.
+    ///
+    /// Unlike `Object#inspect`, it escapes characters to keep the result
+    /// compatible to the default internal or external encoding.
+    /// If the default internal or external encoding is ASCII compatible,
+    /// the encoding of the inspected result must be compatible with it.
+    /// If the default internal or external encoding is ASCII incompatible,
+    /// the result must be ASCII only.
+    ///
+    /// # Safety
+    ///
+    /// * May call user defined code that could raise an exception.
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L568)
+    pub fn rb_inspect(obj: VALUE) -> VALUE;
+
+    /// Looks up the nearest ancestor class of the object, skipping
+    /// singleton classes or module inclusions.
+    ///
+    /// It returns the object itself if it is neither a singleton class or a
+    /// module. Otherwise, it returns the ancestor class or a falsey value if
+    /// nothing is found.
+    ///
+    /// # Safety
+    ///
+    /// No known issues.
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L584)
     pub fn rb_obj_class(obj: VALUE) -> VALUE;
 
+    /// Defines a singleton method on a class
+    ///
+    /// See [`rb_define_method`](fn.rb_define_method.html) for details on arguments.
+    ///
+    /// # Safety
+    ///
+    /// * Raises `rb_eTypeError` for certain Ruby built-in classes which do not allow
+    /// singletons to be defined.
+    ///
+    /// See also [`rb_define_method`](fn.rb_define_method.html#safety).
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L210)
     pub fn rb_define_singleton_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
 }
 
