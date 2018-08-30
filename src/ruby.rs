@@ -741,13 +741,18 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1728)
+    /// * **2.5:**
+    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1728) |
+    ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L610-L614) |
+    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-ID+or+Symbol)
     pub fn rb_intern(cstr: *const c_char) -> ID;
 
     /// Convert a nul-terminated C string of the given length to an [`ID`](struct.id.html)
     ///
-    /// [`rb_intern_const`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1757-L1760)
+    /// NOTE: [`rb_intern_const`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1757-L1760)
     /// is more or less an alias of this.
+    ///
+    /// See also [`rb_intern`](fn.rb_intern.html).
     ///
     /// # Safety
     ///
@@ -755,7 +760,9 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1729)
+    /// * **2.5:**
+    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1729)
+    ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L603-L607)
     pub fn rb_intern2(ptr: *const c_char, len: c_long) -> ID;
 
     /// Convert a Ruby [`String`](https://ruby-doc.org/core-2.5.1/String.html) [`VALUE`](struct.VALUE.html)
@@ -767,7 +774,10 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1730)
+    /// * **2.5:**
+    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1730)
+    ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L616-L626) |
+    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-ID+or+Symbol)
     pub fn rb_intern_str(string: VALUE) -> ID;
 
     /// Convert a [`Symbol`](https://ruby-doc.org/core-2.5.1/Symbol.html) [`VALUE`](struct.VALUE.html)
@@ -783,7 +793,9 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L375)
+    /// * **2.5:**
+    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L375) |
+    ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L697-L722)
     pub fn rb_sym2id(symbol: VALUE) -> ID;
 
     /// Convert an [`ID`](struct.ID.html) to a [`Symbol`](https://ruby-doc.org/core-2.5.1/Symbol.html)
@@ -795,7 +807,9 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L376)
+    /// * **2.5:**
+    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L376) |
+    ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L725-L730)
     pub fn rb_id2sym(id: ID) -> VALUE;
 
     /// Define a new class
@@ -813,7 +827,11 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1678)
+    /// * **2.5:**
+    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1678) |
+    ///     [class.c](https://github.com/ruby/ruby/blob/v2_5_1/class.c#L645-L673) |
+    ///     documentation: [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Class+and+Module+Definition),
+    ///                     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Defining+Classes+and+Modules)
     pub fn rb_define_class(name: *const c_char, superclass: VALUE) -> VALUE;
 
     /// Defines a public method on a class
@@ -833,7 +851,11 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1715)
+    /// * **2.5:**
+    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1715) |
+    ///     [class.c](https://github.com/ruby/ruby/blob/v2_5_1/class.c#L1514-L1518) |
+    ///     documentation: [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+and+Singleton+Method+Definition),
+    ///                     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+Definition)
     pub fn rb_define_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
 
     /// Defines a method on a module, both on the module itself and as a private method
@@ -847,7 +869,10 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1716)
+    /// * **2.5:**
+    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1716) |
+    ///     [class.c](https://github.com/ruby/ruby/blob/v2_5_1/class.c#L1730-L1735) |
+    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+and+Singleton+Method+Definition)
     pub fn rb_define_module_function(module: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
 
     /// Undefines the named method on a class
@@ -859,7 +884,9 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1719)
+    /// * **2.5:**
+    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1719) |
+    ///     [class.c](https://github.com/ruby/ruby/blob/v2_5_1/class.c#L1532-L1536)
     pub fn rb_undef_method(class: VALUE, name: *const c_char);
 
     /// Gets the object's class' name
@@ -870,7 +897,9 @@ extern {
     ///
     /// # Defined In
     ///
-    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1791)
+    /// * **2.5:**
+    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1791) |
+    ///     [variable.c](https://github.com/ruby/ruby/blob/v2_5_1/variable.c#L459-L463)
     pub fn rb_obj_classname(obj: VALUE) -> *const c_char;
 }
 
