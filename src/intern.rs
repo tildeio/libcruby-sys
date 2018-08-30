@@ -4,6 +4,8 @@ use libc::{c_char, c_int, c_long};
 extern {
     /// Creates a new array with no elements
     ///
+    /// * Returns an [`rb_cArray`](static.rb_cArray.html)
+    ///
     /// # Safety
     ///
     /// No known issues
@@ -16,17 +18,23 @@ extern {
     ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
     pub fn rb_ary_new() -> VALUE;
 
-    /// Creates a new array with no elements, allocating an internal buffer
-    /// for `capacity` elements.
+    /// Creates a new array with capacity
     ///
-    /// NOTE: [`rb_ary_new2`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L90)
-    /// is currently an alias for this.
+    /// * `capacity` - number of elements to pre-allocate space for
+    /// * Returns an [`rb_cArray`](static.rb_cArray.html)
     ///
     /// # Safety
     ///
-    /// * Raises [`rb_eArgError`](static.rb_eArgError.html) if `capacity` is negative.
-    /// * Raises [`rb_eArgError`](static.rb_eArgError.html) if `capacity` is greater than
-    /// [`ARY_MAX_SIZE`](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L32).
+    /// ## Exceptions
+    ///
+    /// * [`rb_eArgError`](static.rb_eArgError.html)
+    ///     * if `capacity` is negative.
+    ///     * if `capacity` is greater than [`ARY_MAX_SIZE`](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L32).
+    ///
+    /// # Miscellaneous
+    ///
+    /// [`rb_ary_new2`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L90)
+    /// is currently an alias for this.
     ///
     /// # Defined In
     ///
@@ -38,10 +46,16 @@ extern {
 
     /// Pushes an item on to the end of an array, returning the array itself.
     ///
+    /// * `array`: an instance of [`rb_cArray`](static.rb_cArray.html)
+    /// * `item`: any Ruby object
+    /// * Returns `array`
+    ///
     /// # Safety
     ///
-    /// * Raises [`rb_eIndexError`](static.rb_eIndexError.html) if array size would
-    /// exceed [`ARY_MAX_SIZE`](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L32).
+    /// ## Exceptions
+    ///
+    /// * [`rb_eIndexError`](static.rb_eIndexError.html)
+    ///     * if array size would exceed [`ARY_MAX_SIZE`](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L32).
     ///
     /// # Defined In
     ///
@@ -51,8 +65,7 @@ extern {
     ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
     pub fn rb_ary_push(array: VALUE, item: VALUE) -> VALUE;
 
-    /// Makes a new string from a char pointer of given length, treating it as UTF-8
-    /// encoded.
+    /// Makes a new string from a char pointer of given length, treating it as UTF-8 encoded.
     ///
     /// # Safety
     ///
@@ -68,13 +81,20 @@ extern {
 
     /// Makes a new instance of a class
     ///
+    /// * `argc` - number of arguments passed
+    /// * `argv` - pointer list of Ruby objects
+    /// * `class` - a [`rb_cClass`](static.rb_cClass.html)
+    /// * Returns a new instance of `class`
+    ///
     /// # Safety
     ///
-    /// * Raises [`rb_eFatal`](https://ruby-doc.org/core-2.5.1/fatal.html) if `class`
-    /// is not a class
-    /// * Raises [`rb_eTypeError`](static.rb_eTypeError.html) if `class` cannot be
-    /// alloc'ed.
-    /// * User defined code for allocation or initialization may also cause exceptions.
+    /// ## Exceptions
+    ///
+    /// * [`rb_eFatal`](https://ruby-doc.org/core-2.5.1/fatal.html)
+    ///     * if `class` is not a class
+    /// * [`rb_eTypeError`](static.rb_eTypeError.html)
+    ///     * if `class` cannot be alloc'ed.
+    /// * Other exceptions may be raised by user defined code
     ///
     /// # Defined In
     ///
@@ -85,11 +105,18 @@ extern {
 
     /// Fetches a constant from a module or class
     ///
+    /// * `class`: a [`rb_cClass`](static.rb_cClass.html) or [`rb_cModule`](static.rb_cModule.html)
+    /// * `name`: the `ID` of the interned name
+    ///
     /// # Safety
     ///
-    /// * May raise an exception if the constant is not defined.
-    /// * Unclear what happens if `class` is not a module or a class.
-    /// * Unclear what happens if the `ID` is invalid.
+    /// * Undefined behavior if `class` is not a module or a class.
+    /// * Undefined behavior  if the `ID` is invalid.
+    ///
+    /// ## Exceptions
+    ///
+    /// * An undefined constant may cause an exception to be raised,
+    /// especially since this path may call a user-defined method.
     ///
     /// # Defined In
     ///
@@ -109,9 +136,14 @@ extern {
     /// If the default internal or external encoding is ASCII incompatible,
     /// the result must be ASCII only.
     ///
+    /// * `obj`: any Ruby object
+    /// * Returns a [`rb_cString`](static.rb_cString.html)
+    ///
     /// # Safety
     ///
-    /// * May call user defined code that could raise an exception.
+    /// ## Exceptions
+    ///
+    /// * May call user defined code that could raise an exception
     ///
     /// # Defined In
     ///
@@ -126,6 +158,9 @@ extern {
     /// It returns the object itself if it is neither a singleton class or a
     /// module. Otherwise, it returns the ancestor class or a falsey value if
     /// nothing is found.
+    ///
+    /// * `obj`: any Ruby object
+    /// * Returns a [`rb_cClass`](static.rb_cClass.html) or a falsey `VALUE`
     ///
     /// # Safety
     ///
@@ -144,8 +179,10 @@ extern {
     ///
     /// # Safety
     ///
-    /// * Raises `rb_eTypeError` for certain Ruby built-in classes which do not allow
-    /// singletons to be defined.
+    /// ## Exceptions
+    ///
+    /// * [`rb_eTypeError`](static.rb_eTypeError.html)
+    ///     * if Ruby built-in class does not allow singletons to be defined.
     ///
     /// See also [`rb_define_method`](fn.rb_define_method.html#safety).
     ///
