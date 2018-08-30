@@ -583,19 +583,144 @@ extern {
     pub static rb_eMathDomainError: VALUE;
 
 
+    /// Convert a nul-terminated C string to an [`ID`](struct.id.html)
+    ///
+    /// # Safety
+    ///
+    /// * `cstr` will be treated as ASCII encoded
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1728)
     pub fn rb_intern(cstr: *const c_char) -> ID;
+
+    /// Convert a nul-terminated C string of the given length to an [`ID`](struct.id.html)
+    ///
+    /// [`rb_intern_const`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1757-L1760)
+    /// is more or less an alias of this.
+    ///
+    /// # Safety
+    ///
+    /// * `cstr` will be treated as ASCII encoded
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1729)
     pub fn rb_intern2(ptr: *const c_char, len: c_long) -> ID;
+
+    /// Convert a Ruby [`String`](https://ruby-doc.org/core-2.5.1/String.html) [`VALUE`](struct.VALUE.html)
+    /// to an [`ID`](struct.id.html)
+    ///
+    /// # Safety
+    ///
+    /// * Unclear what happens if you pass a `VALUE` that is not a string.
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1730)
     pub fn rb_intern_str(string: VALUE) -> ID;
 
+    /// Convert a [`Symbol`](https://ruby-doc.org/core-2.5.1/Symbol.html) [`VALUE`](struct.VALUE.html)
+    /// to an [`ID`](struct.id.html)
+    ///
+    /// [`RB_SYM2ID`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L381) and
+    /// [`SYM2ID`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L386) are currently
+    /// aliases for this.
+    ///
+    /// # Safety
+    ///
+    /// * Raises a [`rb_eTypeError`](static.rb_eTypeError.html) if `symbol` is not a `Symbol`.
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L375)
     pub fn rb_sym2id(symbol: VALUE) -> ID;
+
+    /// Convert an [`ID`](struct.ID.html) to a [`Symbol`](https://ruby-doc.org/core-2.5.1/Symbol.html)
+    /// [`VALUE`](struct.VALUE.html)
+    ///
+    /// # Safety
+    ///
+    /// * Unclear what happens if the `ID` is not valid.
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L376)
     pub fn rb_id2sym(id: ID) -> VALUE;
 
+    /// Define a new class
+    ///
+    /// NOTE: If the class is already defined and the superclass is the same
+    /// as specified, it will return the already defined class.
+    ///
+    /// # Safety
+    ///
+    /// * Raises [`rb_eTypeError`](static.rb_eTypeError.html) if the constant name is
+    /// already taken, but the constant is not a C class.
+    /// * Raises [`rb_eTypeError`](static.rb_eTypeError.html) if the class is already
+    /// defined but the class can not be reopened because the superclass does not match.
+    /// * Raises [`rb_eArgError`](static.rb_eArgError.html) if the superclass is null
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1678)
     pub fn rb_define_class(name: *const c_char, superclass: VALUE) -> VALUE;
 
+    /// Defines a public method on a class
+    ///
+    /// * `arity`
+    ///     * maximum is `15`
+    ///     * if `-1`, function will be called as: `VALUE func(int argc, VALUE *argv, VALUE obj)`
+    ///     * if `-2`, function will be called as: `VALUE func(VALUE obj, VALUE args)`
+    ///
+    /// # Safety
+    ///
+    /// * `name` is (currently) passed through [`rb_intern`](fn.rb_intern.html) and must
+    /// follow requirements there.
+    /// * Raises `rb_eArgError` if arity is not in `-2..15`.
+    /// * Bad things could happen if your passed in function signature doesn't match the
+    /// provided arity
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1715)
     pub fn rb_define_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
+
+    /// Defines a method on a module, both on the module itself and as a private method
+    /// for use by anything including the module.
+    ///
+    /// See [`rb_define_method`](fn.rb_define_method.html) for details on arguments.
+    ///
+    /// # Safety
+    ///
+    /// See [`rb_define_method`](fn.rb_define_method.html#safety).
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1716)
     pub fn rb_define_module_function(module: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
+
+    /// Undefines the named method on a class
+    ///
+    /// # Safety
+    ///
+    /// * `name` is (currently) passed through [`rb_intern`](fn.rb_intern.html) and must
+    /// follow requirements there.
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1719)
     pub fn rb_undef_method(class: VALUE, name: *const c_char);
 
+    /// Gets the object's class' name
+    ///
+    /// # Safety
+    ///
+    /// No known issues
+    ///
+    /// # Defined In
+    ///
+    /// * **2.5:** [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1791)
     pub fn rb_obj_classname(obj: VALUE) -> *const c_char;
 }
 
