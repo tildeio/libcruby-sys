@@ -810,6 +810,18 @@ extern {
     ///
     //+ c-func: variable.c `const char *rb_obj_classname(VALUE)`
     pub fn rb_obj_classname(obj: VALUE) -> *const c_char;
+
+    /// Returns a C boolean (zero if false, non-zero if true) indicated whether yield would
+    /// execute a block in the current method.
+    ///
+    /// This is the equivalent of `Kernel#block_given?`.
+    ///
+    /// # Safety
+    ///
+    /// No known issues
+    ///
+    //+ c-func: eval.c `int rb_block_given_p(void)`
+    pub fn rb_block_given_p() -> c_int;
 }
 
 tests! {
@@ -1487,5 +1499,35 @@ tests! {
         assert.rs_eq("Class", class.to_string_lossy());
         assert.rs_eq("Module", module.to_string_lossy());
         assert.rs_eq("Object", instance.to_string_lossy());
+    }
+
+    #[test]
+    fn test_block_given_p(assert: &mut Assertions) {
+        extern "C" fn __test_block_given_p__(_self: VALUE) -> VALUE {
+            if unsafe { rb_block_given_p() != 0 } {
+                unsafe { Qtrue }
+            } else {
+                unsafe { Qfalse }
+            }
+        }
+
+        unsafe {
+            rb_define_method(
+                rb_mKernel,
+                cstr!("__test_block_given_p__"),
+                ANYARGS::from_arity_1(__test_block_given_p__),
+                0
+            );
+        }
+
+        assert.rb_eq(
+            lazy_eval("__test_block_given_p__"),
+            unsafe { Qfalse }
+        );
+
+        assert.rb_eq(
+            lazy_eval("__test_block_given_p__ { }"),
+            unsafe { Qtrue }
+        );
     }
 }
