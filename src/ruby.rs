@@ -70,7 +70,6 @@ extern {
     pub static rb_cArray: VALUE;
     pub static rb_cBinding: VALUE;
     pub static rb_cClass: VALUE;
-    pub static rb_cData: VALUE;
     pub static rb_cDir: VALUE;
     pub static rb_cEncoding: VALUE;
     pub static rb_cEnumerator: VALUE;
@@ -247,11 +246,6 @@ tests! {
     #[test]
     fn test_c_class(assert: &mut Assertions) {
         assert.rb_eq(lazy_eval("::Class"), unsafe { rb_cClass });
-    }
-
-    #[test]
-    fn test_c_data(assert: &mut Assertions) {
-        assert.rb_eq(lazy_eval("::Data"), unsafe { rb_cData });
     }
 
     #[test]
