@@ -54,7 +54,6 @@ extern {
     #[link_name = "RS_Qnil"]
     pub static Qnil: VALUE;
 
-
     /// The `Kernel` module
     ///
     //+ c-module: object.c `VALUE rb_mKernel`
@@ -560,6 +559,42 @@ extern {
     //+ c-class: math.c `VALUE rb_eMathDomainError`
     pub static rb_eMathDomainError: VALUE;
 
+
+    /// Returns the byte length of the Ruby [`String`](rb_cString).
+    ///
+    /// * `string` - an instance of [`String`](rb_cString)
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `string` is not a `String`
+    ///
+    /// # Ruby Documentation
+    ///
+    /// * **2.5:**
+    ///     [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Convert+VALUE+into+C+Data) |
+    ///     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Data+Type+Conversion)
+    //+ c-macro: `#define RSTRING_LEN(str)`
+    #[link_name = "RS_RSTRING_LEN"]
+    pub fn RSTRING_LEN(string: VALUE) -> c_long;
+
+    /// Returns a pointer to the Ruby [`String`](rb_cString) data.
+    ///
+    /// * `string` - an instance of [`String`](rb_cString)
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `string` is not a `String`
+    /// * The returned C string may not be nul-terminated
+    /// * It is not known whether the C string may contain interior nul-bytes.
+    ///
+    /// # Ruby Documentation
+    ///
+    /// * **2.5:**
+    ///     [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Convert+VALUE+into+C+Data) |
+    ///     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Data+Type+Conversion)
+    //+ c-macro: `#define RSTRING_PTR(str)`
+    #[link_name = "RS_RSTRING_PTR"]
+    pub fn RSTRING_PTR(string: VALUE) -> *const c_char;
 
     /// Converts an ASCII-encoded, nul-terminated C string to an [`ID`].
     ///
@@ -1138,6 +1173,22 @@ tests! {
     #[test]
     fn test_e_math_domain_error(assert: &mut Assertions) {
         assert.rb_eq(lazy_eval("::Math::DomainError"), unsafe { rb_eMathDomainError });
+    }
+
+    #[test]
+    fn test_rstring_len(assert: &mut Assertions) {
+        assert.rs_eq(unsafe { RSTRING_LEN("".to_ruby()) }, 0);
+        assert.rs_eq(unsafe { RSTRING_LEN("foo".to_ruby()) }, 3);
+        assert.rs_eq(unsafe { RSTRING_LEN("this is longer".to_ruby()) }, 14);
+        assert.rs_eq(unsafe { RSTRING_LEN("☠️".to_ruby()) }, 6);
+    }
+
+    #[test]
+    fn test_rstring_ptr(assert: &mut Assertions) {
+        let cstr = unsafe { CStr::from_ptr(RSTRING_PTR("foobar".to_ruby()) as *const c_char) };
+        let unicode = unsafe { CStr::from_ptr(RSTRING_PTR("☠️".to_ruby()) as *const c_char) };
+        assert.rs_eq(cstr.to_string_lossy(), "foobar");
+        assert.rs_eq(unicode.to_string_lossy(), "☠️");
     }
 
     #[test]
