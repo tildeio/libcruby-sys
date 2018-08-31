@@ -733,9 +733,13 @@ extern {
     pub static rb_eMathDomainError: VALUE;
 
 
-    /// Convert a C string to an [`ID`](struct.id.html)
+    /// Converts an ASCII-encoded, nul-terminated C string to an [`ID`](struct.id.html)
     ///
-    /// * `cstr` - nul-terminated C string, treated as ASCII encoded
+    /// * `cstr` - nul-terminated C string
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if string is not valid ASCII
     ///
     /// # Defined In
     ///
@@ -745,15 +749,21 @@ extern {
     ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-ID+or+Symbol)
     pub fn rb_intern(cstr: *const c_char) -> ID;
 
-    /// Convert a C string of the given length to an [`ID`](struct.id.html)
+    /// Converts an ASCII-encoded C string of the given length to an [`ID`](struct.id.html).
     ///
-    /// * `cstr` - C string, treated as ASCII encoded
+    /// * `cstr` - C string
     /// * `len` - number of C chars
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if string is not valid ASCII.
+    /// * Undefined behavior if string contains a nul-byte.
+    /// * String must be at least `len` bytes long.
     ///
     /// # Miscellaneous
     ///
     /// [`rb_intern_const`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1757-L1760)
-    /// is more or less an alias of this.
+    /// has very similar behavior.
     ///
     /// # Defined In
     ///
@@ -762,9 +772,9 @@ extern {
     ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L603-L607)
     pub fn rb_intern2(cstr: *const c_char, len: c_long) -> ID;
 
-    /// Convert a string to an [`ID`](struct.id.html)
+    /// Convert a string to an [`ID`](struct.id.html).
     ///
-    /// * `string`: an instance of [`rb_cString`](static.rb_cString.html)
+    /// * `string` - an instance of [`String`](static.rb_cString.html)
     ///
     /// # Safety
     ///
@@ -781,17 +791,16 @@ extern {
     /// * **2.6:** [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1747)
     pub fn rb_intern_str(string: VALUE) -> ID;
 
-    /// Convert a [`rb_cSymbol`](static.rb_cSymbol.html)
-    /// to an [`ID`](struct.id.html)
+    /// Convert a [`Symbol`](static.rb_cSymbol.html) to an [`ID`](struct.id.html).
     ///
-    /// * `symbol`: an instance of [`rb_cSymbol`](static.rb_cSymbol.html)
+    /// * `symbol` - an instance of [`Symbol`](static.rb_cSymbol.html)
     ///
     /// # Safety
     ///
     /// ## Exceptions
     ///
-    /// * [`rb_eTypeError`](static.rb_eTypeError.html)
-    ///     * if `symbol` is not a `rb_cSymbol`
+    /// * [`TypeError`](static.rb_eTypeError.html)
+    ///     * if `symbol` is not a `Symbol`
     ///
     /// # Miscellaneous
     ///
@@ -806,9 +815,9 @@ extern {
     ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L697-L722)
     pub fn rb_sym2id(symbol: VALUE) -> ID;
 
-    /// Convert an [`ID`](struct.ID.html) to a [`rb_cSymbol`](static.rb_cSymbol.html)
+    /// Convert an [`ID`](struct.ID.html) to a [`Symbol`](static.rb_cSymbol.html).
     ///
-    /// * Returns an instance of [`rb_cSymbol`](static.rb_cSymbol.html)
+    /// * Returns an instance of [`Symbol`](static.rb_cSymbol.html)
     ///
     /// # Safety
     ///
@@ -821,23 +830,25 @@ extern {
     ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L725-L730)
     pub fn rb_id2sym(id: ID) -> VALUE;
 
-    /// Define a new class
+    /// Defines a new class.
     ///
     /// NOTE: If the class is already defined and the superclass is the same
     /// as specified, it will return the already defined class.
     ///
-    /// * `name` - nul-terminated C string, treated as ASCII encoded
-    /// * `superclass`: [`rb_cClass`](static.rb_cClass.html)
-    /// * Returns a [`rb_cClass`](static.rb_cClass.html)
+    /// * `name` - an ASCII-encoded, nul-terminated C string
+    /// * `superclass` - [`Class`](static.rb_cClass.html)
+    /// * Returns a [`Class`](static.rb_cClass.html)
     ///
     /// # Safety
     ///
+    /// * Undefined behavior if `name` string is not valid ASCII.
+    ///
     /// ## Exceptions
     ///
-    /// * [`rb_eTypeError`](static.rb_eTypeError.html)
+    /// * [`TypeError`](static.rb_eTypeError.html)
     ///     * if the constant name is already taken, but the constant is not a C class
     ///     * if the class is already defined and the superclass does not match
-    /// * [`rb_eArgError`](static.rb_eArgError.html)
+    /// * [`ArgumentError`](static.rb_eArgError.html)
     ///     * if the superclass is null
     ///
     /// # Defined In
@@ -852,10 +863,10 @@ extern {
     /// * **2.6:** [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1695)
     pub fn rb_define_class(name: *const c_char, superclass: VALUE) -> VALUE;
 
-    /// Defines a public method on a class
+    /// Defines a public method on a class.
     ///
-    /// * `class`: a [`rb_cClass`](static.rb_cClass.html)
-    /// * `name` - nul-terminated C string, treated as ASCII encoded
+    /// * `class` - a [`Class`](static.rb_cClass.html)
+    /// * `name` - an ASCII-encoded, nul-terminated C string
     /// * `func` - `VALUE func(VALUE obj, [VALUE arg, ]*)`, see below if `arity` is negative
     /// * `arity`
     ///     * maximum is `15`
@@ -864,12 +875,12 @@ extern {
     ///
     /// # Safety
     ///
-    /// * Behavior is undefined if your passed in function signature doesn't match the
-    /// provided arity
+    /// * Undefined behavior if `name` string is not valid ASCII
+    /// * Undefined behavior if `func` signature doesn't match `arity`
     ///
     /// ## Exceptions
     ///
-    /// * [`rb_eArgError`](static.rb_eArgError.html)
+    /// * [`ArgumentError`](static.rb_eArgError.html)
     ///     * if `arity` is not in `-2..15`
     ///
     /// # Defined In
@@ -884,7 +895,7 @@ extern {
     /// Defines a method on a module, both on the module itself and as a private method
     /// for use by anything including the module.
     ///
-    /// * `module`: a [`rb_cModule`](static.rb_cModule.html)
+    /// * `module` - a [`Module`](static.rb_cModule.html)
     ///
     /// See [`rb_define_method`](fn.rb_define_method.html) for additional details on arguments.
     ///
@@ -900,14 +911,14 @@ extern {
     ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+and+Singleton+Method+Definition)
     pub fn rb_define_module_function(module: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
 
-    /// Undefines the named method on a class
+    /// Undefines the named method on a class.
     ///
-    /// * `class`: a [`rb_cClass`](static.rb_cClass.html)
-    /// * `name` - nul-terminated C string, treated as ASCII encoded
+    /// * `class` - a [`Class`](static.rb_cClass.html)
+    /// * `name` - an ASCII-encoded, nul-terminated C string
     ///
     /// # Safety
     ///
-    /// * No known issues
+    /// * Undefined behavior if `name` string is not valid ASCII
     ///
     /// # Defined In
     ///
@@ -921,7 +932,7 @@ extern {
 
     /// Gets the object's class' name
     ///
-    /// * `obj`: any Ruby object
+    /// * `obj` - any Ruby object
     ///
     /// # Safety
     ///

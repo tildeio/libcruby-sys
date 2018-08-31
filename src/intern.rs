@@ -2,9 +2,9 @@ use super::*;
 use libc::{c_char, c_int, c_long};
 
 extern {
-    /// Creates a new array with no elements
+    /// Constructs a new, empty array.
     ///
-    /// * Returns an [`rb_cArray`](static.rb_cArray.html)
+    /// * Returns an [`Array`](static.rb_cArray.html)
     ///
     /// # Safety
     ///
@@ -18,16 +18,16 @@ extern {
     ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
     pub fn rb_ary_new() -> VALUE;
 
-    /// Creates a new array with capacity
+    /// Constructs a new, empty array with the specified capacity.
     ///
     /// * `capacity` - number of elements to pre-allocate space for
-    /// * Returns an [`rb_cArray`](static.rb_cArray.html)
+    /// * Returns an [`Array`](static.rb_cArray.html)
     ///
     /// # Safety
     ///
     /// ## Exceptions
     ///
-    /// * [`rb_eArgError`](static.rb_eArgError.html)
+    /// * [`ArgumentError`](static.rb_eArgError.html)
     ///     * if `capacity` is negative.
     ///     * if `capacity` is greater than [`ARY_MAX_SIZE`](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L32).
     ///
@@ -46,15 +46,15 @@ extern {
 
     /// Pushes an item on to the end of an array, returning the array itself.
     ///
-    /// * `array`: an instance of [`rb_cArray`](static.rb_cArray.html)
-    /// * `item`: any Ruby object
+    /// * `array` - an instance of [`Array`](static.rb_cArray.html)
+    /// * `item` - any Ruby object
     /// * Returns `array`
     ///
     /// # Safety
     ///
     /// ## Exceptions
     ///
-    /// * [`rb_eIndexError`](static.rb_eIndexError.html)
+    /// * [`IndexError`](static.rb_eIndexError.html)
     ///     * if array size would exceed [`ARY_MAX_SIZE`](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L32).
     ///
     /// # Defined In
@@ -65,9 +65,13 @@ extern {
     ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
     pub fn rb_ary_push(array: VALUE, item: VALUE) -> VALUE;
 
-    /// Makes a new string from a char pointer of given length, treating it as UTF-8 encoded.
+    /// Constructs a new Ruby string from a UTF-8 encoded C string of a given length.
     ///
     /// # Safety
+    ///
+    /// * Undefined behavior if the `ptr` does not point to a valid UTF-8 C string
+    /// of length greater than or equal to `len`.
+    /// * Undefined behavior if nul-bytes are included withing the C string.
     ///
     /// No known issues.
     ///
@@ -79,20 +83,24 @@ extern {
     ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-String+Functions)
     pub fn rb_utf8_str_new(ptr: *const c_char, len: c_long) -> VALUE;
 
-    /// Makes a new instance of a class
+    /// Constructs a new instance of a class by calling its allocator and constructor
+    /// (`alloc` and `initialize`) as `::new` normally would.
     ///
     /// * `argc` - number of arguments passed
-    /// * `argv` - pointer list of Ruby objects
-    /// * `class` - a [`rb_cClass`](static.rb_cClass.html)
+    /// * `argv` - pointer to the arguments, passed as a C array
+    /// * `class` - a [`Class`](static.rb_cClass.html)
     /// * Returns a new instance of `class`
     ///
     /// # Safety
     ///
+    /// * `argv` must point to a location in memory containing at least `argc` number
+    /// of Ruby objects, (i.e. a valid C `VALUE` array of at least size `argc`)
+    ///
     /// ## Exceptions
     ///
-    /// * [`rb_eFatal`](https://ruby-doc.org/core-2.5.1/fatal.html)
+    /// * [`fatal`](https://ruby-doc.org/core-2.5.1/fatal.html)
     ///     * if `class` is not a class
-    /// * [`rb_eTypeError`](static.rb_eTypeError.html)
+    /// * [`TypeError`](static.rb_eTypeError.html)
     ///     * if `class` cannot be alloc'ed.
     /// * Other exceptions may be raised by user defined code
     ///
@@ -103,20 +111,21 @@ extern {
     ///     [object.c](https://github.com/ruby/ruby/blob/v2_5_1/object.c#L2169-L2174)
     pub fn rb_class_new_instance(argc: c_int, argv: *const VALUE, class: VALUE) -> VALUE;
 
-    /// Fetches a constant from a module or class
+    /// Fetches a constant from a module or class.
     ///
-    /// * `class`: a [`rb_cClass`](static.rb_cClass.html) or [`rb_cModule`](static.rb_cModule.html)
-    /// * `name`: the `ID` of the interned name
+    /// * `class` - a [`Class`](static.rb_cClass.html) or [`Module`](static.rb_cModule.html)
+    /// * `name` - the `ID` of the interned name
     ///
     /// # Safety
     ///
     /// * Undefined behavior if `class` is not a module or a class.
-    /// * Undefined behavior  if the `ID` is invalid.
+    /// * Undefined behavior if the `ID` is invalid.
     ///
     /// ## Exceptions
     ///
     /// * An undefined constant may cause an exception to be raised,
-    /// especially since this path may call a user-defined method.
+    /// especially since this path may invoke user-defined code (via
+    /// `const_missing` and friends).
     ///
     /// # Defined In
     ///
@@ -136,14 +145,14 @@ extern {
     /// If the default internal or external encoding is ASCII incompatible,
     /// the result must be ASCII only.
     ///
-    /// * `obj`: any Ruby object
-    /// * Returns a [`rb_cString`](static.rb_cString.html)
+    /// * `obj` - any Ruby object
+    /// * Returns a [`String`](static.rb_cString.html)
     ///
     /// # Safety
     ///
     /// ## Exceptions
     ///
-    /// * May call user defined code that could raise an exception
+    /// * May call user-defined code that could raise an exception
     ///
     /// # Defined In
     ///
@@ -162,8 +171,8 @@ extern {
     /// module. Otherwise, it returns the ancestor class or a falsey value if
     /// nothing is found.
     ///
-    /// * `obj`: any Ruby object
-    /// * Returns a [`rb_cClass`](static.rb_cClass.html) or a falsey `VALUE`
+    /// * `obj` - any Ruby object
+    /// * Returns a [`Class`](static.rb_cClass.html) or a falsey `VALUE`
     ///
     /// # Safety
     ///
@@ -185,7 +194,7 @@ extern {
     /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L584)
     pub fn rb_obj_class(obj: VALUE) -> VALUE;
 
-    /// Defines a singleton method on a class
+    /// Defines a singleton method on a class.
     ///
     /// See [`rb_define_method`](fn.rb_define_method.html) for details on arguments.
     ///
