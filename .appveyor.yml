@@ -24,6 +24,9 @@ environment:
     - RUBY_VERSION: head-x64
       RUST_HOST: x86_64-pc-windows-gnu
 
+matrix:
+  fast_finish: true
+
 install:
   # Ruby
   - ps: |
