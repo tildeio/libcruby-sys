@@ -69,10 +69,14 @@ extern {
     ///
     /// # Safety
     ///
+    /// * Undefined behavior if `array` is not an `Array`
+    ///
     /// ## Exceptions
     ///
     /// * [`IndexError`](static.rb_eIndexError.html)
     ///     * if array size would exceed [`ARY_MAX_SIZE`](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L32).
+    /// * [`FrozenError`](static.rb_eFrozenError.html)
+    ///     * if `hash` is frozen
     ///
     /// # Defined In
     ///
@@ -405,20 +409,30 @@ tests! {
             unsafe {
                 rb_ary_push(arg, key);
                 rb_ary_push(arg, val);
-                ST_CONTINUE
+
+                let id = rb_intern_str(key);
+
+                if      id == rb_intern(cstr!("foo"))  { ST_CONTINUE }
+                else if id == rb_intern(cstr!("baz"))  { ST_CHECK }
+                else if id == rb_intern(cstr!("hoge")) { ST_DELETE }
+                else                                   { ST_STOP }
             }
         }
 
-        let ary = unsafe {
-            let hash = rb_hash_new();
-            let ary = rb_ary_new();
+        let hash = unsafe { rb_hash_new() };
+        let ary = unsafe { rb_ary_new() };
+
+        unsafe {
             rb_hash_aset(hash, "foo".to_ruby(), "bar".to_ruby());
             rb_hash_aset(hash, "baz".to_ruby(), "qux".to_ruby());
+            rb_hash_aset(hash, "hoge".to_ruby(), "piyo".to_ruby());
+            rb_hash_aset(hash, "wibble".to_ruby(), "wobble".to_ruby());
+            rb_hash_aset(hash, "eggs".to_ruby(), "spam".to_ruby());
             rb_hash_foreach(hash, __test_hash_foreach__, ary);
-            ary
-        };
+        }
 
-        assert.rb_eq(lazy_eval("['foo', 'bar', 'baz', 'qux']"), ary);
+        assert.rb_eq(lazy_eval("['foo', 'bar', 'baz', 'qux', 'hoge', 'piyo', 'wibble', 'wobble']"), ary);
+        assert.rb_eq(lazy_eval(r#"{"foo"=>"bar", "baz"=>"qux", "wibble"=>"wobble", "eggs"=>"spam"}"#), hash);
     }
 
     #[test]
