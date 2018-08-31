@@ -2,6 +2,23 @@ branches:
   only:
     - master
 
+stages:
+  - test # default
+  - name: deploy
+    if: branch = master AND type = push
+
+jobs:
+  include:
+    - stage: deploy
+      script: cargo doc --no-deps
+      rvm: false
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN
+        keep-history: true
+        local-dir: tmp/doc
+
 os:
   - linux
   - osx
