@@ -61,8 +61,21 @@ namespace :build do
   task :extension => 'extension:compile'
 
   task :tests do
-    sh 'cargo rustc -- --cfg test -C link-args="-Wl,-undefined,dynamic_lookup"'
-    cp "target/debug/liblibcruby_sys.#{Platform::LIBEXT}", "target/debug/tests.#{Platform::DLEXT}"
+    # sh 'cargo rustc -- --cfg test -C link-args="-Wl,-flat_namespace,-undefined,dynamic_lookup"'
+    require 'rbconfig'
+
+    libruby_path = RbConfig::CONFIG['libdir']
+    libruby_name = RbConfig::CONFIG['RUBY_SO_NAME']
+
+    libcruby_sys_path = File.expand_path('lib')
+    libcruby_sys_name = 'libcruby_sys'
+
+    cp File.expand_path("#{libcruby_sys_name}.so", libcruby_sys_path), File.expand_path("#{libcruby_sys_name}.dll", libcruby_sys_path)
+
+    link_args = '-Wl,--enable-auto-image-base,--enable-auto-import'
+
+    sh "cargo rustc --verbose -- --cfg test -L #{libruby_path.inspect} -l #{libruby_name} -L #{libcruby_sys_path.inspect} -l #{libcruby_sys_name} -C link-args=#{link_args.inspect}"
+    cp "target/debug/libcruby_sys.#{Platform::LIBEXT}", "target/debug/tests.#{Platform::DLEXT}"
   end
 end
 

@@ -1,0 +1,53 @@
+cache:
+  - '%HOMEDRIVE%%HOMEPATH%\.cargo -> .appveyor.yml'
+  - '%HOMEDRIVE%%HOMEPATH%\.rustup -> .appveyor.yml'
+  - vendor/bundle
+
+environment:
+  RUST_BACKTRACE: 1
+  RUST_VERSION: stable
+  matrix:
+    - RUBY_VERSION: 24
+      RUST_HOST: i686-pc-windows-gnu
+    - RUBY_VERSION: 24-x64
+      RUST_HOST: x86_64-pc-windows-gnu
+    - RUBY_VERSION: 25
+      RUST_HOST: i686-pc-windows-gnu
+    - RUBY_VERSION: 25-x64
+      RUST_HOST: x86_64-pc-windows-gnu
+    - RUBY_VERSION: head-x86
+      RUST_HOST: i686-pc-windows-gnu
+    - RUBY_VERSION: head-x64
+      RUST_HOST: x86_64-pc-windows-gnu
+  # TODO: Maybe try `mscv` for Rust as well
+
+install:
+  # Ruby
+  - ps: |
+      if ($env:RUBY_VERSION -like "*head*") {
+        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-head/rubyinstaller-$env:RUBY_VERSION.exe", "$pwd/ruby-setup.exe")
+        cmd /c ruby-setup.exe /verysilent /dir=C:/Ruby$env:RUBY_VERSION
+      }
+  - set PATH=C:\Ruby%RUBY_VERSION%\bin;%HOMEDRIVE%%HOMEPATH%\.cargo\bin;%PATH%
+  - set RAKEOPT=-rdevkit
+  - echo %PATH%
+  - dir C:\msys64\usr\bin
+  - C:\msys64\usr\bin\gcc.exe --help
+  - C:\msys64\usr\bin\ld.exe --help
+  - gem install bundler
+  - bundle config --local path vendor/bundle
+  - bundle install
+  # Rust
+  - IF NOT EXIST %HOMEDRIVE%%HOMEPATH%\.cargo\bin (curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain %RUST_VERSION% --default-host %RUST_HOST% -y)
+  - rustup default %RUST_VERSION%
+
+before_test:
+  - ruby -v
+  - gem -v
+  - bundle -v
+  - rustc -V
+
+test_script:
+  - bundle exec rake
+
+build: off

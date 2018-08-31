@@ -1,4 +1,6 @@
-#include "ruby/ruby.h"
+#define BUILDING_DLL
+
+#include "ruby.h"
 #include "stdint.h"
 
 VALUE RS_Qtrue = Qtrue;
