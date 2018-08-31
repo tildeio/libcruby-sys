@@ -1,3 +1,7 @@
+branches:
+  only:
+  - master
+
 cache:
   - '%HOMEDRIVE%%HOMEPATH%\.cargo -> .appveyor.yml'
   - '%HOMEDRIVE%%HOMEPATH%\.rustup -> .appveyor.yml'
