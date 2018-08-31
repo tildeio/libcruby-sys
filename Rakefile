@@ -60,7 +60,7 @@ end
 namespace :build do
   task :extension => 'extension:compile'
 
-  task :tests do
+  task :tests => :extension do
     if Platform::OS == 'windows'
       libruby_path = RbConfig::CONFIG['libdir']
       libruby_name = RbConfig::CONFIG['RUBY_SO_NAME']
@@ -77,10 +77,18 @@ namespace :build do
       cp "target/debug/liblibcruby_sys.#{Platform::LIBEXT}", "target/debug/tests.#{Platform::DLEXT}"
     end
   end
+
+  task :all => [:extension, :tests]
 end
 
-task :test => ['build:extension', 'build:tests'] do
-  sh 'ruby -Ilib -Itest -Itarget/debug test/runner.rb'
+task :build => 'build:all'
+
+namespace :test do
+  task :run do
+    sh 'ruby -Ilib -Itest -Itarget/debug test/runner.rb'
+  end
 end
+
+task :test => [:build, 'test:run']
 
 task :default => :test
