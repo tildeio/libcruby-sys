@@ -1,0 +1,861 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `libcruby_sys` crate."><meta name="keywords" content="rust, rustlang, rust-lang, libcruby_sys"><title>libcruby_sys - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Crate libcruby_sys</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#statics">Statics</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'libcruby_sys', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>libcruby_sys</a></span><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/libcruby_sys/lib.rs.html#1-43' title='goto source code'>[src]</a></span></h1><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.ANYARGS.html"
+                                  title='struct libcruby_sys::ANYARGS'>ANYARGS</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.ID.html"
+                                  title='struct libcruby_sys::ID'>ID</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.VALUE.html"
+                                  title='struct libcruby_sys::VALUE'>VALUE</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.st_retval.html"
+                                  title='struct libcruby_sys::st_retval'>st_retval</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='statics' class='section-header'><a href="#statics">Statics</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.Qfalse.html"
+                                  title='static libcruby_sys::Qfalse'>Qfalse</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.Qnil.html"
+                                  title='static libcruby_sys::Qnil'>Qnil</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.Qtrue.html"
+                                  title='static libcruby_sys::Qtrue'>Qtrue</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.ST_CHECK.html"
+                                  title='static libcruby_sys::ST_CHECK'>ST_CHECK</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.ST_CONTINUE.html"
+                                  title='static libcruby_sys::ST_CONTINUE'>ST_CONTINUE</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.ST_DELETE.html"
+                                  title='static libcruby_sys::ST_DELETE'>ST_DELETE</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.ST_STOP.html"
+                                  title='static libcruby_sys::ST_STOP'>ST_STOP</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cArray.html"
+                                  title='static libcruby_sys::rb_cArray'>rb_cArray</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Array</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cBasicObject.html"
+                                  title='static libcruby_sys::rb_cBasicObject'>rb_cBasicObject</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>BasicObject</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cBinding.html"
+                                  title='static libcruby_sys::rb_cBinding'>rb_cBinding</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Binding</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cClass.html"
+                                  title='static libcruby_sys::rb_cClass'>rb_cClass</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Class</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cComplex.html"
+                                  title='static libcruby_sys::rb_cComplex'>rb_cComplex</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Complex</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cDir.html"
+                                  title='static libcruby_sys::rb_cDir'>rb_cDir</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Dir</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cEncoding.html"
+                                  title='static libcruby_sys::rb_cEncoding'>rb_cEncoding</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Encoding</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cEnumerator.html"
+                                  title='static libcruby_sys::rb_cEnumerator'>rb_cEnumerator</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Enumerator</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cFalseClass.html"
+                                  title='static libcruby_sys::rb_cFalseClass'>rb_cFalseClass</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>FalseClass</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cFile.html"
+                                  title='static libcruby_sys::rb_cFile'>rb_cFile</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>File</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cFloat.html"
+                                  title='static libcruby_sys::rb_cFloat'>rb_cFloat</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Float</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cHash.html"
+                                  title='static libcruby_sys::rb_cHash'>rb_cHash</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Hash</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cIO.html"
+                                  title='static libcruby_sys::rb_cIO'>rb_cIO</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>IO</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cInteger.html"
+                                  title='static libcruby_sys::rb_cInteger'>rb_cInteger</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Integer</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cMatch.html"
+                                  title='static libcruby_sys::rb_cMatch'>rb_cMatch</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>MatchData</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cMethod.html"
+                                  title='static libcruby_sys::rb_cMethod'>rb_cMethod</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Method</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cModule.html"
+                                  title='static libcruby_sys::rb_cModule'>rb_cModule</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Module</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cNilClass.html"
+                                  title='static libcruby_sys::rb_cNilClass'>rb_cNilClass</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>NilClass</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cNumeric.html"
+                                  title='static libcruby_sys::rb_cNumeric'>rb_cNumeric</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Numeric</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cObject.html"
+                                  title='static libcruby_sys::rb_cObject'>rb_cObject</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Object</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cProc.html"
+                                  title='static libcruby_sys::rb_cProc'>rb_cProc</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Proc</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cRandom.html"
+                                  title='static libcruby_sys::rb_cRandom'>rb_cRandom</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Random</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cRange.html"
+                                  title='static libcruby_sys::rb_cRange'>rb_cRange</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Range</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cRational.html"
+                                  title='static libcruby_sys::rb_cRational'>rb_cRational</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Rational</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cRegexp.html"
+                                  title='static libcruby_sys::rb_cRegexp'>rb_cRegexp</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Regexp</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cStat.html"
+                                  title='static libcruby_sys::rb_cStat'>rb_cStat</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>File::Stat</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cString.html"
+                                  title='static libcruby_sys::rb_cString'>rb_cString</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>String</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cStruct.html"
+                                  title='static libcruby_sys::rb_cStruct'>rb_cStruct</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Struct</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cSymbol.html"
+                                  title='static libcruby_sys::rb_cSymbol'>rb_cSymbol</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Symbol</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cThread.html"
+                                  title='static libcruby_sys::rb_cThread'>rb_cThread</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Thread</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cTime.html"
+                                  title='static libcruby_sys::rb_cTime'>rb_cTime</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Time</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cTrueClass.html"
+                                  title='static libcruby_sys::rb_cTrueClass'>rb_cTrueClass</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>TrueClass</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_cUnboundMethod.html"
+                                  title='static libcruby_sys::rb_cUnboundMethod'>rb_cUnboundMethod</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>UnboundMethod</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eArgError.html"
+                                  title='static libcruby_sys::rb_eArgError'>rb_eArgError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>ArgumentError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eEOFError.html"
+                                  title='static libcruby_sys::rb_eEOFError'>rb_eEOFError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>EOFError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eEncCompatError.html"
+                                  title='static libcruby_sys::rb_eEncCompatError'>rb_eEncCompatError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Encoding::CompatibilityError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eEncodingError.html"
+                                  title='static libcruby_sys::rb_eEncodingError'>rb_eEncodingError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>EncodingError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eException.html"
+                                  title='static libcruby_sys::rb_eException'>rb_eException</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Exception</code> class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eFloatDomainError.html"
+                                  title='static libcruby_sys::rb_eFloatDomainError'>rb_eFloatDomainError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>FloatDomainError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eIOError.html"
+                                  title='static libcruby_sys::rb_eIOError'>rb_eIOError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>IOError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eIndexError.html"
+                                  title='static libcruby_sys::rb_eIndexError'>rb_eIndexError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>IndexError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eInterrupt.html"
+                                  title='static libcruby_sys::rb_eInterrupt'>rb_eInterrupt</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Interrupt</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eKeyError.html"
+                                  title='static libcruby_sys::rb_eKeyError'>rb_eKeyError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>KeyError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eLoadError.html"
+                                  title='static libcruby_sys::rb_eLoadError'>rb_eLoadError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>LoadError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eLocalJumpError.html"
+                                  title='static libcruby_sys::rb_eLocalJumpError'>rb_eLocalJumpError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>LocalJumpError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eMathDomainError.html"
+                                  title='static libcruby_sys::rb_eMathDomainError'>rb_eMathDomainError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Math::DomainError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eNameError.html"
+                                  title='static libcruby_sys::rb_eNameError'>rb_eNameError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>NameError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eNoMemError.html"
+                                  title='static libcruby_sys::rb_eNoMemError'>rb_eNoMemError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>NoMemoryError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eNoMethodError.html"
+                                  title='static libcruby_sys::rb_eNoMethodError'>rb_eNoMethodError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>NoMethodError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eNotImpError.html"
+                                  title='static libcruby_sys::rb_eNotImpError'>rb_eNotImpError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>NotImplementedError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eRangeError.html"
+                                  title='static libcruby_sys::rb_eRangeError'>rb_eRangeError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>RangeError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eRegexpError.html"
+                                  title='static libcruby_sys::rb_eRegexpError'>rb_eRegexpError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>RegexpError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eRuntimeError.html"
+                                  title='static libcruby_sys::rb_eRuntimeError'>rb_eRuntimeError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>RuntimeError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eScriptError.html"
+                                  title='static libcruby_sys::rb_eScriptError'>rb_eScriptError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>ScriptError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eSecurityError.html"
+                                  title='static libcruby_sys::rb_eSecurityError'>rb_eSecurityError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>SecurityError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eSignal.html"
+                                  title='static libcruby_sys::rb_eSignal'>rb_eSignal</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Signal</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eStandardError.html"
+                                  title='static libcruby_sys::rb_eStandardError'>rb_eStandardError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>StandardError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eStopIteration.html"
+                                  title='static libcruby_sys::rb_eStopIteration'>rb_eStopIteration</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>StopIteration</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eSyntaxError.html"
+                                  title='static libcruby_sys::rb_eSyntaxError'>rb_eSyntaxError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>SyntaxError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eSysStackError.html"
+                                  title='static libcruby_sys::rb_eSysStackError'>rb_eSysStackError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>SystemStackError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eSystemCallError.html"
+                                  title='static libcruby_sys::rb_eSystemCallError'>rb_eSystemCallError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>SystemCallError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eSystemExit.html"
+                                  title='static libcruby_sys::rb_eSystemExit'>rb_eSystemExit</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>SystemExit</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eThreadError.html"
+                                  title='static libcruby_sys::rb_eThreadError'>rb_eThreadError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>ThreadError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eTypeError.html"
+                                  title='static libcruby_sys::rb_eTypeError'>rb_eTypeError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>TypeError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_eZeroDivError.html"
+                                  title='static libcruby_sys::rb_eZeroDivError'>rb_eZeroDivError</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>ZeroDivisionError</code> exception class</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_mComparable.html"
+                                  title='static libcruby_sys::rb_mComparable'>rb_mComparable</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Comparable</code> module</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_mEnumerable.html"
+                                  title='static libcruby_sys::rb_mEnumerable'>rb_mEnumerable</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Enumerable</code> module</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_mErrno.html"
+                                  title='static libcruby_sys::rb_mErrno'>rb_mErrno</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Errno</code> module</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_mFileTest.html"
+                                  title='static libcruby_sys::rb_mFileTest'>rb_mFileTest</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>FileTest</code> module</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_mGC.html"
+                                  title='static libcruby_sys::rb_mGC'>rb_mGC</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>GC</code> module</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_mKernel.html"
+                                  title='static libcruby_sys::rb_mKernel'>rb_mKernel</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Kernel</code> module</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_mMath.html"
+                                  title='static libcruby_sys::rb_mMath'>rb_mMath</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Math</code> module</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_mProcess.html"
+                                  title='static libcruby_sys::rb_mProcess'>rb_mProcess</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Process</code> module</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_mWaitReadable.html"
+                                  title='static libcruby_sys::rb_mWaitReadable'>rb_mWaitReadable</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>IO::WaitReadable</code> module</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="static" href="static.rb_mWaitWritable.html"
+                                  title='static libcruby_sys::rb_mWaitWritable'>rb_mWaitWritable</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>IO::WaitWritable</code> module</p>
+
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_ary_new.html"
+                                  title='fn libcruby_sys::rb_ary_new'>rb_ary_new</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Constructs a new, empty array.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_ary_new_capa.html"
+                                  title='fn libcruby_sys::rb_ary_new_capa'>rb_ary_new_capa</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Constructs a new, empty array with the specified capacity.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_ary_push.html"
+                                  title='fn libcruby_sys::rb_ary_push'>rb_ary_push</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Pushes an item on to the end of an array, returning the array itself.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_class_new_instance.html"
+                                  title='fn libcruby_sys::rb_class_new_instance'>rb_class_new_instance</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Constructs a new instance of a class by calling its allocator and constructor
+(<code>alloc</code> and <code>initialize</code>) as <code>::new</code> normally would.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_const_get.html"
+                                  title='fn libcruby_sys::rb_const_get'>rb_const_get</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Fetches a constant from a module or class.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_define_class.html"
+                                  title='fn libcruby_sys::rb_define_class'>rb_define_class</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Defines a new class.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_define_method.html"
+                                  title='fn libcruby_sys::rb_define_method'>rb_define_method</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Defines a public method on a class.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_define_module_function.html"
+                                  title='fn libcruby_sys::rb_define_module_function'>rb_define_module_function</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Defines a method on a module, both on the module itself and as a private method
+for use by anything including the module.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_define_singleton_method.html"
+                                  title='fn libcruby_sys::rb_define_singleton_method'>rb_define_singleton_method</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Defines a singleton method on a class.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_hash_aset.html"
+                                  title='fn libcruby_sys::rb_hash_aset'>rb_hash_aset</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Inserts a key-value pair into the hash.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_hash_foreach.html"
+                                  title='fn libcruby_sys::rb_hash_foreach'>rb_hash_foreach</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Executes a function on each key-value pair in a hash.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_hash_new.html"
+                                  title='fn libcruby_sys::rb_hash_new'>rb_hash_new</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <h1>Constructs a new, empty hash.</h1>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_id2sym.html"
+                                  title='fn libcruby_sys::rb_id2sym'>rb_id2sym</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Convert an <a href="struct.ID.html"><code>ID</code></a> to a <a href="static.rb_cSymbol.html"><code>Symbol</code></a>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_inspect.html"
+                                  title='fn libcruby_sys::rb_inspect'>rb_inspect</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Returns a human-readable Ruby string representation of an object,
+similarly to Ruby's <code>Object#inspect</code>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_intern.html"
+                                  title='fn libcruby_sys::rb_intern'>rb_intern</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts an ASCII-encoded, nul-terminated C string to an <a href="struct.id.html"><code>ID</code></a></p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_intern2.html"
+                                  title='fn libcruby_sys::rb_intern2'>rb_intern2</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts an ASCII-encoded C string of the given length to an <a href="struct.id.html"><code>ID</code></a>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_intern_str.html"
+                                  title='fn libcruby_sys::rb_intern_str'>rb_intern_str</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Convert a string to an <a href="struct.id.html"><code>ID</code></a>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_obj_class.html"
+                                  title='fn libcruby_sys::rb_obj_class'>rb_obj_class</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Looks up the nearest ancestor class of the object, skipping
+singleton classes or module inclusions.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_obj_classname.html"
+                                  title='fn libcruby_sys::rb_obj_classname'>rb_obj_classname</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Gets the object's class' name</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_sym2id.html"
+                                  title='fn libcruby_sys::rb_sym2id'>rb_sym2id</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Convert a <a href="static.rb_cSymbol.html"><code>Symbol</code></a> to an <a href="struct.id.html"><code>ID</code></a>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_undef_method.html"
+                                  title='fn libcruby_sys::rb_undef_method'>rb_undef_method</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Undefines the named method on a class.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.rb_utf8_str_new.html"
+                                  title='fn libcruby_sys::rb_utf8_str_new'>rb_utf8_str_new</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Constructs a new Ruby string from a UTF-8 encoded C string of a given length.</p>
+
+                           </td>
+                       </tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../";window.currentCrate = "libcruby_sys";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
