@@ -5,41 +5,75 @@ branches:
 cache:
   - '%HOMEDRIVE%%HOMEPATH%\.cargo -> .appveyor.yml'
   - '%HOMEDRIVE%%HOMEPATH%\.rustup -> .appveyor.yml'
-  - vendor/bundle
+  - vendor/bundle-24
+  - vendor/bundle-24-x64
+  - vendor/bundle-25
+  - vendor/bundle-25-x64
+  - vendor/bundle-head-x86
+  - vendor/bundle-head-x64
 
 environment:
   RUST_BACKTRACE: 1
   RUST_VERSION: stable
   matrix:
-    - RUBY_VERSION: 24
+    - RUBY_TARGET: 24
       RUST_HOST: i686-pc-windows-gnu
-    - RUBY_VERSION: 24-x64
+    - RUBY_TARGET: 24-x64
       RUST_HOST: x86_64-pc-windows-gnu
-    - RUBY_VERSION: 25
+    - RUBY_TARGET: 25
       RUST_HOST: i686-pc-windows-gnu
-    - RUBY_VERSION: 25-x64
+    - RUBY_TARGET: 25-x64
       RUST_HOST: x86_64-pc-windows-gnu
-    - RUBY_VERSION: head-x86
+    - RUBY_TARGET: head-x86
       RUST_HOST: i686-pc-windows-gnu
-    - RUBY_VERSION: head-x64
+    - RUBY_TARGET: head-x64
       RUST_HOST: x86_64-pc-windows-gnu
 
 install:
-  # Ruby
-  - ps: |
-      if ($env:RUBY_VERSION -like "*head*") {
-        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-head/rubyinstaller-$env:RUBY_VERSION.exe", "$pwd/ruby-setup.exe")
-        cmd /c ruby-setup.exe /verysilent /dir=C:/Ruby$env:RUBY_VERSION
-      }
-  - set PATH=C:\Ruby%RUBY_VERSION%\bin;%HOMEDRIVE%%HOMEPATH%\.cargo\bin;%PATH%
-  - set RAKEOPT=-rdevkit
-  - gem install bundler
-  - bundle config --local path vendor/bundle
-  - bundle install
+  - set PATH=%HOMEDRIVE%%HOMEPATH%\.cargo\bin;%PATH%
+  - set PATH_WITHOUT_RUBY=%PATH%
+  - echo %PATH%
   # Rust
   - IF NOT EXIST %HOMEDRIVE%%HOMEPATH%\.cargo\bin (curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain %RUST_VERSION% --default-host %RUST_HOST% -y)
   - rustup default %RUST_VERSION%-%RUST_HOST%
   - rustup update
+  # Ruby
+  - ps: |
+      $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-head/rubyinstaller-head-x86.exe", "$pwd/ruby-head-x86-setup.exe")
+      cmd /c ruby-head-x86-setup.exe /verysilent /dir=C:/Rubyhead-x86
+  - echo %PATH%
+  - ps: |
+      $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-head/rubyinstaller-head-x64.exe", "$pwd/ruby-head-x64-setup.exe")
+      cmd /c ruby-head-x64-setup.exe /verysilent /dir=C:/Rubyhead-x64
+  - echo %PATH%
+  - set RAKEOPT=-rdevkit
+  - set PATH=C:\Ruby24\bin;%PATH_WITHOUT_RUBY%
+  - gem install bundler
+  - bundle config --local path vendor/bundle-24
+  - bundle install --jobs=3 --retry=3
+  - set PATH=C:\Ruby24-x64\bin;%PATH_WITHOUT_RUBY%
+  - gem install bundler
+  - bundle config --local path vendor/bundle-24-x64
+  - bundle install --jobs=3 --retry=3
+  - set PATH=C:\Ruby25\bin;%PATH_WITHOUT_RUBY%
+  - gem install bundler
+  - bundle config --local path vendor/bundle-25
+  - bundle install --jobs=3 --retry=3
+  - set PATH=C:\Ruby25-x64\bin;%PATH_WITHOUT_RUBY%
+  - gem install bundler
+  - bundle config --local path vendor/bundle-25-x64
+  - bundle install --jobs=3 --retry=3
+  - set PATH=C:\Rubyhead-x86\bin;%PATH_WITHOUT_RUBY%
+  - gem install bundler
+  - bundle config --local path vendor/bundle-head-x86
+  - bundle install --jobs=3 --retry=3
+  - set PATH=C:\Rubyhead-x64\bin;%PATH_WITHOUT_RUBY%
+  - gem install bundler
+  - bundle config --local path vendor/bundle-head-x64
+  - bundle install --jobs=3 --retry=3
+  - set PATH=C:\Ruby%RUBY_TARGET%\bin;%PATH_WITHOUT_RUBY%
+  - bundle config --local path vendor/bundle-%RUBY_TARGET%
+  - bundle exec rake build:tests
 
 before_test:
   - ruby -v
@@ -49,6 +83,35 @@ before_test:
   - rustc -V
 
 test_script:
-  - bundle exec rake
+  - set PATH=C:\Ruby24\bin;%PATH_WITHOUT_RUBY%
+  - bundle config --local path vendor/bundle-24
+  - rm -rf tmp
+  - bundle exec rake build:extension
+  - bundle exec rake test:run
+  - set PATH=C:\Ruby24-x64\bin;%PATH_WITHOUT_RUBY%
+  - bundle config --local path vendor/bundle-24-x64
+  - rm -rf tmp
+  - bundle exec rake build:extension
+  - bundle exec rake test:run
+  - set PATH=C:\Ruby25\bin;%PATH_WITHOUT_RUBY%
+  - bundle config --local path vendor/bundle-25
+  - rm -rf tmp
+  - bundle exec rake build:extension
+  - bundle exec rake test:run
+  - set PATH=C:\Ruby25-x64\bin;%PATH_WITHOUT_RUBY%
+  - bundle config --local path vendor/bundle-25-x64
+  - rm -rf tmp
+  - bundle exec rake build:extension
+  - bundle exec rake test:run
+  - set PATH=C:\Rubyhead-x86\bin;%PATH_WITHOUT_RUBY%
+  - bundle config --local path vendor/bundle-head-x86
+  - rm -rf tmp
+  - bundle exec rake build:extension
+  - bundle exec rake test:run
+  - set PATH=C:\Rubyhead-x64\bin;%PATH_WITHOUT_RUBY%
+  - bundle config --local path vendor/bundle-head-x64
+  - rm -rf tmp
+  - bundle exec rake build:extension
+  - bundle exec rake test:run
 
 build: off

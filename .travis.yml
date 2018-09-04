@@ -31,7 +31,6 @@ before_install:
   - rvm install 2.5
   - rvm install 2.6
   - rvm install ruby-head
-  - for ruby_host in $RUBY_HOSTS; do rvm install $ruby_host; done
   # Install Rust
   - if [ ! -e "$HOME/.cargo/bin" ]; then curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain $RUST_VERSION -y; fi
   - export PATH="$HOME/.cargo/bin:$PATH"
