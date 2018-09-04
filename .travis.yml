@@ -17,7 +17,7 @@ jobs:
         skip-cleanup: true
         github-token: $GITHUB_TOKEN
         keep-history: true
-        local-dir: tmp/doc
+        local-dir: target/doc
 
 os:
   - linux
