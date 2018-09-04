@@ -1,7 +1,24 @@
 use super::*;
 use libc::{c_char, c_int, c_long};
 
+#[repr(transparent)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[allow(non_camel_case_types)]
+pub struct st_retval(c_int);
+
 extern {
+    #[link_name = "RS_ST_CONTINUE"]
+    pub static ST_CONTINUE: st_retval;
+
+    #[link_name = "RS_ST_STOP"]
+    pub static ST_STOP: st_retval;
+
+    #[link_name = "RS_ST_DELETE"]
+    pub static ST_DELETE: st_retval;
+
+    #[link_name = "RS_ST_CHECK"]
+    pub static ST_CHECK: st_retval;
+
     /// Constructs a new, empty array.
     ///
     /// * Returns an [`Array`](static.rb_cArray.html)
@@ -52,10 +69,14 @@ extern {
     ///
     /// # Safety
     ///
+    /// * Undefined behavior if `array` is not an `Array`
+    ///
     /// ## Exceptions
     ///
     /// * [`IndexError`](static.rb_eIndexError.html)
     ///     * if array size would exceed [`ARY_MAX_SIZE`](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L32).
+    /// * [`FrozenError`](static.rb_eFrozenError.html)
+    ///     * if `hash` is frozen
     ///
     /// # Defined In
     ///
@@ -64,6 +85,85 @@ extern {
     ///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L924-L934) |
     ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
     pub fn rb_ary_push(array: VALUE, item: VALUE) -> VALUE;
+
+    /// # Constructs a new, empty hash.
+    ///
+    /// * Returns a [`Hash`](static.rb_cHash.html)
+    ///
+    /// # Safety
+    ///
+    /// * No known issues
+    ///
+    /// # Defined In
+    ///
+    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L514)
+    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L511)
+    /// * **2.5:**
+    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L493) |
+    ///     [hash.c](https://github.com/ruby/ruby/blob/v2_5_1/hash.c#L431-L435)
+    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L493)
+    pub fn rb_hash_new() -> VALUE;
+
+    /// Inserts a key-value pair into the hash.
+    ///
+    /// If the key already exists in the hash, the value will be replaced
+    ///
+    /// * `hash` - a `[Hash]`(static.rb_cHash.html)
+    /// * `key` - any Ruby object
+    /// * `value` - any Ruby object
+    /// * Returns `value`
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `hash` is not a `Hash`
+    /// * Undefined behavior if `key`'s value is changed while it is in use as a key
+    /// (an unfrozen `String` passed as a key will be duplicated and frozen)
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`FrozenError`](static.rb_eFrozenError.html)
+    ///     * if `hash` is frozen
+    ///
+    /// # Defined In
+    ///
+    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L521)
+    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L518)
+    /// * **2.5:**
+    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L500) |
+    ///     [hash.c](https://github.com/ruby/ruby/blob/v2_5_1/hash.c#L1632-L1650)
+    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L500)
+    pub fn rb_hash_aset(hash: VALUE, key: VALUE, val: VALUE) -> VALUE;
+
+    /// Executes a function on each key-value pair in a hash.
+    ///
+    /// * `hash` - a [`Hash`](static.rb_cHash.html)
+    /// * `func` - a function that will be called for each key-value pair of the hash
+    ///     * Returns `st_retval`:
+    ///         * `ST_CONTINUE`, `ST_CHECK`: iteration will continue
+    ///         * `ST_DELETE`: entry will be deleted and iteration will continue
+    ///         * `ST_STOP`: iteration will stop
+    /// * `farg` - a Ruby object to be passed through to the `func`
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `hash` is not a `Hash`
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`RuntimeError`](static.rb_eRuntimeError.html)
+    ///     * if `hash` is modified by an iteration
+    ///     * if a rehash occurred during an interation
+    /// * User-defined iterator method could also raise an exception.
+    ///
+    /// # Defined In
+    ///
+    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L512)
+    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L509)
+    /// * **2.5:**
+    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L491) |
+    ///     [hash.c](https://github.com/ruby/ruby/blob/v2_5_1/hash.c#L392-L404)
+    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L491)
+    pub fn rb_hash_foreach(hash: VALUE, func: extern "C" fn(key: VALUE, val: VALUE, farg: VALUE) -> st_retval, farg: VALUE);
 
     /// Constructs a new Ruby string from a UTF-8 encoded C string of a given length.
     ///
@@ -289,6 +389,50 @@ tests! {
         assert.rb_eq(lazy_eval("'static str'"), unsafe { rb_utf8_str_new(static_str_ptr, 10) });
         assert.rb_eq(lazy_eval("'heap string'"), unsafe { rb_utf8_str_new(heap_string_ptr, 11) });
         assert.rb_eq(lazy_eval("'❤️💛💚💙💜'"), unsafe { rb_utf8_str_new(unicode_ptr, 22) });
+    }
+
+    #[test]
+    fn test_hash_create_and_set(assert: &mut Assertions) {
+        let hash = unsafe { rb_hash_new() };
+
+        unsafe {
+            rb_hash_aset(hash, "foo".to_ruby(), "bar".to_ruby());
+            rb_hash_aset(hash, "baz".to_ruby(), "qux".to_ruby());
+        }
+
+        assert.rb_eq(unsafe { rb_inspect(hash) }, r#"{"foo"=>"bar", "baz"=>"qux"}"#.to_ruby());
+    }
+
+    #[test]
+    fn test_hash_foreach(assert: &mut Assertions) {
+        extern "C" fn __test_hash_foreach__(key: VALUE, val: VALUE, arg: VALUE) -> st_retval {
+            unsafe {
+                rb_ary_push(arg, key);
+                rb_ary_push(arg, val);
+
+                let id = rb_intern_str(key);
+
+                if      id == rb_intern(cstr!("foo"))  { ST_CONTINUE }
+                else if id == rb_intern(cstr!("baz"))  { ST_CHECK }
+                else if id == rb_intern(cstr!("hoge")) { ST_DELETE }
+                else                                   { ST_STOP }
+            }
+        }
+
+        let hash = unsafe { rb_hash_new() };
+        let ary = unsafe { rb_ary_new() };
+
+        unsafe {
+            rb_hash_aset(hash, "foo".to_ruby(), "bar".to_ruby());
+            rb_hash_aset(hash, "baz".to_ruby(), "qux".to_ruby());
+            rb_hash_aset(hash, "hoge".to_ruby(), "piyo".to_ruby());
+            rb_hash_aset(hash, "wibble".to_ruby(), "wobble".to_ruby());
+            rb_hash_aset(hash, "eggs".to_ruby(), "spam".to_ruby());
+            rb_hash_foreach(hash, __test_hash_foreach__, ary);
+        }
+
+        assert.rb_eq(lazy_eval("['foo', 'bar', 'baz', 'qux', 'hoge', 'piyo', 'wibble', 'wobble']"), ary);
+        assert.rb_eq(lazy_eval(r#"{"foo"=>"bar", "baz"=>"qux", "wibble"=>"wobble", "eggs"=>"spam"}"#), hash);
     }
 
     #[test]
