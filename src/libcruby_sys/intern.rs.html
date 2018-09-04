@@ -586,6 +586,49 @@
 <span id="586">586</span>
 <span id="587">587</span>
 <span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>};
@@ -674,6 +717,32 @@
     <span class="doccomment">///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L924-L934) |</span>
     <span class="doccomment">///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rb_ary_push</span>(<span class="ident">array</span>: <span class="ident">VALUE</span>, <span class="ident">item</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="ident">VALUE</span>;
+
+    <span class="doccomment">/// Returns the element at the given index or [`nil`](static.Qnil.html) if the index is</span>
+    <span class="doccomment">/// out-of-bounds for the array.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `array` - an [`Array`](static.rb_cArray.html)</span>
+    <span class="doccomment">/// * `idx` - the offset to retrieve. A negative value will count from the end of the array.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * This function performs bounds checks which should be safer than some options.</span>
+    <span class="doccomment">/// * Undefined behavior if `array` is not an `Array`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Miscellaneous</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * [`RARRAY_AREF`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1035) has</span>
+    <span class="doccomment">/// a similar function but does not do bounds checking.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Defined In</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L71)</span>
+    <span class="doccomment">/// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L71)</span>
+    <span class="doccomment">/// * **2.5:**</span>
+    <span class="doccomment">///     [intern.h](ttps://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L71) |</span>
+    <span class="doccomment">///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L1215-L1229)</span>
+    <span class="doccomment">/// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L71)</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rb_ary_entry</span>(<span class="ident">array</span>: <span class="ident">VALUE</span>, <span class="ident">idx</span>: <span class="ident">c_long</span>) <span class="op">-&gt;</span> <span class="ident">VALUE</span>;
 
     <span class="doccomment">/// # Constructs a new, empty hash.</span>
     <span class="doccomment">///</span>
@@ -953,6 +1022,23 @@
         <span class="kw">unsafe</span> { <span class="ident">rb_ary_push</span>(<span class="ident">arr2</span>, <span class="string">&quot;world!&quot;</span>.<span class="ident">to_ruby</span>()) };
 
         <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="ident">lazy_eval</span>(<span class="string">&quot;[&#39;hello&#39;, &#39;world!&#39;]&quot;</span>), <span class="ident">arr2</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_ary_entry</span>(<span class="ident">assert</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Assertions</span>) {
+        <span class="kw">let</span> <span class="ident">arr1</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">rb_ary_new_capa</span>(<span class="number">3</span>) };
+
+        <span class="kw">unsafe</span> { <span class="ident">rb_ary_push</span>(<span class="ident">arr1</span>, <span class="ident">Qtrue</span>) };
+        <span class="kw">unsafe</span> { <span class="ident">rb_ary_push</span>(<span class="ident">arr1</span>, <span class="ident">Qfalse</span>) };
+        <span class="kw">unsafe</span> { <span class="ident">rb_ary_push</span>(<span class="ident">arr1</span>, <span class="ident">Qnil</span>) };
+        <span class="kw">unsafe</span> { <span class="ident">rb_ary_push</span>(<span class="ident">arr1</span>, <span class="string">&quot;hello&quot;</span>.<span class="ident">to_ruby</span>()) };
+
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="kw">unsafe</span> { <span class="ident">Qtrue</span> }, <span class="kw">unsafe</span> { <span class="ident">rb_ary_entry</span>(<span class="ident">arr1</span>, <span class="number">0</span>) });
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="kw">unsafe</span> { <span class="ident">Qfalse</span> }, <span class="kw">unsafe</span> { <span class="ident">rb_ary_entry</span>(<span class="ident">arr1</span>, <span class="number">1</span>) });
+        <span class="ident">assert</span>.<span class="ident">rb_nil</span>(<span class="kw">unsafe</span> { <span class="ident">rb_ary_entry</span>(<span class="ident">arr1</span>, <span class="number">2</span>) });
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="string">&quot;hello&quot;</span>.<span class="ident">to_ruby</span>(), <span class="kw">unsafe</span> { <span class="ident">rb_ary_entry</span>(<span class="ident">arr1</span>, <span class="number">3</span>) });
+        <span class="ident">assert</span>.<span class="ident">rb_nil</span>(<span class="kw">unsafe</span> { <span class="ident">rb_ary_entry</span>(<span class="ident">arr1</span>, <span class="number">4</span>) });
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="string">&quot;hello&quot;</span>.<span class="ident">to_ruby</span>(), <span class="kw">unsafe</span> { <span class="ident">rb_ary_entry</span>(<span class="ident">arr1</span>, <span class="op">-</span><span class="number">1</span>) });
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
