@@ -83,7 +83,9 @@ extern {
     /// * **2.5:**
     ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L67) |
     ///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L924-L934) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
+    ///     documentation:
+    ///         [C API](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions) |
+    ///         [`Array#<<`](https://ruby-doc.org/core-2.5.1/Array.html#method-i-3C-3C)
     pub fn rb_ary_push(array: VALUE, item: VALUE) -> VALUE;
 
     /// Returns the element at the given index or [`nil`](static.Qnil.html) if the index is
@@ -156,7 +158,10 @@ extern {
     /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L518)
     /// * **2.5:**
     ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L500) |
-    ///     [hash.c](https://github.com/ruby/ruby/blob/v2_5_1/hash.c#L1632-L1650)
+    ///     [hash.c](https://github.com/ruby/ruby/blob/v2_5_1/hash.c#L1632-L1650) |
+    ///     documentation:
+    ///         [`Hash#[]=`](https://ruby-doc.org/core-2.5.1/Hash.html#method-i-5B-5D-3D) |
+    ///         [`Hash#store`](https://ruby-doc.org/core-2.5.1/Hash.html#method-i-store)
     /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L500)
     pub fn rb_hash_aset(hash: VALUE, key: VALUE, val: VALUE) -> VALUE;
 
