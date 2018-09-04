@@ -41,15 +41,15 @@ extern {
 
 tests! {
     use super::*;
-    use super::super::testing::{Assertions, ToRuby};
-
-    #[test]
-    fn test_enc_get_index(assert: &mut Assertions) {
-        assert.rs_eq(unsafe { rb_enc_get_index("foo".to_ruby()) } > 0, true);
-    }
+    use super::super::testing::Assertions;
+    use libc::{c_long, c_char};
 
     #[test]
     fn test_rb_utf8_encindex(assert: &mut Assertions) {
-        assert.rs_eq(unsafe { rb_enc_get_index("foo".to_ruby()) }, unsafe { rb_utf8_encindex() });
+        let string = "foo";
+        let ptr = string.as_ptr() as *const c_char;
+        let len = string.len() as c_long;
+        let ruby_string = unsafe { rb_utf8_str_new(ptr, len) };
+        assert.rs_eq(unsafe { rb_enc_get_index(ruby_string) }, unsafe { rb_utf8_encindex() });
     }
 }
