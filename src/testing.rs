@@ -34,6 +34,12 @@ lazy_static! {
         }
     };
 
+    static ref ASSERT_NIL: VALUE = {
+        unsafe {
+            rb_const_get(*ASSERTIONS, rb_intern(cstr!("Nil")))
+        }
+    };
+
     static ref LAZY_VALUE: VALUE = {
         unsafe {
             rb_const_get(*TESTING, rb_intern(cstr!("LazyValue")))
@@ -126,6 +132,10 @@ impl Assertions {
         let message = format!("{:?} != {:?}", lhs, rhs).to_ruby();
 
         self.assertions.push(new!(*ASSERT_OK, predicate, message));
+    }
+
+    pub fn rb_nil(&mut self, value: VALUE) {
+        self.assertions.push(new!(*ASSERT_NIL, value));
     }
 }
 
