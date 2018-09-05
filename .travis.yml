@@ -25,12 +25,6 @@ os:
 
 language: ruby
 
-rvm:
-  - 2.4
-  - 2.5
-  - 2.6
-  - ruby-head
-
 cache:
   directories:
     - $HOME/.rvm
@@ -41,10 +35,46 @@ env:
   global:
     - RUST_BACKTRACE=1
     - RUST_VERSION=stable
+  matrix:
+    - RUBY_TARGET=2.4
+    - RUBY_TARGET=2.5
+    - RUBY_TARGET=2.6
+    - RUBY_TARGET=ruby-head
 
 before_install:
+  # Install Rubies
+  - rvm reload && rvm get stable
+  - rvm install 2.4
+  - rvm install 2.5
+  - rvm install 2.6
+  - rvm install ruby-head
   # Install Rust
   - if [ ! -e "$HOME/.cargo/bin" ]; then curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain $RUST_VERSION -y; fi
   - export PATH="$HOME/.cargo/bin:$PATH"
   - rustup default $RUST_VERSION
   - rustup update
+
+install:
+  - rvm 2.4 do bundle install --jobs=3 --retry=3
+  - rvm 2.5 do bundle install --jobs=3 --retry=3
+  - rvm 2.6 do bundle install --jobs=3 --retry=3
+  - rvm ruby-head do bundle install --jobs=3 --retry=3
+  - rvm $RUBY_TARGET do bundle exec rake build:tests
+
+script:
+  - rvm use 2.4
+  - rm -rf tmp
+  - bundle exec rake build:extension
+  - bundle exec rake test:run
+  - rvm use 2.5
+  - rm -rf tmp
+  - bundle exec rake build:extension
+  - bundle exec rake test:run
+  - rvm use 2.6
+  - rm -rf tmp
+  - bundle exec rake build:extension
+  - bundle exec rake test:run
+  - rvm use ruby-head
+  - rm -rf tmp
+  - bundle exec rake build:extension
+  - bundle exec rake test:run
