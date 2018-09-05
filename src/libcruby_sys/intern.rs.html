@@ -629,6 +629,11 @@
 <span id="629">629</span>
 <span id="630">630</span>
 <span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>};
@@ -715,7 +720,9 @@
     <span class="doccomment">/// * **2.5:**</span>
     <span class="doccomment">///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L67) |</span>
     <span class="doccomment">///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L924-L934) |</span>
-    <span class="doccomment">///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)</span>
+    <span class="doccomment">///     documentation:</span>
+    <span class="doccomment">///         [C API](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions) |</span>
+    <span class="doccomment">///         [`Array#&lt;&lt;`](https://ruby-doc.org/core-2.5.1/Array.html#method-i-3C-3C)</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rb_ary_push</span>(<span class="ident">array</span>: <span class="ident">VALUE</span>, <span class="ident">item</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="ident">VALUE</span>;
 
     <span class="doccomment">/// Returns the element at the given index or [`nil`](static.Qnil.html) if the index is</span>
@@ -788,7 +795,10 @@
     <span class="doccomment">/// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L518)</span>
     <span class="doccomment">/// * **2.5:**</span>
     <span class="doccomment">///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L500) |</span>
-    <span class="doccomment">///     [hash.c](https://github.com/ruby/ruby/blob/v2_5_1/hash.c#L1632-L1650)</span>
+    <span class="doccomment">///     [hash.c](https://github.com/ruby/ruby/blob/v2_5_1/hash.c#L1632-L1650) |</span>
+    <span class="doccomment">///     documentation:</span>
+    <span class="doccomment">///         [`Hash#[]=`](https://ruby-doc.org/core-2.5.1/Hash.html#method-i-5B-5D-3D) |</span>
+    <span class="doccomment">///         [`Hash#store`](https://ruby-doc.org/core-2.5.1/Hash.html#method-i-store)</span>
     <span class="doccomment">/// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L500)</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rb_hash_aset</span>(<span class="ident">hash</span>: <span class="ident">VALUE</span>, <span class="ident">key</span>: <span class="ident">VALUE</span>, <span class="ident">val</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="ident">VALUE</span>;
 
