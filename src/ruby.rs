@@ -733,7 +733,7 @@ extern {
     pub static rb_eMathDomainError: VALUE;
 
 
-    /// Converts an ASCII-encoded, nul-terminated C string to an [`ID`](struct.id.html)
+    /// Converts an ASCII-encoded, nul-terminated C string to an [`ID`].
     ///
     /// * `cstr` - nul-terminated C string
     ///
@@ -749,7 +749,7 @@ extern {
     ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-ID+or+Symbol)
     pub fn rb_intern(cstr: *const c_char) -> ID;
 
-    /// Converts an ASCII-encoded C string of the given length to an [`ID`](struct.id.html).
+    /// Converts an ASCII-encoded C string of the given length to an [`ID`].
     ///
     /// * `cstr` - C string
     /// * `len` - number of C chars
@@ -772,9 +772,9 @@ extern {
     ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L603-L607)
     pub fn rb_intern2(cstr: *const c_char, len: c_long) -> ID;
 
-    /// Convert a string to an [`ID`](struct.id.html).
+    /// Convert a string to an [`ID`].
     ///
-    /// * `string` - an instance of [`String`](static.rb_cString.html)
+    /// * `string` - an instance of [`String`](rb_cString)
     ///
     /// # Safety
     ///
@@ -791,15 +791,15 @@ extern {
     /// * **2.6:** [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1747)
     pub fn rb_intern_str(string: VALUE) -> ID;
 
-    /// Convert a [`Symbol`](static.rb_cSymbol.html) to an [`ID`](struct.id.html).
+    /// Convert a [`Symbol`](rb_cSymbol) to an [`ID`].
     ///
-    /// * `symbol` - an instance of [`Symbol`](static.rb_cSymbol.html)
+    /// * `symbol` - an instance of [`Symbol`](rb_cSymbol)
     ///
     /// # Safety
     ///
     /// ## Exceptions
     ///
-    /// * [`TypeError`](static.rb_eTypeError.html)
+    /// * [`TypeError`](rb_eTypeError)
     ///     * if `symbol` is not a `Symbol`
     ///
     /// # Miscellaneous
@@ -815,9 +815,9 @@ extern {
     ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L697-L722)
     pub fn rb_sym2id(symbol: VALUE) -> ID;
 
-    /// Convert an [`ID`](struct.ID.html) to a [`Symbol`](static.rb_cSymbol.html).
+    /// Convert an [`ID`] to a [`Symbol`](rb_cSymbol).
     ///
-    /// * Returns an instance of [`Symbol`](static.rb_cSymbol.html)
+    /// * Returns an instance of [`Symbol`](rb_cSymbol)
     ///
     /// # Safety
     ///
@@ -836,8 +836,8 @@ extern {
     /// as specified, it will return the already defined class.
     ///
     /// * `name` - an ASCII-encoded, nul-terminated C string
-    /// * `superclass` - [`Class`](static.rb_cClass.html)
-    /// * Returns a [`Class`](static.rb_cClass.html)
+    /// * `superclass` - [`Class`](rb_cClass)
+    /// * Returns a [`Class`](rb_cClass)
     ///
     /// # Safety
     ///
@@ -845,10 +845,10 @@ extern {
     ///
     /// ## Exceptions
     ///
-    /// * [`TypeError`](static.rb_eTypeError.html)
+    /// * [`TypeError`](rb_eTypeError)
     ///     * if the constant name is already taken, but the constant is not a C class
     ///     * if the class is already defined and the superclass does not match
-    /// * [`ArgumentError`](static.rb_eArgError.html)
+    /// * [`ArgumentError`](rb_eArgError)
     ///     * if the superclass is null
     ///
     /// # Defined In
@@ -865,7 +865,7 @@ extern {
 
     /// Defines a public method on a class.
     ///
-    /// * `class` - a [`Class`](static.rb_cClass.html)
+    /// * `class` - a [`Class`](rb_cClass)
     /// * `name` - an ASCII-encoded, nul-terminated C string
     /// * `func` - `VALUE func(VALUE obj, [VALUE arg, ]*)`, see below if `arity` is negative
     /// * `arity`
@@ -880,7 +880,7 @@ extern {
     ///
     /// ## Exceptions
     ///
-    /// * [`ArgumentError`](static.rb_eArgError.html)
+    /// * [`ArgumentError`](rb_eArgError)
     ///     * if `arity` is not in `-2..15`
     ///
     /// # Defined In
@@ -895,13 +895,13 @@ extern {
     /// Defines a method on a module, both on the module itself and as a private method
     /// for use by anything including the module.
     ///
-    /// * `module` - a [`Module`](static.rb_cModule.html)
+    /// * `module` - a [`Module`](rb_cModule)
     ///
-    /// See [`rb_define_method`](fn.rb_define_method.html) for additional details on arguments.
+    /// See [`rb_define_method`](rb_define_method) for additional details on arguments.
     ///
     /// # Safety
     ///
-    /// See [`rb_define_method`](fn.rb_define_method.html#safety).
+    /// See [`rb_define_method`](rb_define_method#safety).
     ///
     /// # Defined In
     ///
@@ -913,7 +913,7 @@ extern {
 
     /// Undefines the named method on a class.
     ///
-    /// * `class` - a [`Class`](static.rb_cClass.html)
+    /// * `class` - a [`Class`](rb_cClass)
     /// * `name` - an ASCII-encoded, nul-terminated C string
     ///
     /// # Safety

@@ -21,7 +21,7 @@ extern {
 
     /// Constructs a new, empty array.
     ///
-    /// * Returns an [`Array`](static.rb_cArray.html)
+    /// * Returns an [`Array`](rb_cArray)
     ///
     /// # Safety
     ///
@@ -38,13 +38,13 @@ extern {
     /// Constructs a new, empty array with the specified capacity.
     ///
     /// * `capacity` - number of elements to pre-allocate space for
-    /// * Returns an [`Array`](static.rb_cArray.html)
+    /// * Returns an [`Array`](rb_cArray)
     ///
     /// # Safety
     ///
     /// ## Exceptions
     ///
-    /// * [`ArgumentError`](static.rb_eArgError.html)
+    /// * [`ArgumentError`](rb_eArgError)
     ///     * if `capacity` is negative.
     ///     * if `capacity` is greater than [`ARY_MAX_SIZE`](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L32).
     ///
@@ -63,7 +63,7 @@ extern {
 
     /// Pushes an item on to the end of an array, returning the array itself.
     ///
-    /// * `array` - an instance of [`Array`](static.rb_cArray.html)
+    /// * `array` - an instance of [`Array`](rb_cArray)
     /// * `item` - any Ruby object
     /// * Returns `array`
     ///
@@ -73,9 +73,9 @@ extern {
     ///
     /// ## Exceptions
     ///
-    /// * [`IndexError`](static.rb_eIndexError.html)
+    /// * [`IndexError`](rb_eIndexError)
     ///     * if array size would exceed [`ARY_MAX_SIZE`](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L32).
-    /// * [`FrozenError`](static.rb_eFrozenError.html)
+    /// * [`FrozenError`](rb_eFrozenError)
     ///     * if `hash` is frozen
     ///
     /// # Defined In
@@ -88,10 +88,10 @@ extern {
     ///         [`Array#<<`](https://ruby-doc.org/core-2.5.1/Array.html#method-i-3C-3C)
     pub fn rb_ary_push(array: VALUE, item: VALUE) -> VALUE;
 
-    /// Returns the element at the given index or [`nil`](static.Qnil.html) if the index is
+    /// Returns the element at the given index or [`nil`](Qnil) if the index is
     /// out-of-bounds for the array.
     ///
-    /// * `array` - an [`Array`](static.rb_cArray.html)
+    /// * `array` - an [`Array`](rb_cArray)
     /// * `idx` - the offset to retrieve. A negative value will count from the end of the array.
     ///
     /// # Safety
@@ -116,7 +116,7 @@ extern {
 
     /// # Constructs a new, empty hash.
     ///
-    /// * Returns a [`Hash`](static.rb_cHash.html)
+    /// * Returns a [`Hash`](rb_cHash)
     ///
     /// # Safety
     ///
@@ -136,7 +136,7 @@ extern {
     ///
     /// If the key already exists in the hash, the value will be replaced
     ///
-    /// * `hash` - a `[Hash]`(static.rb_cHash.html)
+    /// * `hash` - a `[Hash]`(rb_cHash)
     /// * `key` - any Ruby object
     /// * `value` - any Ruby object
     /// * Returns `value`
@@ -149,7 +149,7 @@ extern {
     ///
     /// ## Exceptions
     ///
-    /// * [`FrozenError`](static.rb_eFrozenError.html)
+    /// * [`FrozenError`](rb_eFrozenError)
     ///     * if `hash` is frozen
     ///
     /// # Defined In
@@ -167,7 +167,7 @@ extern {
 
     /// Executes a function on each key-value pair in a hash.
     ///
-    /// * `hash` - a [`Hash`](static.rb_cHash.html)
+    /// * `hash` - a [`Hash`](rb_cHash)
     /// * `func` - a function that will be called for each key-value pair of the hash
     ///     * Returns `st_retval`:
     ///         * `ST_CONTINUE`, `ST_CHECK`: iteration will continue
@@ -181,7 +181,7 @@ extern {
     ///
     /// ## Exceptions
     ///
-    /// * [`RuntimeError`](static.rb_eRuntimeError.html)
+    /// * [`RuntimeError`](rb_eRuntimeError)
     ///     * if `hash` is modified by an iteration
     ///     * if a rehash occurred during an interation
     /// * User-defined iterator method could also raise an exception.
@@ -219,7 +219,7 @@ extern {
     ///
     /// * `argc` - number of arguments passed
     /// * `argv` - pointer to the arguments, passed as a C array
-    /// * `class` - a [`Class`](static.rb_cClass.html)
+    /// * `class` - a [`Class`](rb_cClass)
     /// * Returns a new instance of `class`
     ///
     /// # Safety
@@ -231,7 +231,7 @@ extern {
     ///
     /// * [`fatal`](https://ruby-doc.org/core-2.5.1/fatal.html)
     ///     * if `class` is not a class
-    /// * [`TypeError`](static.rb_eTypeError.html)
+    /// * [`TypeError`](rb_eTypeError)
     ///     * if `class` cannot be alloc'ed.
     /// * Other exceptions may be raised by user defined code
     ///
@@ -244,7 +244,7 @@ extern {
 
     /// Fetches a constant from a module or class.
     ///
-    /// * `class` - a [`Class`](static.rb_cClass.html) or [`Module`](static.rb_cModule.html)
+    /// * `class` - a [`Class`](rb_cClass) or [`Module`](rb_cModule)
     /// * `name` - the `ID` of the interned name
     ///
     /// # Safety
@@ -277,7 +277,7 @@ extern {
     /// the result must be ASCII only.
     ///
     /// * `obj` - any Ruby object
-    /// * Returns a [`String`](static.rb_cString.html)
+    /// * Returns a [`String`](rb_cString)
     ///
     /// # Safety
     ///
@@ -303,7 +303,7 @@ extern {
     /// nothing is found.
     ///
     /// * `obj` - any Ruby object
-    /// * Returns a [`Class`](static.rb_cClass.html) or a falsey `VALUE`
+    /// * Returns a [`Class`](rb_cClass) or a falsey `VALUE`
     ///
     /// # Safety
     ///
@@ -327,13 +327,13 @@ extern {
 
     /// Defines a singleton method on a class.
     ///
-    /// See [`rb_define_method`](fn.rb_define_method.html) for details on arguments.
+    /// See [`rb_define_method`](rb_define_method) for details on arguments.
     ///
     /// # Safety
     ///
     /// ## Exceptions
     ///
-    /// * [`rb_eTypeError`](static.rb_eTypeError.html)
+    /// * [`TypeError`](rb_eTypeError)
     ///     * if Ruby built-in class does not allow singletons to be defined.
     ///
     /// See also [`rb_define_method`](fn.rb_define_method.html#safety).
