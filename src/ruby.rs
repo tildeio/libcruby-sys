@@ -57,679 +57,507 @@ extern {
 
     /// The `Kernel` module
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1891) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Kernel.html)
+    //+ c-module: object.c `VALUE rb_mKernel`
     pub static rb_mKernel: VALUE;
 
     /// The `Comparable` module
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1892) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Comparable.html)
+    //+ c-module: compar.c `VALUE rb_mComparable`
     pub static rb_mComparable: VALUE;
 
     /// The `Enumerable` module
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1893) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Enumerable.html)
+    //+ c-module: enum.c `VALUE rb_mEnumerable`
     pub static rb_mEnumerable: VALUE;
 
     /// The `Errno` module
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1894) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Errno.html)
+    //+ c-module: error.c `VALUE rb_mErrno`
     pub static rb_mErrno: VALUE;
 
     /// The `FileTest` module
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1895) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/FileTest.html)
+    //+ c-module: file.c `VALUE rb_mFileTest`
     pub static rb_mFileTest: VALUE;
 
     /// The `GC` module
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1896) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/GC.html)
+    //+ c-module: gc.c `VALUE rb_mGC`
     pub static rb_mGC: VALUE;
 
     /// The `Math` module
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1897) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Math.html)
+    //+ c-module: math.c `VALUE rb_mMath`
     pub static rb_mMath: VALUE;
 
     /// The `Process` module
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1898) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Process.html)
+    //+ c-module: process.c `VALUE rb_mProcess`
     pub static rb_mProcess: VALUE;
 
     /// The `IO::WaitReadable` module
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1899) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/IO/WaitReadable.html)
+    //+ c-module: io.c `VALUE rb_mWaitReadable`
     pub static rb_mWaitReadable: VALUE;
 
     /// The `IO::WaitWritable` module
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1900) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/IO/WaitWritable.html)
+    //+ c-module: io.c `VALUE rb_mWaitWritable`
     pub static rb_mWaitWritable: VALUE;
 
 
     /// The `BasicObject` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1902) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/BasicObject.html)
+    //+ c-class: class.c `VALUE rb_cBasicObject`
     pub static rb_cBasicObject: VALUE;
 
     /// The `Object` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1903) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Object.html)
+    //+ c-class: class.c `VALUE rb_cObject`
     pub static rb_cObject: VALUE;
 
     /// The `Array` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1904) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Array.html)
+    //+ c-class: array.c `VALUE rb_cArray`
     pub static rb_cArray: VALUE;
 
     /// The `Binding` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1908) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Binding.html)
+    //+ c-class: proc.c `VALUE rb_cBinding`
     pub static rb_cBinding: VALUE;
 
     /// The `Class` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1909) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Class.html)
+    //+ c-class: class.c `VALUE rb_cClass`
     pub static rb_cClass: VALUE;
 
     /// The `Dir` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1911) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Dir.html)
+    //+ c-class: dir.c `VALUE rb_cDir`
     pub static rb_cDir: VALUE;
 
     /// The `Encoding` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1914) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Encoding.html)
+    //+ c-class: encoding.c `VALUE rb_cEncoding`
     pub static rb_cEncoding: VALUE;
 
     /// The `Enumerator` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1915) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Enumerator.html)
+    //+ c-class: enumerator.c `VALUE rb_cEnumerator`
     pub static rb_cEnumerator: VALUE;
 
     /// The `FalseClass` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1913) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/FalseClass.html)
+    //+ c-class: object.c `VALUE rb_cFalseClass`
     pub static rb_cFalseClass: VALUE;
 
     /// The `File` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1916) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/File.html)
+    //+ c-class: file.c `VALUE rb_cFile`
     pub static rb_cFile: VALUE;
 
     /// The `Complex` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1934) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Complex.html)
+    //+ c-class: complex.c `VALUE rb_cComplex`
     pub static rb_cComplex: VALUE;
 
     /// The `Float` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1920) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Float.html)
+    //+ c-class: numeric.c `VALUE rb_cFloat`
     pub static rb_cFloat: VALUE;
 
     /// The `Hash` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1921) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Hash.html)
+    //+ c-class: hash.c `VALUE rb_cHash`
     pub static rb_cHash: VALUE;
 
     /// The `IO` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1923) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/IO.html)
+    //+ c-class: io.c `VALUE rb_cIO`
     pub static rb_cIO: VALUE;
 
     /// The `Integer` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1922) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Integer.html)
+    //+ c-class: numeric.c `VALUE rb_cInteger`
     pub static rb_cInteger: VALUE;
 
     /// The `MatchData` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1924) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/MatchData.html)
+    //+ c-class: re.c `VALUE rb_cMatch`
     pub static rb_cMatch: VALUE;
 
     /// The `Method` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1925) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Method.html)
+    //+ c-class: proc.c `VALUE rb_cMethod`
     pub static rb_cMethod: VALUE;
 
     /// The `Module` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1926) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Module.html)
+    //+ c-class: class.c `VALUE rb_cModule`
     pub static rb_cModule: VALUE;
 
     /// The `NilClass` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1928) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/NilClass.html)
+    //+ c-class: object.c `VALUE rb_cNilClass`
     pub static rb_cNilClass: VALUE;
 
     /// The `Numeric` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1929) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Numeric.html)
+    //+ c-class: numeric.c `VALUE rb_cNumeric`
     pub static rb_cNumeric: VALUE;
 
     /// The `Proc` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1930) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Proc.html)
+    //+ c-class: proc.c `VALUE rb_cProc`
     pub static rb_cProc: VALUE;
 
     /// The `Random` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1931) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Random.html)
+    //+ c-class: random.c `VALUE rb_cRandom`
     pub static rb_cRandom: VALUE;
 
     /// The `Range` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1932) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Range.html)
+    //+ c-class: range.c `VALUE rb_cRange`
     pub static rb_cRange: VALUE;
 
     /// The `Rational` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1933) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Rational.html)
+    //+ c-class: rational.c `VALUE rb_cRational`
     pub static rb_cRational: VALUE;
 
     /// The `Regexp` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1935) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Regexp.html)
+    //+ c-class: re.c `VALUE rb_cRegexp`
     pub static rb_cRegexp: VALUE;
 
     /// The `File::Stat` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1936) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/File/Stat.html)
+    //+ c-class: file.c `VALUE rb_cStat`
     pub static rb_cStat: VALUE;
 
     /// The `String` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1937) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/String.html)
+    //+ c-class: string.c `VALUE rb_cString`
     pub static rb_cString: VALUE;
 
     /// The `Struct` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1938) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Struct.html)
+    //+ c-class: struct.c `VALUE rb_cStruct`
     pub static rb_cStruct: VALUE;
 
     /// The `Symbol` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1939) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Symbol.html)
+    //+ c-class: string.c `VALUE rb_cSymbol`
     pub static rb_cSymbol: VALUE;
 
     /// The `Thread` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1940) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Thread.html)
+    //+ c-class: vm.c `VALUE rb_cThread`
     pub static rb_cThread: VALUE;
 
     /// The `Time` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1941) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Time.html)
+    //+ c-class: time.c `VALUE rb_cTime`
     pub static rb_cTime: VALUE;
 
     /// The `TrueClass` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1942) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/TrueClass.html)
+    //+ c-class: object.c `VALUE rb_cTrueClass`
     pub static rb_cTrueClass: VALUE;
 
     /// The `UnboundMethod` class
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1943) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/UnboundMethod.html)
+    //+ c-class: proc.c `VALUE rb_cUnboundMethod`
     pub static rb_cUnboundMethod: VALUE;
 
 
     /// The `Exception` class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1945) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Exception.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/Exception.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eException`
     pub static rb_eException: VALUE;
 
     /// The `StandardError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1946) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/StandardError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/StandardError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eStandardError`
     pub static rb_eStandardError: VALUE;
 
     /// The `SystemExit` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1947) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/SystemExit.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/SystemExit.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eSystemExit`
     pub static rb_eSystemExit: VALUE;
 
     /// The `Interrupt` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1948) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Interrupt.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/Interrupt.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eInterrupt`
     pub static rb_eInterrupt: VALUE;
 
     /// The `Signal` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1949) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Signal.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/Signal.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eSignal`
     pub static rb_eSignal: VALUE;
 
     /// The `ArgumentError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1951) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/ArgumentError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/ArgumentError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eArgError`
     pub static rb_eArgError: VALUE;
 
     /// The `EOFError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1952) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/EOFError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/EOFError.html)
+    ///
+    //+ c-class: io.c `VALUE rb_eEOFError`
     pub static rb_eEOFError: VALUE;
 
     /// The `IndexError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1953) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/IndexError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/IndexError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eIndexError`
     pub static rb_eIndexError: VALUE;
 
     /// The `StopIteration` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1954) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/StopIteration.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/StopIteration.html)
+    ///
+    //+ c-class: enumerator.c `VALUE rb_eStopIteration`
     pub static rb_eStopIteration: VALUE;
 
     /// The `KeyError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1955) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/KeyError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/KeyError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eKeyError`
     pub static rb_eKeyError: VALUE;
 
     /// The `RangeError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1956) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/RangeError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/RangeError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eRangeError`
     pub static rb_eRangeError: VALUE;
 
     /// The `IOError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1957) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/IOError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/IOError.html)
+    ///
+    //+ c-class: io.c `VALUE rb_eIOError`
     pub static rb_eIOError: VALUE;
 
     /// The `RuntimeError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1958) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/RuntimeError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/RuntimeError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eRuntimeError`
     pub static rb_eRuntimeError: VALUE;
 
     /// The `SecurityError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1960) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/SecurityError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/SecurityError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eSecurityError`
     pub static rb_eSecurityError: VALUE;
 
     /// The `SystemCallError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1961) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/SystemCallError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/SystemCallError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eSystemCallError`
     pub static rb_eSystemCallError: VALUE;
 
     /// The `ThreadError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1962) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/ThreadError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/ThreadError.html)
+    ///
+    //+ c-class: thread.c `VALUE rb_eThreadError`
     pub static rb_eThreadError: VALUE;
 
     /// The `TypeError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1963) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/TypeError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/TypeError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eTypeError`
     pub static rb_eTypeError: VALUE;
 
     /// The `ZeroDivisionError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1964) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/ZeroDivisionError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/ZeroDivisionError.html)
+    ///
+    //+ c-class: numeric.c `VALUE rb_eZeroDivError`
     pub static rb_eZeroDivError: VALUE;
 
     /// The `NotImplementedError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1965) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/NotImplementedError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/NotImplementedError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eNotImpError`
     pub static rb_eNotImpError: VALUE;
 
     /// The `NoMemoryError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1966) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/NoMemoryError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/NoMemoryError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eNoMemError`
     pub static rb_eNoMemError: VALUE;
 
     /// The `NoMethodError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1967) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/NoMethodError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/NoMethodError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eNoMethodError`
     pub static rb_eNoMethodError: VALUE;
 
     /// The `FloatDomainError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1968) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/FloatDomainError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/FloatDomainError.html)
+    ///
+    //+ c-class: numeric.c `VALUE rb_eFloatDomainError`
     pub static rb_eFloatDomainError: VALUE;
 
     /// The `LocalJumpError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1969) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/LocalJumpError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/LocalJumpError.html)
+    ///
+    //+ c-class: proc.c `VALUE rb_eLocalJumpError`
     pub static rb_eLocalJumpError: VALUE;
 
     /// The `SystemStackError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1970) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/SystemStackError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/SystemStackError.html)
+    ///
+    //+ c-class: proc.c `VALUE rb_eSysStackError`
     pub static rb_eSysStackError: VALUE;
 
     /// The `RegexpError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1971) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/RegexpError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/RegexpError.html)
+    ///
+    //+ c-class: re.c `VALUE rb_eRegexpError`
     pub static rb_eRegexpError: VALUE;
 
     /// The `EncodingError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1972) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/EncodingError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/EncodingError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eEncodingError`
     pub static rb_eEncodingError: VALUE;
 
     /// The `Encoding::CompatibilityError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1973) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Encoding/CompatibilityError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/Encoding/CompatibilityError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eEncCompatError`
     pub static rb_eEncCompatError: VALUE;
 
     /// The `ScriptError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1975) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/ScriptError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/ScriptError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eScriptError`
     pub static rb_eScriptError: VALUE;
 
     /// The `NameError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1976) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/NameError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/NameError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eNameError`
     pub static rb_eNameError: VALUE;
 
     /// The `SyntaxError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1977) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/SyntaxError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/SyntaxError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eSyntaxError`
     pub static rb_eSyntaxError: VALUE;
 
     /// The `LoadError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1978) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/LoadError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/LoadError.html)
+    ///
+    //+ c-class: error.c `VALUE rb_eLoadError`
     pub static rb_eLoadError: VALUE;
 
     /// The `Math::DomainError` exception class
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1980) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/Math/DomainError.html)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/Math/DomainError.html)
+    ///
+    //+ c-class: math.c `VALUE rb_eMathDomainError`
     pub static rb_eMathDomainError: VALUE;
 
 
@@ -741,12 +569,11 @@ extern {
     ///
     /// * Undefined behavior if string is not valid ASCII
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1728) |
-    ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L610-L614) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-ID+or+Symbol)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-ID+or+Symbol)
+    ///
+    //+ c-func: symbol.c `ID rb_intern(const char*)`
     pub fn rb_intern(cstr: *const c_char) -> ID;
 
     /// Converts an ASCII-encoded C string of the given length to an [`ID`].
@@ -765,11 +592,7 @@ extern {
     /// [`rb_intern_const`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1757-L1760)
     /// has very similar behavior.
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1729)
-    ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L603-L607)
+    //+ c-func: symbol.c `ID rb_intern2(const char*, long)`
     pub fn rb_intern2(cstr: *const c_char, len: c_long) -> ID;
 
     /// Convert a string to an [`ID`].
@@ -780,15 +603,11 @@ extern {
     ///
     /// * Behavior is undefined if you pass a `VALUE` that is not a string.
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.3:** [ruby.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/ruby.h#L1708)
-    /// * **2.4:** [ruby.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/ruby.h#L1728)
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1730)
-    ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L616-L626) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-ID+or+Symbol)
-    /// * **2.6:** [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1747)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-ID+or+Symbol)
+    ///
+    //+ c-func: symbol.c `ID rb_intern_str(VALUE str)`
     pub fn rb_intern_str(string: VALUE) -> ID;
 
     /// Convert a [`Symbol`](rb_cSymbol) to an [`ID`].
@@ -808,11 +627,7 @@ extern {
     /// [`SYM2ID`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L386) are currently
     /// aliases for this.
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L375) |
-    ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L697-L722)
+    //+ c-func: symbol.c `ID rb_sym2id(VALUE)`
     pub fn rb_sym2id(symbol: VALUE) -> ID;
 
     /// Convert an [`ID`] to a [`Symbol`](rb_cSymbol).
@@ -823,11 +638,7 @@ extern {
     ///
     /// * Behavior is undefined if the `ID` is not valid.
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L376) |
-    ///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L725-L730)
+    //+ c-func: symbol.c `VALUE rb_id2sym(ID)`
     pub fn rb_id2sym(id: ID) -> VALUE;
 
     /// Defines a new class.
@@ -851,16 +662,13 @@ extern {
     /// * [`ArgumentError`](rb_eArgError)
     ///     * if the superclass is null
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.3:** [ruby.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/ruby.h#L1656)
-    /// * **2.4:** [ruby.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/ruby.h#L1676)
     /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1678) |
-    ///     [class.c](https://github.com/ruby/ruby/blob/v2_5_1/class.c#L645-L673) |
-    ///     documentation: [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Class+and+Module+Definition),
-    ///                     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Defining+Classes+and+Modules)
-    /// * **2.6:** [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1695)
+    ///     [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Class+and+Module+Definition),
+    ///     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Defining+Classes+and+Modules)
+    ///
+    //+ c-func: class.c `VALUE rb_define_class(const char*,VALUE)`
     pub fn rb_define_class(name: *const c_char, superclass: VALUE) -> VALUE;
 
     /// Defines a public method on a class.
@@ -883,13 +691,13 @@ extern {
     /// * [`ArgumentError`](rb_eArgError)
     ///     * if `arity` is not in `-2..15`
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
     /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1715) |
-    ///     [class.c](https://github.com/ruby/ruby/blob/v2_5_1/class.c#L1514-L1518) |
-    ///     documentation: [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+and+Singleton+Method+Definition),
-    ///                     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+Definition)
+    ///     [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+and+Singleton+Method+Definition),
+    ///     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+Definition)
+    ///
+    //+ c-func: class.c `void rb_define_method(VALUE,const char*,VALUE(*)(ANYARGS),int)`
     pub fn rb_define_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
 
     /// Defines a method on a module, both on the module itself and as a private method
@@ -903,12 +711,11 @@ extern {
     ///
     /// See [`rb_define_method`](rb_define_method#safety).
     ///
-    /// # Defined In
+    /// # Ruby Documentaiton
     ///
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1716) |
-    ///     [class.c](https://github.com/ruby/ruby/blob/v2_5_1/class.c#L1730-L1735) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+and+Singleton+Method+Definition)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+and+Singleton+Method+Definition)
+    ///
+    //+ c-func: class.c `void rb_define_module_function(VALUE,const char*,VALUE(*)(ANYARGS),int)`
     pub fn rb_define_module_function(module: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
 
     /// Undefines the named method on a class.
@@ -920,14 +727,7 @@ extern {
     ///
     /// * Undefined behavior if `name` string is not valid ASCII
     ///
-    /// # Defined In
-    ///
-    /// * **2.3:** [ruby.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/ruby.h#L1697)
-    /// * **2.4:** [ruby.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/ruby.h#L1717)
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1719) |
-    ///     [class.c](https://github.com/ruby/ruby/blob/v2_5_1/class.c#L1532-L1536)
-    /// * **2.6:** [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1736)
+    //+ c-func: class.c `void rb_undef_method(VALUE,const char*)`
     pub fn rb_undef_method(class: VALUE, name: *const c_char);
 
     /// Gets the object's class' name
@@ -938,14 +738,7 @@ extern {
     ///
     /// No known issues
     ///
-    /// # Defined In
-    ///
-    /// * **2.3:** [ruby.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/ruby.h#L1744)
-    /// * **2.4:** [ruby.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/ruby.h#L1764)
-    /// * **2.5:**
-    ///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1791) |
-    ///     [variable.c](https://github.com/ruby/ruby/blob/v2_5_1/variable.c#L459-L463)
-    /// * **2.6:** [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1808)
+    //+ c-func: variable.c `const char *rb_obj_classname(VALUE)`
     pub fn rb_obj_classname(obj: VALUE) -> *const c_char;
 }
 
