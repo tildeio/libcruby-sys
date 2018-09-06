@@ -10,7 +10,7 @@ stages:
 jobs:
   include:
     - stage: deploy
-      script: cargo doc --no-deps
+      script: IN_PLACE=true rake doc
       rvm: false
       deploy:
         provider: pages
