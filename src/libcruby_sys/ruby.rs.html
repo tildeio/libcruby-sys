@@ -2318,7 +2318,7 @@
     <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">rb_eMathDomainError</span>: <span class="ident">VALUE</span>;
 
 
-    <span class="doccomment">/// Converts an ASCII-encoded, nul-terminated C string to an [`ID`](struct.id.html)</span>
+    <span class="doccomment">/// Converts an ASCII-encoded, nul-terminated C string to an [`ID`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// * `cstr` - nul-terminated C string</span>
     <span class="doccomment">///</span>
@@ -2334,7 +2334,7 @@
     <span class="doccomment">///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-ID+or+Symbol)</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rb_intern</span>(<span class="ident">cstr</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>) <span class="op">-&gt;</span> <span class="ident">ID</span>;
 
-    <span class="doccomment">/// Converts an ASCII-encoded C string of the given length to an [`ID`](struct.id.html).</span>
+    <span class="doccomment">/// Converts an ASCII-encoded C string of the given length to an [`ID`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// * `cstr` - C string</span>
     <span class="doccomment">/// * `len` - number of C chars</span>
@@ -2357,9 +2357,9 @@
     <span class="doccomment">///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L603-L607)</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rb_intern2</span>(<span class="ident">cstr</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">len</span>: <span class="ident">c_long</span>) <span class="op">-&gt;</span> <span class="ident">ID</span>;
 
-    <span class="doccomment">/// Convert a string to an [`ID`](struct.id.html).</span>
+    <span class="doccomment">/// Convert a string to an [`ID`].</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// * `string` - an instance of [`String`](static.rb_cString.html)</span>
+    <span class="doccomment">/// * `string` - an instance of [`String`](rb_cString)</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
@@ -2376,15 +2376,15 @@
     <span class="doccomment">/// * **2.6:** [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1747)</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rb_intern_str</span>(<span class="ident">string</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="ident">ID</span>;
 
-    <span class="doccomment">/// Convert a [`Symbol`](static.rb_cSymbol.html) to an [`ID`](struct.id.html).</span>
+    <span class="doccomment">/// Convert a [`Symbol`](rb_cSymbol) to an [`ID`].</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// * `symbol` - an instance of [`Symbol`](static.rb_cSymbol.html)</span>
+    <span class="doccomment">/// * `symbol` - an instance of [`Symbol`](rb_cSymbol)</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ## Exceptions</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// * [`TypeError`](static.rb_eTypeError.html)</span>
+    <span class="doccomment">/// * [`TypeError`](rb_eTypeError)</span>
     <span class="doccomment">///     * if `symbol` is not a `Symbol`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Miscellaneous</span>
@@ -2400,9 +2400,9 @@
     <span class="doccomment">///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L697-L722)</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rb_sym2id</span>(<span class="ident">symbol</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="ident">ID</span>;
 
-    <span class="doccomment">/// Convert an [`ID`](struct.ID.html) to a [`Symbol`](static.rb_cSymbol.html).</span>
+    <span class="doccomment">/// Convert an [`ID`] to a [`Symbol`](rb_cSymbol).</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// * Returns an instance of [`Symbol`](static.rb_cSymbol.html)</span>
+    <span class="doccomment">/// * Returns an instance of [`Symbol`](rb_cSymbol)</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
@@ -2421,8 +2421,8 @@
     <span class="doccomment">/// as specified, it will return the already defined class.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// * `name` - an ASCII-encoded, nul-terminated C string</span>
-    <span class="doccomment">/// * `superclass` - [`Class`](static.rb_cClass.html)</span>
-    <span class="doccomment">/// * Returns a [`Class`](static.rb_cClass.html)</span>
+    <span class="doccomment">/// * `superclass` - [`Class`](rb_cClass)</span>
+    <span class="doccomment">/// * Returns a [`Class`](rb_cClass)</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
@@ -2430,10 +2430,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ## Exceptions</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// * [`TypeError`](static.rb_eTypeError.html)</span>
+    <span class="doccomment">/// * [`TypeError`](rb_eTypeError)</span>
     <span class="doccomment">///     * if the constant name is already taken, but the constant is not a C class</span>
     <span class="doccomment">///     * if the class is already defined and the superclass does not match</span>
-    <span class="doccomment">/// * [`ArgumentError`](static.rb_eArgError.html)</span>
+    <span class="doccomment">/// * [`ArgumentError`](rb_eArgError)</span>
     <span class="doccomment">///     * if the superclass is null</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Defined In</span>
@@ -2450,7 +2450,7 @@
 
     <span class="doccomment">/// Defines a public method on a class.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// * `class` - a [`Class`](static.rb_cClass.html)</span>
+    <span class="doccomment">/// * `class` - a [`Class`](rb_cClass)</span>
     <span class="doccomment">/// * `name` - an ASCII-encoded, nul-terminated C string</span>
     <span class="doccomment">/// * `func` - `VALUE func(VALUE obj, [VALUE arg, ]*)`, see below if `arity` is negative</span>
     <span class="doccomment">/// * `arity`</span>
@@ -2465,7 +2465,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ## Exceptions</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// * [`ArgumentError`](static.rb_eArgError.html)</span>
+    <span class="doccomment">/// * [`ArgumentError`](rb_eArgError)</span>
     <span class="doccomment">///     * if `arity` is not in `-2..15`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Defined In</span>
@@ -2480,13 +2480,13 @@
     <span class="doccomment">/// Defines a method on a module, both on the module itself and as a private method</span>
     <span class="doccomment">/// for use by anything including the module.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// * `module` - a [`Module`](static.rb_cModule.html)</span>
+    <span class="doccomment">/// * `module` - a [`Module`](rb_cModule)</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [`rb_define_method`](fn.rb_define_method.html) for additional details on arguments.</span>
+    <span class="doccomment">/// See [`rb_define_method`](rb_define_method) for additional details on arguments.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See [`rb_define_method`](fn.rb_define_method.html#safety).</span>
+    <span class="doccomment">/// See [`rb_define_method`](rb_define_method#safety).</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Defined In</span>
     <span class="doccomment">///</span>
@@ -2498,7 +2498,7 @@
 
     <span class="doccomment">/// Undefines the named method on a class.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// * `class` - a [`Class`](static.rb_cClass.html)</span>
+    <span class="doccomment">/// * `class` - a [`Class`](rb_cClass)</span>
     <span class="doccomment">/// * `name` - an ASCII-encoded, nul-terminated C string</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>

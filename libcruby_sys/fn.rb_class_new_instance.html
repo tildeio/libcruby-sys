@@ -3,7 +3,7 @@
 <ul>
 <li><code>argc</code> - number of arguments passed</li>
 <li><code>argv</code> - pointer to the arguments, passed as a C array</li>
-<li><code>class</code> - a <a href="static.rb_cClass.html"><code>Class</code></a></li>
+<li><code>class</code> - a <a href="rb_cClass"><code>Class</code></a></li>
 <li>Returns a new instance of <code>class</code></li>
 </ul>
 <h1 id="safety" class="section-header"><a href="#safety">Safety</a></h1>
@@ -18,7 +18,7 @@ of Ruby objects, (i.e. a valid C <code>VALUE</code> array of at least size <code
 <li>if <code>class</code> is not a class</li>
 </ul>
 </li>
-<li><a href="static.rb_eTypeError.html"><code>TypeError</code></a>
+<li><a href="rb_eTypeError"><code>TypeError</code></a>
 <ul>
 <li>if <code>class</code> cannot be alloc'ed.</li>
 </ul>
