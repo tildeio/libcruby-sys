@@ -83,4 +83,9 @@ task :test => ['build:extension', 'build:tests'] do
   sh 'ruby -Ilib -Itest -Itarget/debug test/runner.rb'
 end
 
+task :doc do
+  require_relative './docs/generator'
+  Docs::Generator.run(in_place: ENV.key?('IN_PLACE'))
+end
+
 task :default => :test

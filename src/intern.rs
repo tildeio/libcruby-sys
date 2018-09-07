@@ -27,12 +27,11 @@ extern {
     ///
     /// No known issues
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L50) |
-    ///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L498-L502) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
+    ///
+    //+ c-func: array.c `VALUE rb_ary_new(void)`
     pub fn rb_ary_new() -> VALUE;
 
     /// Constructs a new, empty array with the specified capacity.
@@ -53,12 +52,11 @@ extern {
     /// [`rb_ary_new2`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L90)
     /// is currently an alias for this.
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L51) |
-    ///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L492-L496) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions)
+    ///
+    //+ c-func: array.c `VALUE rb_ary_new_capa(long capa)`
     pub fn rb_ary_new_capa(capacity: c_long) -> VALUE;
 
     /// Pushes an item on to the end of an array, returning the array itself.
@@ -78,14 +76,13 @@ extern {
     /// * [`FrozenError`](rb_eFrozenError)
     ///     * if `hash` is frozen
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
     /// * **2.5:**
-    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L67) |
-    ///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L924-L934) |
-    ///     documentation:
-    ///         [C API](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions) |
-    ///         [`Array#<<`](https://ruby-doc.org/core-2.5.1/Array.html#method-i-3C-3C)
+    ///     [C API](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Array+Functions) |
+    ///     [`Array#<<`](https://ruby-doc.org/core-2.5.1/Array.html#method-i-3C-3C)
+    ///
+    //+ c-func: array.c `VALUE rb_ary_push(VALUE, VALUE)`
     pub fn rb_ary_push(array: VALUE, item: VALUE) -> VALUE;
 
     /// Returns the element at the given index or [`nil`](Qnil) if the index is
@@ -104,14 +101,7 @@ extern {
     /// * [`RARRAY_AREF`](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1035) has
     /// a similar function but does not do bounds checking.
     ///
-    /// # Defined In
-    ///
-    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L71)
-    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L71)
-    /// * **2.5:**
-    ///     [intern.h](ttps://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L71) |
-    ///     [array.c](https://github.com/ruby/ruby/blob/v2_5_1/array.c#L1215-L1229)
-    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L71)
+    //+ c-func: array.c `VALUE rb_ary_entry(VALUE, long)`
     pub fn rb_ary_entry(array: VALUE, idx: c_long) -> VALUE;
 
     /// # Constructs a new, empty hash.
@@ -122,14 +112,7 @@ extern {
     ///
     /// * No known issues
     ///
-    /// # Defined In
-    ///
-    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L514)
-    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L511)
-    /// * **2.5:**
-    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L493) |
-    ///     [hash.c](https://github.com/ruby/ruby/blob/v2_5_1/hash.c#L431-L435)
-    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L493)
+    //+ c-func: hash.c `VALUE rb_hash_new(void)`
     pub fn rb_hash_new() -> VALUE;
 
     /// Inserts a key-value pair into the hash.
@@ -152,17 +135,13 @@ extern {
     /// * [`FrozenError`](rb_eFrozenError)
     ///     * if `hash` is frozen
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L521)
-    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L518)
     /// * **2.5:**
-    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L500) |
-    ///     [hash.c](https://github.com/ruby/ruby/blob/v2_5_1/hash.c#L1632-L1650) |
-    ///     documentation:
-    ///         [`Hash#[]=`](https://ruby-doc.org/core-2.5.1/Hash.html#method-i-5B-5D-3D) |
-    ///         [`Hash#store`](https://ruby-doc.org/core-2.5.1/Hash.html#method-i-store)
-    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L500)
+    ///     [`Hash#[]=`](https://ruby-doc.org/core-2.5.1/Hash.html#method-i-5B-5D-3D) |
+    ///     [`Hash#store`](https://ruby-doc.org/core-2.5.1/Hash.html#method-i-store)
+    ///
+    //+ c-func: hash.c `VALUE rb_hash_aset(VALUE, VALUE, VALUE)`
     pub fn rb_hash_aset(hash: VALUE, key: VALUE, val: VALUE) -> VALUE;
 
     /// Executes a function on each key-value pair in a hash.
@@ -186,14 +165,7 @@ extern {
     ///     * if a rehash occurred during an interation
     /// * User-defined iterator method could also raise an exception.
     ///
-    /// # Defined In
-    ///
-    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L512)
-    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L509)
-    /// * **2.5:**
-    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L491) |
-    ///     [hash.c](https://github.com/ruby/ruby/blob/v2_5_1/hash.c#L392-L404)
-    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L491)
+    //+ c-func: hash.c `void rb_hash_foreach(VALUE, int (*)(ANYARGS), VALUE)`
     pub fn rb_hash_foreach(hash: VALUE, func: extern "C" fn(key: VALUE, val: VALUE, farg: VALUE) -> st_retval, farg: VALUE);
 
     /// Constructs a new Ruby string from a UTF-8 encoded C string of a given length.
@@ -206,12 +178,11 @@ extern {
     ///
     /// No known issues.
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L705) |
-    ///     [string.c](https://github.com/ruby/ruby/blob/v2_5_1/string.c#L751-L757) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-String+Functions)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-String+Functions)
+    ///
+    //+ c-func: string.c `VALUE rb_utf8_str_new(const char*, long)`
     pub fn rb_utf8_str_new(ptr: *const c_char, len: c_long) -> VALUE;
 
     /// Constructs a new instance of a class by calling its allocator and constructor
@@ -235,11 +206,7 @@ extern {
     ///     * if `class` cannot be alloc'ed.
     /// * Other exceptions may be raised by user defined code
     ///
-    /// # Defined In
-    ///
-    /// * **2.5:**
-    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L405) |
-    ///     [object.c](https://github.com/ruby/ruby/blob/v2_5_1/object.c#L2169-L2174)
+    //+ c-func: object.c `VALUE rb_class_new_instance(int, const VALUE*, VALUE)`
     pub fn rb_class_new_instance(argc: c_int, argv: *const VALUE, class: VALUE) -> VALUE;
 
     /// Fetches a constant from a module or class.
@@ -258,12 +225,11 @@ extern {
     /// especially since this path may invoke user-defined code (via
     /// `const_missing` and friends).
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.5:**
-    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L930) |
-    ///     [variable.c](https://github.com/ruby/ruby/blob/v2_5_1/variable.c#L2300-L2304) |
-    ///     [documentation](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Accessing+the+Variables+and+Constants)
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Accessing+the+Variables+and+Constants)
+    ///
+    //+ c-func: variable.c `VALUE rb_const_get(VALUE, ID)`
     pub fn rb_const_get(class: VALUE, name: ID) -> VALUE;
 
     /// Returns a human-readable Ruby string representation of an object,
@@ -285,14 +251,7 @@ extern {
     ///
     /// * May call user-defined code that could raise an exception
     ///
-    /// # Defined In
-    ///
-    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L591)
-    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L588)
-    /// * **2.5:**
-    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L568) |
-    ///     [object.c](https://github.com/ruby/ruby/blob/v2_5_1/object.c#L655-L670)
-    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L568)
+    //+ c-func: object.c `VALUE rb_inspect(VALUE)`
     pub fn rb_inspect(obj: VALUE) -> VALUE;
 
     /// Looks up the nearest ancestor class of the object, skipping
@@ -315,14 +274,7 @@ extern {
     /// [appears](https://github.com/ruby/ruby/blob/8867f285da534970c98f8fd388ea4d92ca750a67/doc/ChangeLog-2.4.0#L1459-L1463)
     /// that `rb_obj_class` is what you want most of the time.
     ///
-    /// # Defined In
-    ///
-    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L607)
-    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L604)
-    /// * **2.5:**
-    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L584) |
-    ///     [object.c](https://github.com/ruby/ruby/blob/v2_5_1/object.c#L276-L280)
-    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L584)
+    //+ c-func: object.c `VALUE rb_obj_class(VALUE)`
     pub fn rb_obj_class(obj: VALUE) -> VALUE;
 
     /// Defines a singleton method on a class.
@@ -338,16 +290,13 @@ extern {
     ///
     /// See also [`rb_define_method`](fn.rb_define_method.html#safety).
     ///
-    /// # Defined In
+    /// # Ruby Documentation
     ///
-    /// * **2.3:** [intern.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/intern.h#L217)
-    /// * **2.4:** [intern.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/intern.h#L212)
     /// * **2.5:**
-    ///     [intern.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/intern.h#L210) |
-    ///     [class.c](https://github.com/ruby/ruby/blob/v2_5_1/class.c#L1715-L1719) |
-    ///     documentation: [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+and+Singleton+Method+Definition),
-    ///                     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+Definition)
-    /// * **2.6:** [intern.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/intern.h#L210)
+    ///     [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+and+Singleton+Method+Definition),
+    ///     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Method+Definition)
+    ///
+    //+ c-func: class.c `void rb_define_singleton_method(VALUE, const char*, VALUE(*)(ANYARGS), int)`
     pub fn rb_define_singleton_method(class: VALUE, name: *const c_char, func: ANYARGS<VALUE>, arity: c_int);
 }
 
