@@ -228,6 +228,38 @@ module Docs
     end
   end
 
+  class CMacro < CDef
+
+    # //+ c-macro: `#define RSTRING_LEN(str)`
+    MATCHER = %r{^`#define *(?<signature>(?<name>[a-zA-Z0-9_]+)\s*\((?<arguments>.*)\))`\s*$}
+
+    attr_reader :arguments
+
+    def initialize(arguments:, **args)
+      super(type: "#define", c_path: nil, **args)
+      @arguments = arguments
+    end
+
+    private
+
+    def add_header_link(version:)
+      h_file = generator.find_ruby_header_file(header_path)
+
+      if (index = h_file.find_index { |l| l.include?(signature) })
+        end_index = index
+        end_index += 1 while h_file[end_index] =~ /\\\s*$/
+
+        url = generator.ruby_header_github_url(version: version, file: header_path, start_line: index+1, end_line: end_index+1)
+        add_link(version, header_path, url)
+      else
+        raise "`#{name}` (`#{signature}`) not found in #{version[:short]} #{header_path}"
+      end
+    end
+
+    # No separate definition beyond the header
+    def add_def_link(*); end
+  end
+
   class Generator
 
     DIRECTIVE_MATCHER = %r{^\s*//\+ (?<cmd>[a-z\-]+):\s*(?<args>.+)}
@@ -299,7 +331,7 @@ module Docs
       # TODO: Don't share
       url = "https://github.com/ruby/ruby/blob/#{version[:tag]}/#{file}"
       url << "#L#{start_line}" if start_line
-      url << "-L#{end_line}" if end_line
+      url << "-L#{end_line}" if end_line && end_line != start_line
       url
     end
 
@@ -342,6 +374,7 @@ module Docs
                   when 'c-module' then CModule
                   when 'c-class'  then CClass
                   when 'c-func'   then CMethod
+                  when 'c-macro'  then CMacro
                   end
 
             if type
@@ -421,6 +454,7 @@ module Docs
                     when 'c-module' then CModule
                     when 'c-class'  then CClass
                     when 'c-func'   then CMethod
+                    when 'c-macro'  then CMacro
                     end
 
               if type
