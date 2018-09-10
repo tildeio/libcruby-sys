@@ -2861,6 +2861,41 @@
 <span id="2861">2861</span>
 <span id="2862">2862</span>
 <span id="2863">2863</span>
+<span id="2864">2864</span>
+<span id="2865">2865</span>
+<span id="2866">2866</span>
+<span id="2867">2867</span>
+<span id="2868">2868</span>
+<span id="2869">2869</span>
+<span id="2870">2870</span>
+<span id="2871">2871</span>
+<span id="2872">2872</span>
+<span id="2873">2873</span>
+<span id="2874">2874</span>
+<span id="2875">2875</span>
+<span id="2876">2876</span>
+<span id="2877">2877</span>
+<span id="2878">2878</span>
+<span id="2879">2879</span>
+<span id="2880">2880</span>
+<span id="2881">2881</span>
+<span id="2882">2882</span>
+<span id="2883">2883</span>
+<span id="2884">2884</span>
+<span id="2885">2885</span>
+<span id="2886">2886</span>
+<span id="2887">2887</span>
+<span id="2888">2888</span>
+<span id="2889">2889</span>
+<span id="2890">2890</span>
+<span id="2891">2891</span>
+<span id="2892">2892</span>
+<span id="2893">2893</span>
+<span id="2894">2894</span>
+<span id="2895">2895</span>
+<span id="2896">2896</span>
+<span id="2897">2897</span>
+<span id="2898">2898</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>, <span class="ident">uintptr_t</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">transmute</span>;
@@ -4755,6 +4790,28 @@
     <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;RS_RSTRING_PTR&quot;</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">RSTRING_PTR</span>(<span class="ident">string</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>;
 
+    <span class="doccomment">/// Returns the number of elements in the Ruby [`Array`](rb_cArray).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `array` - an instance of [`Array`](rb_cArray)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Undefined behavior if `array` is not an `Array`</span>
+    <span class="doccomment">///</span>
+    <span class="comment">//+ c-macro: `#define RARRAY_LEN(a)`</span>
+    <span class="doccomment">/// # Defined In</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * **2.3:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/ruby.h#L1040)</span>
+    <span class="doccomment">/// * **2.4:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/ruby.h#L1026)</span>
+    <span class="doccomment">/// * **2.5:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1021)</span>
+    <span class="doccomment">/// * **2.6:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1021)</span>
+    <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;RS_RARRAY_LEN&quot;</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">RARRAY_LEN</span>(<span class="ident">array</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="ident">c_long</span>;
+
     <span class="doccomment">/// Converts an ASCII-encoded, nul-terminated C string to an [`ID`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// * `cstr` - nul-terminated C string</span>
@@ -5488,6 +5545,19 @@
         <span class="kw">let</span> <span class="ident">unicode</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">RSTRING_PTR</span>(<span class="string">&quot;☠️&quot;</span>.<span class="ident">to_ruby</span>()) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>) };
         <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="ident">cstr</span>.<span class="ident">to_string_lossy</span>(), <span class="string">&quot;foobar&quot;</span>);
         <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="ident">unicode</span>.<span class="ident">to_string_lossy</span>(), <span class="string">&quot;☠️&quot;</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_rarray_len</span>(<span class="ident">assert</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Assertions</span>) {
+        <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">intern</span>::<span class="ident">rb_ary_new</span>() };
+
+        <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="kw">unsafe</span> { <span class="ident">RARRAY_LEN</span>(<span class="ident">array</span>) }, <span class="number">0</span>);
+
+        <span class="kw">unsafe</span> { <span class="ident">intern</span>::<span class="ident">rb_ary_push</span>(<span class="ident">array</span>, <span class="string">&quot;foo&quot;</span>.<span class="ident">to_ruby</span>()); }
+        <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="kw">unsafe</span> { <span class="ident">RARRAY_LEN</span>(<span class="ident">array</span>) }, <span class="number">1</span>);
+
+        <span class="kw">unsafe</span> { <span class="ident">intern</span>::<span class="ident">rb_ary_push</span>(<span class="ident">array</span>, <span class="string">&quot;bar&quot;</span>.<span class="ident">to_ruby</span>()); }
+        <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="kw">unsafe</span> { <span class="ident">RARRAY_LEN</span>(<span class="ident">array</span>) }, <span class="number">2</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
