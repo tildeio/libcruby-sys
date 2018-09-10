@@ -596,6 +596,18 @@ extern {
     #[link_name = "RS_RSTRING_PTR"]
     pub fn RSTRING_PTR(string: VALUE) -> *const c_char;
 
+    /// Returns the number of elements in the Ruby [`Array`](rb_cArray).
+    ///
+    /// * `array` - an instance of [`Array`](rb_cArray)
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `array` is not an `Array`
+    ///
+    //+ c-macro: `#define RARRAY_LEN(a)`
+    #[link_name = "RS_RARRAY_LEN"]
+    pub fn RARRAY_LEN(array: VALUE) -> c_long;
+
     /// Converts an ASCII-encoded, nul-terminated C string to an [`ID`].
     ///
     /// * `cstr` - nul-terminated C string
@@ -1189,6 +1201,19 @@ tests! {
         let unicode = unsafe { CStr::from_ptr(RSTRING_PTR("☠️".to_ruby()) as *const c_char) };
         assert.rs_eq(cstr.to_string_lossy(), "foobar");
         assert.rs_eq(unicode.to_string_lossy(), "☠️");
+    }
+
+    #[test]
+    fn test_rarray_len(assert: &mut Assertions) {
+        let array = unsafe { intern::rb_ary_new() };
+
+        assert.rs_eq(unsafe { RARRAY_LEN(array) }, 0);
+
+        unsafe { intern::rb_ary_push(array, "foo".to_ruby()); }
+        assert.rs_eq(unsafe { RARRAY_LEN(array) }, 1);
+
+        unsafe { intern::rb_ary_push(array, "bar".to_ruby()); }
+        assert.rs_eq(unsafe { RARRAY_LEN(array) }, 2);
     }
 
     #[test]
