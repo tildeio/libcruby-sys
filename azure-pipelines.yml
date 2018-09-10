@@ -12,6 +12,7 @@ jobs:
           ruby.version: 2.6
         RubyHead:
           ruby.version: ruby-head
+      maxParallel: 4
 
     steps:
     - task: UseRubyVersion@0
