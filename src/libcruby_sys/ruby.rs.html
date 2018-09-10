@@ -2790,6 +2790,77 @@
 <span id="2790">2790</span>
 <span id="2791">2791</span>
 <span id="2792">2792</span>
+<span id="2793">2793</span>
+<span id="2794">2794</span>
+<span id="2795">2795</span>
+<span id="2796">2796</span>
+<span id="2797">2797</span>
+<span id="2798">2798</span>
+<span id="2799">2799</span>
+<span id="2800">2800</span>
+<span id="2801">2801</span>
+<span id="2802">2802</span>
+<span id="2803">2803</span>
+<span id="2804">2804</span>
+<span id="2805">2805</span>
+<span id="2806">2806</span>
+<span id="2807">2807</span>
+<span id="2808">2808</span>
+<span id="2809">2809</span>
+<span id="2810">2810</span>
+<span id="2811">2811</span>
+<span id="2812">2812</span>
+<span id="2813">2813</span>
+<span id="2814">2814</span>
+<span id="2815">2815</span>
+<span id="2816">2816</span>
+<span id="2817">2817</span>
+<span id="2818">2818</span>
+<span id="2819">2819</span>
+<span id="2820">2820</span>
+<span id="2821">2821</span>
+<span id="2822">2822</span>
+<span id="2823">2823</span>
+<span id="2824">2824</span>
+<span id="2825">2825</span>
+<span id="2826">2826</span>
+<span id="2827">2827</span>
+<span id="2828">2828</span>
+<span id="2829">2829</span>
+<span id="2830">2830</span>
+<span id="2831">2831</span>
+<span id="2832">2832</span>
+<span id="2833">2833</span>
+<span id="2834">2834</span>
+<span id="2835">2835</span>
+<span id="2836">2836</span>
+<span id="2837">2837</span>
+<span id="2838">2838</span>
+<span id="2839">2839</span>
+<span id="2840">2840</span>
+<span id="2841">2841</span>
+<span id="2842">2842</span>
+<span id="2843">2843</span>
+<span id="2844">2844</span>
+<span id="2845">2845</span>
+<span id="2846">2846</span>
+<span id="2847">2847</span>
+<span id="2848">2848</span>
+<span id="2849">2849</span>
+<span id="2850">2850</span>
+<span id="2851">2851</span>
+<span id="2852">2852</span>
+<span id="2853">2853</span>
+<span id="2854">2854</span>
+<span id="2855">2855</span>
+<span id="2856">2856</span>
+<span id="2857">2857</span>
+<span id="2858">2858</span>
+<span id="2859">2859</span>
+<span id="2860">2860</span>
+<span id="2861">2861</span>
+<span id="2862">2862</span>
+<span id="2863">2863</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>, <span class="ident">uintptr_t</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">transmute</span>;
@@ -2846,7 +2917,6 @@
 
     <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;RS_Qnil&quot;</span>]</span>
     <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">Qnil</span>: <span class="ident">VALUE</span>;
-
 
     <span class="doccomment">/// The `Kernel` module</span>
     <span class="doccomment">///</span>
@@ -4629,6 +4699,62 @@
     <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">rb_eMathDomainError</span>: <span class="ident">VALUE</span>;
 
 
+    <span class="doccomment">/// Returns the byte length of the Ruby [`String`](rb_cString).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `string` - an instance of [`String`](rb_cString)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Undefined behavior if `string` is not a `String`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Ruby Documentation</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * **2.5:**</span>
+    <span class="doccomment">///     [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Convert+VALUE+into+C+Data) |</span>
+    <span class="doccomment">///     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Data+Type+Conversion)</span>
+    <span class="comment">//+ c-macro: `#define RSTRING_LEN(str)`</span>
+    <span class="doccomment">/// # Defined In</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * **2.3:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/ruby.h#L992-L995)</span>
+    <span class="doccomment">/// * **2.4:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/ruby.h#L978-L981)</span>
+    <span class="doccomment">/// * **2.5:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L973-L976)</span>
+    <span class="doccomment">/// * **2.6:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L973-L976)</span>
+    <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;RS_RSTRING_LEN&quot;</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">RSTRING_LEN</span>(<span class="ident">string</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="ident">c_long</span>;
+
+    <span class="doccomment">/// Returns a pointer to the Ruby [`String`](rb_cString) data.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `string` - an instance of [`String`](rb_cString)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Undefined behavior if `string` is not a `String`</span>
+    <span class="doccomment">/// * The returned C string may not be nul-terminated</span>
+    <span class="doccomment">/// * It is not known whether the C string may contain interior nul-bytes.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Ruby Documentation</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * **2.5:**</span>
+    <span class="doccomment">///     [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Convert+VALUE+into+C+Data) |</span>
+    <span class="doccomment">///     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Data+Type+Conversion)</span>
+    <span class="comment">//+ c-macro: `#define RSTRING_PTR(str)`</span>
+    <span class="doccomment">/// # Defined In</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * **2.3:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/ruby.h#L996-L999)</span>
+    <span class="doccomment">/// * **2.4:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/ruby.h#L982-L985)</span>
+    <span class="doccomment">/// * **2.5:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L977-L980)</span>
+    <span class="doccomment">/// * **2.6:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L977-L980)</span>
+    <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;RS_RSTRING_PTR&quot;</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">RSTRING_PTR</span>(<span class="ident">string</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>;
+
     <span class="doccomment">/// Converts an ASCII-encoded, nul-terminated C string to an [`ID`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// * `cstr` - nul-terminated C string</span>
@@ -5346,6 +5472,22 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_e_math_domain_error</span>(<span class="ident">assert</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Assertions</span>) {
         <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="ident">lazy_eval</span>(<span class="string">&quot;::Math::DomainError&quot;</span>), <span class="kw">unsafe</span> { <span class="ident">rb_eMathDomainError</span> });
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_rstring_len</span>(<span class="ident">assert</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Assertions</span>) {
+        <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="kw">unsafe</span> { <span class="ident">RSTRING_LEN</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_ruby</span>()) }, <span class="number">0</span>);
+        <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="kw">unsafe</span> { <span class="ident">RSTRING_LEN</span>(<span class="string">&quot;foo&quot;</span>.<span class="ident">to_ruby</span>()) }, <span class="number">3</span>);
+        <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="kw">unsafe</span> { <span class="ident">RSTRING_LEN</span>(<span class="string">&quot;this is longer&quot;</span>.<span class="ident">to_ruby</span>()) }, <span class="number">14</span>);
+        <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="kw">unsafe</span> { <span class="ident">RSTRING_LEN</span>(<span class="string">&quot;☠️&quot;</span>.<span class="ident">to_ruby</span>()) }, <span class="number">6</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_rstring_ptr</span>(<span class="ident">assert</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Assertions</span>) {
+        <span class="kw">let</span> <span class="ident">cstr</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">RSTRING_PTR</span>(<span class="string">&quot;foobar&quot;</span>.<span class="ident">to_ruby</span>()) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>) };
+        <span class="kw">let</span> <span class="ident">unicode</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">RSTRING_PTR</span>(<span class="string">&quot;☠️&quot;</span>.<span class="ident">to_ruby</span>()) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>) };
+        <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="ident">cstr</span>.<span class="ident">to_string_lossy</span>(), <span class="string">&quot;foobar&quot;</span>);
+        <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="ident">unicode</span>.<span class="ident">to_string_lossy</span>(), <span class="string">&quot;☠️&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
