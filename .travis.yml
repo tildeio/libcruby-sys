@@ -4,12 +4,11 @@ branches:
 
 stages:
   - test # default
-  - name: deploy
-    if: branch = master AND type = push
+  - docs
 
 jobs:
   include:
-    - stage: deploy
+    - stage: docs
       script: IN_PLACE=true rake doc
       rvm: false
       deploy:
