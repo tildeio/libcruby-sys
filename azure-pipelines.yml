@@ -12,6 +12,12 @@ steps:
     versionSpec: '>= 2.5'
 
 - script: |
+    if [ ! -e "$HOME/.cargo/bin" ]; then curl https://sh.rustup.rs -sSf | sh -s -- -y; fi
+    export PATH="$HOME/.cargo/bin:$PATH"
+    rustup update
+  displayName: 'install rust'
+
+- script: |
     gem install bundler
     bundle install --retry=3 --jobs=4
   displayName: 'bundle install'
