@@ -193,6 +193,30 @@ extern {
     //+ c-func: object.c `VALUE rb_class_new_instance(int, const VALUE*, VALUE)`
     pub fn rb_class_new_instance(argc: c_int, argv: *const VALUE, class: VALUE) -> VALUE;
 
+    /// Defines the `allocate` method for the Ruby [`Class`](rb_cClass).
+    ///
+    /// * `class` - a [`Class`](rb_cClass)
+    /// * `func` - an allocator function that will be used to allocate new instance of `class`
+    ///     * Returns an instance of `class`.
+    ///
+    /// # Safety
+    ///
+    /// ## Exceptions
+    ///
+    /// ### When defining:
+    ///
+    /// * [`TypeError`](rb_eTypeError)
+    ///     * if `class` is not a [`Class`](rb_cClass)
+    ///
+    /// ### Upon allocation:
+    ///
+    /// * [`TypeError`](rb_eTypeError)
+    ///     * if `func` does not return an instance of `class`
+    /// * Other exceptions may be raised by user defined code
+    ///
+    //* c-func: vm_method.c `void rb_define_alloc_func(VALUE, rb_alloc_func_t)`
+    pub fn rb_define_alloc_func(class: VALUE, func: extern "C" fn(class: VALUE) -> VALUE);
+
     /// Fetches a constant from a module or class.
     ///
     /// * `class` - a [`Class`](rb_cClass) or [`Module`](rb_cModule)
