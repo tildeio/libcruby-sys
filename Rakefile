@@ -70,10 +70,10 @@ namespace :build do
 
       cp File.expand_path("lib#{libcruby_sys_name}.so", libcruby_sys_path), File.expand_path("lib#{libcruby_sys_name}.dll", libcruby_sys_path)
 
-      sh "cargo rustc -- --cfg test -L #{libruby_path.inspect} -l #{libruby_name} -L #{libcruby_sys_path.inspect} -l #{libcruby_sys_name}"
+      sh "cargo rustc --features testing -- --cfg test -L #{libruby_path.inspect} -l #{libruby_name} -L #{libcruby_sys_path.inspect} -l #{libcruby_sys_name}"
       cp "target/debug/libcruby_sys.dll", "target/debug/tests.#{Platform::DLEXT}"
     else
-      sh 'cargo rustc -- --cfg test -C link-args="-Wl,-undefined,dynamic_lookup"'
+      sh 'cargo rustc --features testing -- --cfg test -C link-args="-Wl,-undefined,dynamic_lookup"'
       cp "target/debug/liblibcruby_sys.#{Platform::LIBEXT}", "target/debug/tests.#{Platform::DLEXT}"
     end
   end
