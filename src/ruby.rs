@@ -1,4 +1,4 @@
-use libc::{c_char, c_int, c_long, uintptr_t};
+use libc::{c_char, c_int, c_long, uintptr_t, c_void};
 use std::mem::transmute;
 
 #[repr(transparent)]
@@ -607,6 +607,77 @@ extern {
     //+ c-macro: `#define RARRAY_LEN(a)`
     #[link_name = "RS_RARRAY_LEN"]
     pub fn RARRAY_LEN(array: VALUE) -> c_long;
+
+    /// Wrap a C pointer into a Ruby object.
+    ///
+    /// * `class` - The Ruby [`Class`](rb_cClass) of the object to create.
+    /// * `mark` - A function for GC marking.
+    /// * `free` - A function for freeing the allocated memory.
+    /// * `data` - A void pointer to the data being wrapped. Use [`transmute`](std::mem::transmute)
+    /// * Returns an instance of `class`.
+    ///
+    /// See also [`Data_Get_Struct_Value`] and [`Data_Set_Struct_Value`].
+    ///
+    /// # Safety
+    ///
+    /// _This code is very unsafe!_
+    ///
+    /// * Manual memory management comes into play here and could easily cause issues.
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`rb_eFatal`]
+    ///     * if `class` is not a `VALUE`
+    /// * [`TypeError`](rb_eTypeError)
+    ///     * if `class` is not a [`Class`](rb_cClass)
+    ///
+    /// # Ruby Documentation
+    ///
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-C+Pointer+Wrapping)
+    ///
+    //+ c-macro: `#define Data_Wrap_Struct(klass,mark,free,sval)`
+    #[link_name = "RS_Data_Wrap_Struct"]
+    pub fn Data_Wrap_Struct(class: VALUE, mark: extern "C" fn(*mut c_void), free: extern "C" fn(*mut c_void), data: *mut c_void) -> VALUE;
+
+    /// Gets the value of the wrapped struct for the object.
+    ///
+    /// * `obj` - a Ruby object with a wrapped struct
+    /// * Returns a C void-pointer. Use [`transmute`](std::mem::transmute) to convert it
+    ///     to a Rust value.
+    ///
+    /// See also [`Data_Wrap_Struct`] and [`Data_Set_Struct_Value`]
+    ///
+    /// # Safety
+    ///
+    /// _This code is very unsafe!_
+    ///
+    /// * Manual memory management comes into play here and could easily cause issues.
+    /// * Undefined behavior if `obj` doesn't have wrapped data.
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`rb_eFatal`] or [`TypeError`](rb_eTypeError)
+    ///     * if `obj` is not a valid Ruby object
+    ///
+    //+ c-macro: `#define Data_Get_Struct(obj,type,sval)`
+    #[link_name = "RS_Data_Get_Struct_Value"]
+    pub fn Data_Get_Struct_Value(obj: VALUE) -> *mut c_void;
+
+    /// Reassigns the data pointer for an object.
+    ///
+    /// * `obj` - a Ruby object with a wrapped data struct
+    /// * `data` - a void pointer to a new data struct. Use [`transmute`](std::mem::transmute).
+    ///
+    /// See [`Data_Get_Struct_Value`]
+    ///
+    /// # Safety
+    ///
+    /// _This code is very unsafe!_
+    ///
+    /// * Manual memory management comes into play here and could easily cause issues.
+    /// * Undefined behavior if `obj` doesn't have a wrapped data struct.
+    #[link_name = "RS_Data_Set_Struct_Value"]
+    pub fn Data_Set_Struct_Value(obj: VALUE, data: *mut c_void);
 
     /// Converts an ASCII-encoded, nul-terminated C string to an [`ID`].
     ///
@@ -1247,6 +1318,76 @@ tests! {
 
         unsafe { intern::rb_ary_push(array, "bar".to_ruby()); }
         assert.rs_eq(unsafe { RARRAY_LEN(array) }, 2);
+    }
+
+    #[test]
+    fn test_data_structs(assert: &mut Assertions) {
+        #[repr(transparent)]
+        struct TestDataStruct {
+            value: VALUE
+        }
+
+        extern "C" fn __test_mark__(_: *mut c_void) { }
+
+        extern "C" fn __test_deallocate__(_data: *mut c_void) { }
+
+        // I have no clue if ownership is handled correctly here
+        extern "C" fn __test_define_alloc_method__(class: VALUE) -> VALUE {
+            let data = TestDataStruct { value: "foo".to_ruby() };
+            unsafe { Data_Wrap_Struct(class, __test_mark__, __test_deallocate__, transmute(data)) }
+        }
+
+        extern "C" fn __test_get_value__(obj: VALUE) -> VALUE {
+            let data: TestDataStruct = unsafe { transmute(Data_Get_Struct_Value(obj)) };
+            data.value
+        }
+
+        extern "C" fn __test_set_value__(obj: VALUE, value: VALUE) -> VALUE {
+            let data = TestDataStruct { value };
+            unsafe { Data_Set_Struct_Value(obj, transmute(data)); }
+            value
+        }
+
+        let class = unsafe {
+            rb_define_class(
+                cstr!("TestAllocClass"),
+                rb_cString
+            )
+        };
+
+        unsafe {
+            intern::rb_define_alloc_func(class, __test_define_alloc_method__);
+
+            rb_define_method(
+                class,
+                cstr!("get_value"),
+                ANYARGS::from_arity_1(__test_get_value__),
+                0
+            );
+
+            rb_define_method(
+                class,
+                cstr!("set_value"),
+                ANYARGS::from_arity_2(__test_set_value__),
+                1
+            );
+        }
+
+        let obj = unsafe { intern::rb_class_new_instance(0, null(), class) };
+
+        assert.rb_eq(
+            "foo".to_ruby(),
+            unsafe { rb_funcall(obj, rb_intern(cstr!("get_value")), 0) },
+        );
+
+        unsafe {
+            rb_funcall(obj, rb_intern(cstr!("set_value")), 1, "bar".to_ruby());
+        }
+
+        assert.rb_eq(
+            "bar".to_ruby(),
+            unsafe { rb_funcall(obj, rb_intern(cstr!("get_value")), 0) }
+        );
     }
 
     #[test]
