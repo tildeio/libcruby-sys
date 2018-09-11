@@ -44,7 +44,160 @@ impl_from_arity!(from_arity_13, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE,
 impl_from_arity!(from_arity_14, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE);
 impl_from_arity!(from_arity_15, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE);
 
+/// Data types used within the Ruby C interpreter
+///
+/// * [`T_OBJECT`] - ordinary Ruby object
+/// * [`T_CLASS`] - [`Class`](rb_cClass)
+/// * [`T_MODULE`] - [`Module`](rb_cModule)
+/// * [`T_FLOAT`] - [`Float`](rb_cFloat)
+/// * [`T_STRING`] - [`String`](rb_cString)
+/// * [`T_REGEXP`] - regular expression ([`Regexp`](rb_cRegexp))
+/// * [`T_ARRAY`] - [`Array`](rb_cArray)
+/// * [`T_HASH`] - [`Hash`](rb_cHash)
+/// * [`T_STRUCT`] - [`Struct`](rb_cStruct)
+/// * [`T_BIGNUM`] - `Bignum`
+/// * [`T_FILE`] - [`IO`](rb_cIO)
+/// * [`T_DATA`]
+/// * [`T_MATCH`] - [`MatchData`](rb_cMatch) object
+/// * [`T_COMPLEX`] - complex number ([`Complex`](rb_cComplex))
+/// * [`T_RATIONAL`] - rational number ([`Rational`](rb_cRational))
+/// * [`T_NIL`] - `nil`
+/// * [`T_TRUE`] - `true`
+/// * [`T_FALSE`] - `false`
+/// * [`T_SYMBOL`] - [`Symbol`](rb_cSymbol)
+/// * [`T_FIXNUM`] - `Fixnum` (31-bit or 63-bit integer)
+///
+/// In addition, there are several other types used internally:
+///
+/// * [`T_NONE`]
+/// * [`T_IMEMO`]
+/// * [`T_NODE`] - syntax tree node
+/// * [`T_ICLASS`] - included module
+/// * [`T_UNDEF`] - undefined
+/// * [`T_ZOMBIE`] - object awaiting finalization
+///
+/// # Ruby Documentation
+///
+/// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Data+Types)
+#[repr(transparent)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[allow(non_camel_case_types)]
+pub struct ruby_value_type(c_int);
+
 extern {
+    /// This type denotes an ordinary Ruby object.
+    #[link_name = "RS_T_OBJECT"]
+    pub static T_OBJECT: ruby_value_type;
+
+    /// This type denotes a Ruby [`Class`](rb_cClass).
+    #[link_name = "RS_T_CLASS"]
+    pub static T_CLASS: ruby_value_type;
+
+    /// This type denotes a Ruby [`Module`](rb_cModule).
+    #[link_name = "RS_T_MODULE"]
+    pub static T_MODULE: ruby_value_type;
+
+    /// This type denotes a Ruby [`Float`](rb_cFloat).
+    #[link_name = "RS_T_FLOAT"]
+    pub static T_FLOAT: ruby_value_type;
+
+    /// This type denotes a Ruby [`String`](rb_cString).
+    #[link_name = "RS_T_STRING"]
+    pub static T_STRING: ruby_value_type;
+
+    /// This type denotes a Ruby regular expression ([`Regexp`](rb_cRegexp)).
+    #[link_name = "RS_T_REGEXP"]
+    pub static T_REGEXP: ruby_value_type;
+
+    /// This type denotes a Ruby [`Array`](rb_cArray).
+    #[link_name = "RS_T_ARRAY"]
+    pub static T_ARRAY: ruby_value_type;
+
+    /// This type denotes a Ruby [`Hash`](rb_cHash).
+    #[link_name = "RS_T_HASH"]
+    pub static T_HASH: ruby_value_type;
+
+    /// This type denotes a Ruby [`Struct`](rb_cStruct).
+    #[link_name = "RS_T_STRUCT"]
+    pub static T_STRUCT: ruby_value_type;
+
+    /// This type denotes a Ruby `Bignum`.
+    #[link_name = "RS_T_BIGNUM"]
+    pub static T_BIGNUM: ruby_value_type;
+
+    /// This type denotes a Ruby [`IO`](rb_cIO).
+    #[link_name = "RS_T_FILE"]
+    pub static T_FILE: ruby_value_type;
+
+    /// This type denotes a Ruby `Data` object.
+    #[link_name = "RS_T_DATA"]
+    pub static T_DATA: ruby_value_type;
+
+    /// This type denotes a Ruby [`MatchData`](rb_cMatch) object.
+    #[link_name = "RS_T_MATCH"]
+    pub static T_MATCH: ruby_value_type;
+
+    ///  This type denotes a Ruby complex number ([`Complex`](rb_cComplex)).
+    #[link_name = "RS_T_COMPLEX"]
+    pub static T_COMPLEX: ruby_value_type;
+
+    /// This type denotes a Ruby rational number ([`Rational`](rb_cRational)).
+    #[link_name = "RS_T_RATIONAL"]
+    pub static T_RATIONAL: ruby_value_type;
+
+    /// This type denotes a Ruby `nil`.
+    #[link_name = "RS_T_NIL"]
+    pub static T_NIL: ruby_value_type;
+
+    /// This type denotes a Ruby `true`.
+    #[link_name = "RS_T_TRUE"]
+    pub static T_TRUE: ruby_value_type;
+
+    /// This type denotes a Ruby `false`.
+    #[link_name = "RS_T_FALSE"]
+    pub static T_FALSE: ruby_value_type;
+
+    /// This type denotes a Ruby [`Symbol`](rb_cSymbol).
+    #[link_name = "RS_T_SYMBOL"]
+    pub static T_SYMBOL: ruby_value_type;
+
+    /// This type denotes a Ruby `Fixnum` (31-bit or 63-bit integer).
+    #[link_name = "RS_T_FIXNUM"]
+    pub static T_FIXNUM: ruby_value_type;
+
+    /// This type is generally only for use in Ruby internals
+    #[link_name = "RS_T_NONE"]
+    pub static T_NONE: ruby_value_type;
+
+    /// This type denotes undefined.
+    ///
+    /// Generally only for use in Ruby internals.
+    #[link_name = "RS_T_UNDEF"]
+    pub static T_UNDEF: ruby_value_type;
+
+    /// This type is generally only for use in Ruby internals
+    #[link_name = "RS_T_IMEMO"]
+    pub static T_IMEMO: ruby_value_type;
+
+    /// This type denotes a Ruby syntax tree node.
+    ///
+    /// Generally only for use in Ruby internals.
+    #[link_name = "RS_T_NODE"]
+    pub static T_NODE: ruby_value_type;
+
+    /// This type denotes an included Ruby module.
+    ///
+    /// Generally only for use in Ruby internals.
+    #[link_name = "RS_T_ICLASS"]
+    pub static T_ICLASS: ruby_value_type;
+
+    /// This type denotes a Ruby object awaiting finalization.
+    ///
+    /// Generally only for use in Ruby internals.
+    #[link_name = "RS_T_ZOMBIE"]
+    pub static T_ZOMBIE: ruby_value_type;
+
+
     #[link_name = "RS_Qfalse"]
     pub static Qfalse: VALUE;
 
@@ -53,6 +206,7 @@ extern {
 
     #[link_name = "RS_Qnil"]
     pub static Qnil: VALUE;
+
 
     /// The `Kernel` module
     ///
@@ -559,6 +713,24 @@ extern {
     //+ c-class: math.c `VALUE rb_eMathDomainError`
     pub static rb_eMathDomainError: VALUE;
 
+
+    /// Returns a C boolean (zero if false, non-zero if true) indicating
+    /// whether the object is of the internal Ruby type.
+    ///
+    /// * `obj` - a Ruby object
+    /// * `rtype` - a [`ruby_value_type`]
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `obj` is not a [`VALUE`]
+    ///
+    /// # Ruby Documentation
+    ///
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Checking+Data+Types)
+    ///
+    //+ c-macro: `#define RB_TYPE_P(obj, type)`
+    #[link_name = "RS_RB_TYPE_P"]
+    pub fn RB_TYPE_P(obj: VALUE, rtype: ruby_value_type) -> c_int;
 
     /// Returns the Ruby class of the object.
     ///
@@ -1220,6 +1392,54 @@ tests! {
     #[test]
     fn test_e_math_domain_error(assert: &mut Assertions) {
         assert.rb_eq(lazy_eval("::Math::DomainError"), unsafe { rb_eMathDomainError });
+    }
+
+    #[test]
+    fn test_types(assert: &mut Assertions) {
+        // FIXME: Test more types, especially once we have `rb_funcall`
+        let objects = unsafe {
+            vec![
+                ("T_NONE",     T_NONE,     None), // Not sure we can test this
+                ("T_OBJECT",   T_OBJECT,   Some(intern::rb_class_new_instance(0, null(), rb_cObject))),
+                ("T_CLASS",    T_CLASS,    Some(rb_cObject)),
+                ("T_MODULE",   T_MODULE,   Some(rb_mKernel)),
+                ("T_FLOAT",    T_FLOAT,    None), // Could do this with funcall and to_f
+                ("T_STRING",   T_STRING,   Some("foo".to_ruby())),
+                ("T_REGEXP",   T_REGEXP,   Some(intern::rb_class_new_instance(1, &"[a-z]".to_ruby(), rb_cRegexp))),
+                ("T_ARRAY",    T_ARRAY,    Some(intern::rb_ary_new())),
+                ("T_HASH",     T_HASH,     Some(intern::rb_hash_new())),
+                ("T_STRUCT",   T_STRUCT,   None), // Could do this with funcall and to_f
+                ("T_BIGNUM",   T_BIGNUM,   None), // Could do this with funcall and to_i
+                ("T_FILE",     T_FILE,     None), // Need to get a file descriptor for this
+                ("T_DATA",     T_DATA,     None), // Not sure we can test this
+                ("T_MATCH",    T_MATCH,    None), // Can do this with funcall
+                ("T_COMPLEX",  T_COMPLEX,  None), // Can do this with funcall
+                ("T_RATIONAL", T_RATIONAL, None), // Can do this with funcall
+                ("T_NIL",      T_NIL,      Some(Qnil)),
+                ("T_TRUE",     T_TRUE,     Some(Qtrue)),
+                ("T_FALSE",    T_FALSE,    Some(Qfalse)),
+                ("T_SYMBOL",   T_SYMBOL,   Some(rb_id2sym(rb_intern(cstr!("foo"))))),
+                ("T_FIXNUM",   T_FIXNUM,   None), // Could do this with funcall and to_i
+                ("T_UNDEF",    T_UNDEF,    None), // Not sure we can test this
+                ("T_IMEMO",    T_IMEMO,    None), // Not sure we can test this
+                ("T_NODE",     T_NODE,     None), // Not sure we can test this
+                ("T_ICLASS",   T_ICLASS,   None), // Not sure we can test this
+                ("T_ZOMBIE",   T_ZOMBIE,   None) // Not sure we can test this
+            ]
+        };
+
+        for (name, rtype, value) in objects.into_iter() {
+            if let Some(v) = value {
+                assert.rs_eq_msg(c_bool(unsafe { RB_TYPE_P(v, rtype) }), true, Some(format!("type of VALUE is {}", name)));
+            } else {
+                // Sanity check
+                assert.rs_eq_msg(rtype.0 >= 0x00, true, Some(format!("{} >= 0x00", name)));
+                assert.rs_eq_msg(rtype.0 < 0x1f, true, Some(format!("{} < 0x1f", name)));
+            }
+        }
+
+        // Ensure that it doesn't only return true
+        assert.rs_eq(c_bool(unsafe { RB_TYPE_P("foo".to_ruby(), T_HASH) }), false);
     }
 
     #[test]
