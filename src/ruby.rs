@@ -45,6 +45,13 @@ impl_from_arity!(from_arity_14, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE,
 impl_from_arity!(from_arity_15, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE);
 
 extern {
+    /// In a Ruby format string, `"%"PRIsVALUE` can be used for `Object#to_s`
+    /// (or `Object#inspect` if `+` flag is set) output (and related argument
+    /// must be a [`VALUE`]).  Since it conflicts with `%i`, for integers in
+    /// format strings, use `%d`.
+    #[link_name = "RS_PRIsVALUE"]
+    pub static PRIsVALUE: *const c_char;
+
     #[link_name = "RS_Qfalse"]
     pub static Qfalse: VALUE;
 
@@ -1484,7 +1491,12 @@ tests! {
     #[test]
     fn test_raise(assert: &mut Assertions) {
         extern "C" fn __test_raise__(_self: VALUE) -> VALUE {
-            unsafe { rb_raise(rb_eRuntimeError, cstr!("fail: %s"), cstr!("foo")) }
+            unsafe {
+                let prisvalue =  CStr::from_ptr(PRIsVALUE).to_string_lossy();
+                let format = format!("error: %{} (%+{}) failed", prisvalue, prisvalue);
+                let foo = "foo".to_ruby();
+                rb_raise(rb_eRuntimeError, CString::new(format).unwrap().as_ptr(), foo, foo);
+            }
         }
 
         unsafe {
@@ -1506,7 +1518,7 @@ tests! {
 
                 exception.message
             "#),
-            "fail: foo".to_ruby()
+            r#"error: foo ("foo") failed"#.to_ruby()
         );
     }
 }
