@@ -231,7 +231,7 @@ module Docs
   class CMacro < CDef
 
     # //+ c-macro: `#define RSTRING_LEN(str)`
-    MATCHER = %r{^`#define *(?<signature>(?<name>[a-zA-Z0-9_]+)\s*\((?<arguments>.*)\))`\s*$}
+    MATCHER = %r{^`#\s*define *(?<signature>(?<name>[a-zA-Z0-9_]+)\s*\((?<arguments>.*)\))`\s*$}
 
     attr_reader :arguments
 
