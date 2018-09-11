@@ -983,6 +983,39 @@ extern {
     //+ c-func: variable.c `const char *rb_obj_classname(VALUE)`
     pub fn rb_obj_classname(obj: VALUE) -> *const c_char;
 
+    /// Calls the named method on an object, returning the result.
+    ///
+    /// * `obj` - any Ruby object
+    /// * `method` - an [`ID`] of the interned name
+    /// * `argc` - the number of arguments to call the target method with
+    /// * `...` - the arguments for the method, [`VALUE`]s
+    /// * Returns the result of the method execution
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `obj` is not a [`VALUE`].
+    /// * Undefined behavior if arguments are not [`VALUE`]s.
+    /// * Will crash if `argc` doesn't match number of provided arguments.
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`NotImplementedError`](rb_eNotImpError)
+    ///     * if `obj` does not allow method calls
+    /// * [`ArgumentError`](rb_eArgError)
+    ///     * if arguments are invalid
+    /// * [`NoMethodError`](rb_eNoMethodError)
+    ///     * if no method can be found
+    /// * Could raise just about any other exception within the called method body.
+    ///
+    /// # Ruby Documentation
+    ///
+    /// * **2.5:**
+    ///     [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Invoke+Ruby+Method+from+C)
+    ///     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Invoking+Ruby+method)
+    ///
+    //+ c-func: vm_eval.c `VALUE rb_funcall(VALUE, ID, int, ...)`
+    pub fn rb_funcall(obj: VALUE, method: ID, argc: c_int, ...) -> VALUE;
+
     /// Returns a C boolean (zero if false, non-zero if true) indicated whether yield would
     /// execute a block in the current method.
     ///
@@ -1719,6 +1752,21 @@ tests! {
         assert.rs_eq("Class", class.to_string_lossy());
         assert.rs_eq("Module", module.to_string_lossy());
         assert.rs_eq("Object", instance.to_string_lossy());
+    }
+
+    #[test]
+    fn test_funcall(assert: &mut Assertions) {
+        let foo = "foo".to_ruby();
+
+        assert.rb_eq(
+            unsafe { rb_funcall(foo, rb_intern(cstr!("upcase")), 0) },
+            "FOO".to_ruby()
+        );
+
+        assert.rb_eq(
+            unsafe { rb_funcall(foo, rb_intern(cstr!("tr")), 2, "f".to_ruby(), "g".to_ruby()) },
+            "goo".to_ruby()
+        );
     }
 
     #[test]
