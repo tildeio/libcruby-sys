@@ -45,6 +45,13 @@ impl_from_arity!(from_arity_14, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE,
 impl_from_arity!(from_arity_15, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE);
 
 extern {
+    /// In a Ruby format string, `"%"PRIsVALUE` can be used for `Object#to_s`
+    /// (or `Object#inspect` if `+` flag is set) output (and related argument
+    /// must be a [`VALUE`]).  Since it conflicts with `%i`, for integers in
+    /// format strings, use `%d`.
+    #[link_name = "RS_PRIsVALUE"]
+    pub static PRIsVALUE: *const c_char;
+
     #[link_name = "RS_Qfalse"]
     pub static Qfalse: VALUE;
 

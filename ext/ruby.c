@@ -1,6 +1,8 @@
 #include "ruby/ruby.h"
 #include "stdint.h"
 
+const char* RS_PRIsVALUE = PRIsVALUE;
+
 VALUE RS_Qtrue = Qtrue;
 VALUE RS_Qfalse = Qfalse;
 VALUE RS_Qnil = Qnil;
