@@ -984,6 +984,22 @@ extern {
     #[link_name = "RS_RARRAY_LEN"]
     pub fn RARRAY_LEN(array: VALUE) -> c_long;
 
+    /// Returns the number of elements in the Ruby [`Hash`](rb_cHash).
+    ///
+    /// * `hash` - an instance of [`Hash`](rb_cHash)
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `hash` is not a `Hash`
+    ///
+    /// # Miscellaneous
+    ///
+    /// The macro is currently redefined in `internal.h`.
+    ///
+    //+ c-macro: `#define RHASH_SIZE(h)`
+    #[link_name = "RS_RHASH_SIZE"]
+    pub fn RHASH_SIZE(hash: VALUE) -> c_ulonglong;
+
     /// Wrap a C pointer into a Ruby object.
     ///
     /// * `class` - The Ruby [`Class`](rb_cClass) of the object to create.
