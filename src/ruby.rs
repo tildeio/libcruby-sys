@@ -44,7 +44,148 @@ impl_from_arity!(from_arity_13, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE,
 impl_from_arity!(from_arity_14, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE);
 impl_from_arity!(from_arity_15, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE, VALUE);
 
+#[repr(transparent)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[allow(non_camel_case_types)]
+pub struct ruby_value_type(c_int);
+
 extern {
+    #[link_name = "RS_T_NONE"]
+    pub static RB_T_NONE: ruby_value_type;
+    #[link_name = "RS_T_NONE"]
+    pub static T_NONE: ruby_value_type;
+
+    #[link_name = "RS_T_OBJECT"]
+    pub static RB_T_OBJECT: ruby_value_type;
+    #[link_name = "RS_T_OBJECT"]
+    pub static T_OBJECT: ruby_value_type;
+
+    #[link_name = "RS_T_CLASS"]
+    pub static RB_T_CLASS: ruby_value_type;
+    #[link_name = "RS_T_CLASS"]
+    pub static T_CLASS: ruby_value_type;
+
+    #[link_name = "RS_T_MODULE"]
+    pub static RB_T_MODULE: ruby_value_type;
+    #[link_name = "RS_T_MODULE"]
+    pub static T_MODULE: ruby_value_type;
+
+    #[link_name = "RS_T_FLOAT"]
+    pub static RB_T_FLOAT: ruby_value_type;
+    #[link_name = "RS_T_FLOAT"]
+    pub static T_FLOAT: ruby_value_type;
+
+    #[link_name = "RS_T_STRING"]
+    pub static RB_T_STRING: ruby_value_type;
+    #[link_name = "RS_T_STRING"]
+    pub static T_STRING: ruby_value_type;
+
+    #[link_name = "RS_T_REGEXP"]
+    pub static RB_T_REGEXP: ruby_value_type;
+    #[link_name = "RS_T_REGEXP"]
+    pub static T_REGEXP: ruby_value_type;
+
+    #[link_name = "RS_T_ARRAY"]
+    pub static RB_T_ARRAY: ruby_value_type;
+    #[link_name = "RS_T_ARRAY"]
+    pub static T_ARRAY: ruby_value_type;
+
+    #[link_name = "RS_T_HASH"]
+    pub static RB_T_HASH: ruby_value_type;
+    #[link_name = "RS_T_HASH"]
+    pub static T_HASH: ruby_value_type;
+
+    #[link_name = "RS_T_STRUCT"]
+    pub static RB_T_STRUCT: ruby_value_type;
+    #[link_name = "RS_T_STRUCT"]
+    pub static T_STRUCT: ruby_value_type;
+
+    #[link_name = "RS_T_BIGNUM"]
+    pub static RB_T_BIGNUM: ruby_value_type;
+    #[link_name = "RS_T_BIGNUM"]
+    pub static T_BIGNUM: ruby_value_type;
+
+    #[link_name = "RS_T_FILE"]
+    pub static RB_T_FILE: ruby_value_type;
+    #[link_name = "RS_T_FILE"]
+    pub static T_FILE: ruby_value_type;
+
+    #[link_name = "RS_T_DATA"]
+    pub static RB_T_DATA: ruby_value_type;
+    #[link_name = "RS_T_DATA"]
+    pub static T_DATA: ruby_value_type;
+
+    #[link_name = "RS_T_MATCH"]
+    pub static RB_T_MATCH: ruby_value_type;
+    #[link_name = "RS_T_MATCH"]
+    pub static T_MATCH: ruby_value_type;
+
+    #[link_name = "RS_T_COMPLEX"]
+    pub static RB_T_COMPLEX: ruby_value_type;
+    #[link_name = "RS_T_COMPLEX"]
+    pub static T_COMPLEX: ruby_value_type;
+
+    #[link_name = "RS_T_RATIONAL"]
+    pub static RB_T_RATIONAL: ruby_value_type;
+    #[link_name = "RS_T_RATIONAL"]
+    pub static T_RATIONAL: ruby_value_type;
+
+    #[link_name = "RS_T_NIL"]
+    pub static RB_T_NIL: ruby_value_type;
+    #[link_name = "RS_T_NIL"]
+    pub static T_NIL: ruby_value_type;
+
+    #[link_name = "RS_T_TRUE"]
+    pub static RB_T_TRUE: ruby_value_type;
+    #[link_name = "RS_T_TRUE"]
+    pub static T_TRUE: ruby_value_type;
+
+    #[link_name = "RS_T_FALSE"]
+    pub static RB_T_FALSE: ruby_value_type;
+    #[link_name = "RS_T_FALSE"]
+    pub static T_FALSE: ruby_value_type;
+
+    #[link_name = "RS_T_SYMBOL"]
+    pub static RB_T_SYMBOL: ruby_value_type;
+    #[link_name = "RS_T_SYMBOL"]
+    pub static T_SYMBOL: ruby_value_type;
+
+    #[link_name = "RS_T_FIXNUM"]
+    pub static RB_T_FIXNUM: ruby_value_type;
+    #[link_name = "RS_T_FIXNUM"]
+    pub static T_FIXNUM: ruby_value_type;
+
+    #[link_name = "RS_T_UNDEF"]
+    pub static RB_T_UNDEF: ruby_value_type;
+    #[link_name = "RS_T_UNDEF"]
+    pub static T_UNDEF: ruby_value_type;
+
+    #[link_name = "RS_T_IMEMO"]
+    pub static RB_T_IMEMO: ruby_value_type;
+    #[link_name = "RS_T_IMEMO"]
+    pub static T_IMEMO: ruby_value_type;
+
+    #[link_name = "RS_T_NODE"]
+    pub static RB_T_NODE: ruby_value_type;
+    #[link_name = "RS_T_NODE"]
+    pub static T_NODE: ruby_value_type;
+
+    #[link_name = "RS_T_ICLASS"]
+    pub static RB_T_ICLASS: ruby_value_type;
+    #[link_name = "RS_T_ICLASS"]
+    pub static T_ICLASS: ruby_value_type;
+
+    #[link_name = "RS_T_ZOMBIE"]
+    pub static RB_T_ZOMBIE: ruby_value_type;
+    #[link_name = "RS_T_ZOMBIE"]
+    pub static T_ZOMBIE: ruby_value_type;
+
+    #[link_name = "RS_T_MASK"]
+    pub static RB_T_MASK: ruby_value_type;
+    #[link_name = "RS_T_MASK"]
+    pub static T_MASK: ruby_value_type;
+
+
     /// In a Ruby format string, `"%"PRIsVALUE` can be used for `Object#to_s`
     /// (or `Object#inspect` if `+` flag is set) output (and related argument
     /// must be a [`VALUE`]).  Since it conflicts with `%i`, for integers in
@@ -60,6 +201,7 @@ extern {
 
     #[link_name = "RS_Qnil"]
     pub static Qnil: VALUE;
+
 
     /// The `Kernel` module
     ///
@@ -776,6 +918,24 @@ extern {
     #[link_name = "RS_DBL2NUM"]
     pub fn DBL2NUM(num: c_double) -> VALUE;
 
+    /// Returns a C boolean (zero if false, non-zero if true) indicating
+    /// whether the object is of the internal Ruby type.
+    ///
+    /// * `obj` - a Ruby object
+    /// * `rtype` - a [`ruby_value_type`]
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `obj` is not a [`VALUE`]
+    ///
+    /// # Ruby Documentation
+    ///
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Checking+Data+Types)
+    ///
+    //+ c-macro: `#define RB_TYPE_P(obj, type)`
+    #[link_name = "RS_RB_TYPE_P"]
+    pub fn RB_TYPE_P(obj: VALUE, rtype: ruby_value_type) -> c_int;
+
     /// Returns the byte length of the Ruby [`String`](rb_cString).
     ///
     /// * `string` - an instance of [`String`](rb_cString)
@@ -1420,34 +1580,10 @@ tests! {
     }
 
     #[test]
-    fn test_numeric_conversions(assert: &mut Assertions) {
-        let int_max = c_int::max_value();
-        let long_max = c_long::max_value();
-        let long_long_max = c_longlong::max_value();
-
-        let val = -int_max + 1;
-        assert.rb_eq(lazy_eval(&format!("{}", val)), unsafe { INT2NUM(val) });
-        assert.rs_eq(val, unsafe { NUM2INT(INT2NUM(val)) });
-
-        let val = (int_max as c_uint) + 1;
-        assert.rb_eq(lazy_eval(&format!("{}", val)), unsafe { UINT2NUM(val) });
-        assert.rs_eq(val, unsafe { NUM2UINT(UINT2NUM(val)) });
-
-        let val = -long_max + 1;
-        assert.rb_eq(lazy_eval(&format!("{}", val)), unsafe { LONG2NUM(val) });
-        assert.rs_eq(val, unsafe { NUM2LONG(LONG2NUM(val)) });
-
-        let val = (long_max as c_ulong) + 1;
-        assert.rb_eq(lazy_eval(&format!("{}", val)), unsafe { ULONG2NUM(val) });
-        assert.rs_eq(val, unsafe { NUM2ULONG(ULONG2NUM(val)) });
-
-        let val = -long_long_max + 1;
-        assert.rb_eq(lazy_eval(&format!("{}", val)), unsafe { LL2NUM(val) });
-        assert.rs_eq(val, unsafe { NUM2LL(LL2NUM(val)) });
-
-        let val = (long_long_max as c_ulonglong) + 1;
-        assert.rb_eq(lazy_eval(&format!("{}", val)), unsafe { ULL2NUM(val) });
-        assert.rs_eq(val, unsafe { NUM2ULL(ULL2NUM(val)) });
+    fn test_types(assert: &mut Assertions) {
+        assert.rs_eq(unsafe { RB_T_STRING }, unsafe { T_STRING });
+        assert.rs_ne(unsafe { RB_TYPE_P("foo".to_ruby(), T_STRING) }, 0);
+        assert.rs_eq(unsafe { RB_TYPE_P("foo".to_ruby(), T_HASH) }, 0);
     }
 
     #[test]
