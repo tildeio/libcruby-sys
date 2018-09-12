@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+
+gemspec
+
+if (path = ENV['LIBCRUBY_SYS_PATH'])
+  gem 'libcruby_sys', path: path
+end

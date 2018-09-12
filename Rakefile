@@ -81,6 +81,24 @@ end
 
 task :test => ['build:extension', 'build:tests'] do
   sh 'ruby -Ilib -Itest -Itarget/debug test/runner.rb'
+
+  # Installing libcruby-sys ensures that everything compiles correctly on installation
+  if ENV['INSTALL_LIBCRUBY_SYS']
+    sh "gem build libcruby_sys.gemspec"
+    # FIXME: Don't hard code
+    sh "gem install libcruby_sys-0.1.0.gem"
+  end
+
+  Dir.chdir(File.expand_path("test/dummy", __dir__)) do
+    Bundler.with_clean_env do
+      unless ENV['INSTALL_LIBCRUBY_SYS']
+        ENV['LIBCRUBY_SYS_PATH'] = __dir__
+      end
+
+      sh "bundle install"
+      sh "bundle exec rake"
+    end
+  end
 end
 
 task :doc do

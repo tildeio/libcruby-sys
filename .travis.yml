@@ -40,6 +40,7 @@ env:
   global:
     - RUST_BACKTRACE=1
     - RUST_VERSION=stable
+    - INSTALL_LIBCRUBY_SYS=true
 
 before_install:
   # Install Rust
