@@ -37,3 +37,7 @@ long RS_RSTRING_LEN(VALUE str) { return RSTRING_LEN(str); }
 const char* RS_RSTRING_PTR(VALUE str) { return RSTRING_PTR(str); }
 
 long RS_RARRAY_LEN(VALUE a) { return RARRAY_LEN(a); }
+
+// If the arch supports it, it's a ull, otherwise just a ulong.
+// Should be ok to do ull here.
+unsigned long long RS_RHASH_SIZE(VALUE h) { return RHASH_SIZE(h); }

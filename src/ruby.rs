@@ -824,6 +824,22 @@ extern {
     #[link_name = "RS_RARRAY_LEN"]
     pub fn RARRAY_LEN(array: VALUE) -> c_long;
 
+    /// Returns the number of elements in the Ruby [`Hash`](rb_cHash).
+    ///
+    /// * `hash` - an instance of [`Hash`](rb_cHash)
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `hash` is not a `Hash`
+    ///
+    /// # Miscellaneous
+    ///
+    /// The macro is currently redefined in `internal.h`.
+    ///
+    //+ c-macro: `#define RHASH_SIZE(h)`
+    #[link_name = "RS_RHASH_SIZE"]
+    pub fn RHASH_SIZE(hash: VALUE) -> c_ulonglong;
+
     /// Converts an ASCII-encoded, nul-terminated C string to an [`ID`].
     ///
     /// * `cstr` - nul-terminated C string
@@ -1461,6 +1477,19 @@ tests! {
 
         unsafe { intern::rb_ary_push(array, "bar".to_ruby()); }
         assert.rs_eq(unsafe { RARRAY_LEN(array) }, 2);
+    }
+
+    #[test]
+    fn test_rhash_size(assert: &mut Assertions) {
+        let hash = unsafe { intern::rb_hash_new() };
+
+        assert.rs_eq(unsafe { RHASH_SIZE(hash) }, 0);
+
+        unsafe { intern::rb_hash_aset(hash, "foo".to_ruby(), "bar".to_ruby()); }
+        assert.rs_eq(unsafe { RHASH_SIZE(hash) }, 1);
+
+        unsafe { intern::rb_hash_aset(hash, "baz".to_ruby(), "qux".to_ruby()); }
+        assert.rs_eq(unsafe { RHASH_SIZE(hash) }, 2);
     }
 
     #[test]
