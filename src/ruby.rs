@@ -560,6 +560,24 @@ extern {
     pub static rb_eMathDomainError: VALUE;
 
 
+    /// Returns the Ruby class of the object.
+    ///
+    /// * `obj` - a Ruby object
+    ///
+    /// Similar to [`rb_obj_class`] but may return a singleton class.
+    ///
+    /// # Safety
+    ///
+    /// No known issues.
+    ///
+    /// # Miscellaneous
+    ///
+    /// * As of 2.5, wraps `rb_class_of`.
+    ///
+    //+ c-macro: `#define CLASS_OF(v)`
+    #[link_name = "RS_CLASS_OF"]
+    pub fn CLASS_OF(obj: VALUE) -> VALUE;
+
     /// Returns the byte length of the Ruby [`String`](rb_cString).
     ///
     /// * `string` - an instance of [`String`](rb_cString)
@@ -1185,6 +1203,15 @@ tests! {
     #[test]
     fn test_e_math_domain_error(assert: &mut Assertions) {
         assert.rb_eq(lazy_eval("::Math::DomainError"), unsafe { rb_eMathDomainError });
+    }
+
+    #[test]
+    fn test_class_of(assert: &mut Assertions) {
+        assert.rb_eq(unsafe { rb_cString }, unsafe { CLASS_OF("foo".to_ruby()) });
+
+        // `rb_obj_class` on a class returns the class itself, `CLASS_OF` returns the singleton class
+        assert.rb_ne(unsafe { intern::rb_obj_class(rb_cString) }, unsafe { CLASS_OF(rb_cString) });
+        assert.rb_eq(lazy_eval("String.singleton_class"), unsafe { CLASS_OF(rb_cString) });
     }
 
     #[test]

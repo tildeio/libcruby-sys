@@ -5,6 +5,8 @@ VALUE RS_Qtrue = Qtrue;
 VALUE RS_Qfalse = Qfalse;
 VALUE RS_Qnil = Qnil;
 
+VALUE RS_CLASS_OF(VALUE v) { return CLASS_OF(v); }
+
 long RS_RSTRING_LEN(VALUE str) { return RSTRING_LEN(str); }
 
 // This gives a direct reference to a `char *` which could be mutated,

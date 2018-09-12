@@ -264,15 +264,11 @@ extern {
     /// * `obj` - any Ruby object
     /// * Returns a [`Class`](rb_cClass) or a falsey `VALUE`
     ///
+    /// Similar to [`CLASS_OF`] except that it will not return a singleton class.
+    ///
     /// # Safety
     ///
     /// No known issues.
-    ///
-    /// # Miscellaneous
-    ///
-    /// The `CLASS_OF` macro  calls `rb_class_of` (as of now). It
-    /// [appears](https://github.com/ruby/ruby/blob/8867f285da534970c98f8fd388ea4d92ca750a67/doc/ChangeLog-2.4.0#L1459-L1463)
-    /// that `rb_obj_class` is what you want most of the time.
     ///
     //+ c-func: object.c `VALUE rb_obj_class(VALUE)`
     pub fn rb_obj_class(obj: VALUE) -> VALUE;
