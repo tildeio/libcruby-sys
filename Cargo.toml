@@ -7,7 +7,7 @@ authors = [
 ]
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["lib", "dylib"]
 
 [dependencies]
 libc = "0.2"

@@ -45,6 +45,8 @@ int RS_T_MASK = RUBY_T_MASK;
 
 /** Macro Wrappers **/
 
+VALUE RS_CLASS_OF(VALUE v) { return CLASS_OF(v); }
+
 int RS_RB_TYPE_P(VALUE obj, int type) { return RB_TYPE_P(obj, type); }
 
 int RS_NUM2INT(VALUE num) { return NUM2INT(num); }

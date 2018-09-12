@@ -708,6 +708,9 @@ extern {
     //+ c-class: math.c `VALUE rb_eMathDomainError`
     pub static rb_eMathDomainError: VALUE;
 
+    #[link_name = "RS_CLASS_OF"]
+    pub fn CLASS_OF(obj: VALUE) -> VALUE;
+
     /// Converts a Ruby [`Numeric`](rb_cNumeric) to an integer.
     ///
     /// Calls `#to_int` on `num` if necessary.
@@ -1071,6 +1074,8 @@ extern {
     #[link_name = "RS_Data_Set_Struct_Value"]
     pub fn Data_Set_Struct_Value(obj: VALUE, data: *mut c_void);
 
+    pub fn rb_raise(exc: VALUE, string: *const c_char, ...) -> !;
+
     /// Converts an ASCII-encoded, nul-terminated C string to an [`ID`].
     ///
     /// * `cstr` - nul-terminated C string
@@ -1150,6 +1155,8 @@ extern {
     ///
     //+ c-func: symbol.c `VALUE rb_id2sym(ID)`
     pub fn rb_id2sym(id: ID) -> VALUE;
+
+    pub fn rb_id2str(id: ID) -> VALUE;
 
     /// Defines a new class.
     ///
