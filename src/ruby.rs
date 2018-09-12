@@ -1,4 +1,4 @@
-use libc::{c_char, c_int, c_uint, c_long, c_ulong, c_longlong, c_ulonglong, c_double, uintptr_t};
+use libc::{c_char, c_int, c_uint, c_long, c_ulong, c_longlong, c_ulonglong, c_double, uintptr_t, c_void};
 use std::mem::transmute;
 
 #[repr(transparent)]
@@ -984,21 +984,76 @@ extern {
     #[link_name = "RS_RARRAY_LEN"]
     pub fn RARRAY_LEN(array: VALUE) -> c_long;
 
-    /// Returns the number of elements in the Ruby [`Hash`](rb_cHash).
+    /// Wrap a C pointer into a Ruby object.
     ///
-    /// * `hash` - an instance of [`Hash`](rb_cHash)
+    /// * `class` - The Ruby [`Class`](rb_cClass) of the object to create.
+    /// * `mark` - A function for GC marking.
+    /// * `free` - A function for freeing the allocated memory.
+    /// * `data` - A void pointer to the data being wrapped. Use [`transmute`](std::mem::transmute)
+    /// * Returns an instance of `class`.
+    ///
+    /// See also [`Data_Get_Struct_Value`] and [`Data_Set_Struct_Value`].
     ///
     /// # Safety
     ///
-    /// * Undefined behavior if `hash` is not a `Hash`
+    /// _This code is very unsafe!_
     ///
-    /// # Miscellaneous
+    /// * Manual memory management comes into play here and could easily cause issues.
     ///
-    /// The macro is currently redefined in `internal.h`.
+    /// ## Exceptions
     ///
-    //+ c-macro: `#define RHASH_SIZE(h)`
-    #[link_name = "RS_RHASH_SIZE"]
-    pub fn RHASH_SIZE(hash: VALUE) -> c_ulonglong;
+    /// * [`rb_eFatal`]
+    ///     * if `class` is not a `VALUE`
+    /// * [`TypeError`](rb_eTypeError)
+    ///     * if `class` is not a [`Class`](rb_cClass)
+    ///
+    /// # Ruby Documentation
+    ///
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-C+Pointer+Wrapping)
+    ///
+    //+ c-macro: `#define Data_Wrap_Struct(klass,mark,free,sval)`
+    #[link_name = "RS_Data_Wrap_Struct"]
+    pub fn Data_Wrap_Struct(class: VALUE, mark: extern "C" fn(*mut c_void), free: extern "C" fn(*mut c_void), data: *mut c_void) -> VALUE;
+
+    /// Gets the value of the wrapped struct for the object.
+    ///
+    /// * `obj` - a Ruby object with a wrapped struct
+    /// * Returns a C void-pointer. Use [`transmute`](std::mem::transmute) to convert it
+    ///     to a Rust value.
+    ///
+    /// See also [`Data_Wrap_Struct`] and [`Data_Set_Struct_Value`]
+    ///
+    /// # Safety
+    ///
+    /// _This code is very unsafe!_
+    ///
+    /// * Manual memory management comes into play here and could easily cause issues.
+    /// * Undefined behavior if `obj` doesn't have wrapped data.
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`rb_eFatal`] or [`TypeError`](rb_eTypeError)
+    ///     * if `obj` is not a valid Ruby object
+    ///
+    //+ c-macro: `#define Data_Get_Struct(obj,type,sval)`
+    #[link_name = "RS_Data_Get_Struct_Value"]
+    pub fn Data_Get_Struct_Value(obj: VALUE) -> *mut c_void;
+
+    /// Reassigns the data pointer for an object.
+    ///
+    /// * `obj` - a Ruby object with a wrapped data struct
+    /// * `data` - a void pointer to a new data struct. Use [`transmute`](std::mem::transmute).
+    ///
+    /// See [`Data_Get_Struct_Value`]
+    ///
+    /// # Safety
+    ///
+    /// _This code is very unsafe!_
+    ///
+    /// * Manual memory management comes into play here and could easily cause issues.
+    /// * Undefined behavior if `obj` doesn't have a wrapped data struct.
+    #[link_name = "RS_Data_Set_Struct_Value"]
+    pub fn Data_Set_Struct_Value(obj: VALUE, data: *mut c_void);
 
     /// Converts an ASCII-encoded, nul-terminated C string to an [`ID`].
     ///
@@ -1179,6 +1234,39 @@ extern {
     ///
     //+ c-func: variable.c `const char *rb_obj_classname(VALUE)`
     pub fn rb_obj_classname(obj: VALUE) -> *const c_char;
+
+    /// Calls the named method on an object, returning the result.
+    ///
+    /// * `obj` - any Ruby object
+    /// * `method` - an [`ID`] of the interned name
+    /// * `argc` - the number of arguments to call the target method with
+    /// * `...` - the arguments for the method, [`VALUE`]s
+    /// * Returns the result of the method execution
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `obj` is not a [`VALUE`].
+    /// * Undefined behavior if arguments are not [`VALUE`]s.
+    /// * Will crash if `argc` doesn't match number of provided arguments.
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`NotImplementedError`](rb_eNotImpError)
+    ///     * if `obj` does not allow method calls
+    /// * [`ArgumentError`](rb_eArgError)
+    ///     * if arguments are invalid
+    /// * [`NoMethodError`](rb_eNoMethodError)
+    ///     * if no method can be found
+    /// * Could raise just about any other exception within the called method body.
+    ///
+    /// # Ruby Documentation
+    ///
+    /// * **2.5:**
+    ///     [usage](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Invoke+Ruby+Method+from+C)
+    ///     [spec](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Invoking+Ruby+method)
+    ///
+    //+ c-func: vm_eval.c `VALUE rb_funcall(VALUE, ID, int, ...)`
+    pub fn rb_funcall(obj: VALUE, method: ID, argc: c_int, ...) -> VALUE;
 }
 
 tests! {
@@ -1616,16 +1704,73 @@ tests! {
     }
 
     #[test]
-    fn test_rhash_size(assert: &mut Assertions) {
-        let hash = unsafe { intern::rb_hash_new() };
+    fn test_data_structs(assert: &mut Assertions) {
+        #[repr(transparent)]
+        struct TestDataStruct {
+            value: VALUE
+        }
 
-        assert.rs_eq(unsafe { RHASH_SIZE(hash) }, 0);
+        extern "C" fn __test_mark__(_: *mut c_void) { }
 
-        unsafe { intern::rb_hash_aset(hash, "foo".to_ruby(), "bar".to_ruby()); }
-        assert.rs_eq(unsafe { RHASH_SIZE(hash) }, 1);
+        extern "C" fn __test_deallocate__(_data: *mut c_void) { }
 
-        unsafe { intern::rb_hash_aset(hash, "baz".to_ruby(), "qux".to_ruby()); }
-        assert.rs_eq(unsafe { RHASH_SIZE(hash) }, 2);
+        // I have no clue if ownership is handled correctly here
+        extern "C" fn __test_define_alloc_method__(class: VALUE) -> VALUE {
+            let data = TestDataStruct { value: "foo".to_ruby() };
+            unsafe { Data_Wrap_Struct(class, __test_mark__, __test_deallocate__, transmute(data)) }
+        }
+
+        extern "C" fn __test_get_value__(obj: VALUE) -> VALUE {
+            let data: TestDataStruct = unsafe { transmute(Data_Get_Struct_Value(obj)) };
+            data.value
+        }
+
+        extern "C" fn __test_set_value__(obj: VALUE, value: VALUE) -> VALUE {
+            let data = TestDataStruct { value };
+            unsafe { Data_Set_Struct_Value(obj, transmute(data)); }
+            value
+        }
+
+        let class = unsafe {
+            rb_define_class(
+                cstr!("TestAllocClass"),
+                rb_cString
+            )
+        };
+
+        unsafe {
+            intern::rb_define_alloc_func(class, __test_define_alloc_method__);
+
+            rb_define_method(
+                class,
+                cstr!("get_value"),
+                ANYARGS::from_arity_1(__test_get_value__),
+                0
+            );
+
+            rb_define_method(
+                class,
+                cstr!("set_value"),
+                ANYARGS::from_arity_2(__test_set_value__),
+                1
+            );
+        }
+
+        let obj = unsafe { intern::rb_class_new_instance(0, null(), class) };
+
+        assert.rb_eq(
+            "foo".to_ruby(),
+            unsafe { rb_funcall(obj, rb_intern(cstr!("get_value")), 0) },
+        );
+
+        unsafe {
+            rb_funcall(obj, rb_intern(cstr!("set_value")), 1, "bar".to_ruby());
+        }
+
+        assert.rb_eq(
+            "bar".to_ruby(),
+            unsafe { rb_funcall(obj, rb_intern(cstr!("get_value")), 0) }
+        );
     }
 
     #[test]
@@ -1861,5 +2006,20 @@ tests! {
         assert.rs_eq("Class", class.to_string_lossy());
         assert.rs_eq("Module", module.to_string_lossy());
         assert.rs_eq("Object", instance.to_string_lossy());
+    }
+
+    #[test]
+    fn test_funcall(assert: &mut Assertions) {
+        let foo = "foo".to_ruby();
+
+        assert.rb_eq(
+            unsafe { rb_funcall(foo, rb_intern(cstr!("upcase")), 0) },
+            "FOO".to_ruby()
+        );
+
+        assert.rb_eq(
+            unsafe { rb_funcall(foo, rb_intern(cstr!("tr")), 2, "f".to_ruby(), "g".to_ruby()) },
+            "goo".to_ruby()
+        );
     }
 }
