@@ -688,6 +688,11 @@ extern {
     //+ c-func: symbol.c `VALUE rb_id2sym(ID)`
     pub fn rb_id2sym(id: ID) -> VALUE;
 
+    /// Convert an [`ID`] to a Ruby [`String`](rb_cString).
+    ///
+    //+ c-func: symbol.c `VALUE rb_id2str(ID)`
+    pub fn rb_id2str(id: ID) -> VALUE;
+
     /// Defines a new class.
     ///
     /// NOTE: If the class is already defined and the superclass is the same
@@ -1250,6 +1255,12 @@ tests! {
         assert.rb_eq(lazy_eval(":foo"), unsafe { rb_id2sym(foo3) });
         assert.rb_eq(lazy_eval(":foo"), unsafe { rb_id2sym(foo4) });
         assert.rb_eq(lazy_eval(":bar"), unsafe { rb_id2sym(bar) });
+
+        assert.rb_eq(lazy_eval("'foo'"), unsafe { rb_id2str(foo1) });
+        assert.rb_eq(lazy_eval("'foo'"), unsafe { rb_id2str(foo2) });
+        assert.rb_eq(lazy_eval("'foo'"), unsafe { rb_id2str(foo3) });
+        assert.rb_eq(lazy_eval("'foo'"), unsafe { rb_id2str(foo4) });
+        assert.rb_eq(lazy_eval("'bar'"), unsafe { rb_id2str(bar) });
     }
 
     #[test]
