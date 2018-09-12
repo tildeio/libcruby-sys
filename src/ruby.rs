@@ -983,6 +983,36 @@ extern {
     //+ c-func: variable.c `const char *rb_obj_classname(VALUE)`
     pub fn rb_obj_classname(obj: VALUE) -> *const c_char;
 
+    /// Raises a Ruby exception of the provided class with message.
+    ///
+    /// * `exc` - a Ruby exception class (e.g. [`RuntimeError`](rb_eRuntimeError),
+    ///     [`TypeError`](rb_eTypeError))
+    /// * `message` - a Ruby format string, called in `printf` style
+    ///     * additional arguments are applied as in `printf`
+    ///
+    /// # Safety
+    ///
+    /// * Since `rb_raise` will stop execution of the current context, special care
+    ///     is necessary for appropriate cleanup.
+    /// * Undefined behavior if
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`TypeError`](rb_eTypeError)
+    ///     * if `exc` is not an exception class
+    ///     * if `message` arguments are invalid
+    /// * [`EncodingError`](rb_eEncodingError)
+    ///     * if `message` arguments are not correctly encoded
+    /// * [`ArgumentError`](rb_eArgError),
+    ///     * if `message` arguments are invalid
+    ///
+    /// # Ruby Documentation
+    ///
+    /// * [2.5](https://ruby-doc.org/core-2.5.1/doc/extension_rdoc.html#label-Exceptions+and+Errors)
+    ///
+    //+ c-func: error.c `void rb_raise(VALUE, const char*, ...)`
+    pub fn rb_raise(exc: VALUE, message: *const c_char, ...) -> !;
+
     /// Returns a C boolean (zero if false, non-zero if true) indicated whether yield would
     /// execute a block in the current method.
     ///
@@ -1719,6 +1749,35 @@ tests! {
         assert.rs_eq("Class", class.to_string_lossy());
         assert.rs_eq("Module", module.to_string_lossy());
         assert.rs_eq("Object", instance.to_string_lossy());
+    }
+
+    #[test]
+    fn test_raise(assert: &mut Assertions) {
+        extern "C" fn __test_raise__(_self: VALUE) -> VALUE {
+            unsafe { rb_raise(rb_eRuntimeError, cstr!("fail: %s"), cstr!("foo")) }
+        }
+
+        unsafe {
+            rb_define_method(
+                rb_mKernel,
+                cstr!("__test_raise__"),
+                ANYARGS::from_arity_1(__test_raise__),
+                0
+            );
+        }
+
+        assert.rb_eq(
+            lazy_eval(r#"
+                exception = begin
+                Kernel.__test_raise__
+                rescue => e
+                e
+                end
+
+                exception.message
+            "#),
+            "fail: foo".to_ruby()
+        );
     }
 
     #[test]
