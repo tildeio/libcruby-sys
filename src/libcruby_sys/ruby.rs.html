@@ -2933,6 +2933,31 @@
 <span id="2933">2933</span>
 <span id="2934">2934</span>
 <span id="2935">2935</span>
+<span id="2936">2936</span>
+<span id="2937">2937</span>
+<span id="2938">2938</span>
+<span id="2939">2939</span>
+<span id="2940">2940</span>
+<span id="2941">2941</span>
+<span id="2942">2942</span>
+<span id="2943">2943</span>
+<span id="2944">2944</span>
+<span id="2945">2945</span>
+<span id="2946">2946</span>
+<span id="2947">2947</span>
+<span id="2948">2948</span>
+<span id="2949">2949</span>
+<span id="2950">2950</span>
+<span id="2951">2951</span>
+<span id="2952">2952</span>
+<span id="2953">2953</span>
+<span id="2954">2954</span>
+<span id="2955">2955</span>
+<span id="2956">2956</span>
+<span id="2957">2957</span>
+<span id="2958">2958</span>
+<span id="2959">2959</span>
+<span id="2960">2960</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>, <span class="ident">uintptr_t</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">transmute</span>;
@@ -5027,6 +5052,25 @@
     <span class="doccomment">///     [symbol.c](https://github.com/ruby/ruby/blob/v2_6_0_preview2/symbol.c#L762-L767)</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rb_id2sym</span>(<span class="ident">id</span>: <span class="ident">ID</span>) <span class="op">-&gt;</span> <span class="ident">VALUE</span>;
 
+    <span class="doccomment">/// Convert an [`ID`] to a Ruby [`String`](rb_cString).</span>
+    <span class="doccomment">///</span>
+    <span class="comment">//+ c-func: symbol.c `VALUE rb_id2str(ID)`</span>
+    <span class="doccomment">/// # Defined In</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * **2.3:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/ruby.h#L1712) |</span>
+    <span class="doccomment">///     [symbol.c](https://github.com/ruby/ruby/blob/v2_3_7/symbol.c#L743-L755)</span>
+    <span class="doccomment">/// * **2.4:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/ruby.h#L1732) |</span>
+    <span class="doccomment">///     [symbol.c](https://github.com/ruby/ruby/blob/v2_4_4/symbol.c#L744-L756)</span>
+    <span class="doccomment">/// * **2.5:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1734) |</span>
+    <span class="doccomment">///     [symbol.c](https://github.com/ruby/ruby/blob/v2_5_1/symbol.c#L744-L748)</span>
+    <span class="doccomment">/// * **2.6:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1751) |</span>
+    <span class="doccomment">///     [symbol.c](https://github.com/ruby/ruby/blob/v2_6_0_preview2/symbol.c#L781-L785)</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rb_id2str</span>(<span class="ident">id</span>: <span class="ident">ID</span>) <span class="op">-&gt;</span> <span class="ident">VALUE</span>;
+
     <span class="doccomment">/// Defines a new class.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// NOTE: If the class is already defined and the superclass is the same</span>
@@ -5668,6 +5712,12 @@
         <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="ident">lazy_eval</span>(<span class="string">&quot;:foo&quot;</span>), <span class="kw">unsafe</span> { <span class="ident">rb_id2sym</span>(<span class="ident">foo3</span>) });
         <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="ident">lazy_eval</span>(<span class="string">&quot;:foo&quot;</span>), <span class="kw">unsafe</span> { <span class="ident">rb_id2sym</span>(<span class="ident">foo4</span>) });
         <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="ident">lazy_eval</span>(<span class="string">&quot;:bar&quot;</span>), <span class="kw">unsafe</span> { <span class="ident">rb_id2sym</span>(<span class="ident">bar</span>) });
+
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="ident">lazy_eval</span>(<span class="string">&quot;&#39;foo&#39;&quot;</span>), <span class="kw">unsafe</span> { <span class="ident">rb_id2str</span>(<span class="ident">foo1</span>) });
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="ident">lazy_eval</span>(<span class="string">&quot;&#39;foo&#39;&quot;</span>), <span class="kw">unsafe</span> { <span class="ident">rb_id2str</span>(<span class="ident">foo2</span>) });
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="ident">lazy_eval</span>(<span class="string">&quot;&#39;foo&#39;&quot;</span>), <span class="kw">unsafe</span> { <span class="ident">rb_id2str</span>(<span class="ident">foo3</span>) });
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="ident">lazy_eval</span>(<span class="string">&quot;&#39;foo&#39;&quot;</span>), <span class="kw">unsafe</span> { <span class="ident">rb_id2str</span>(<span class="ident">foo4</span>) });
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="ident">lazy_eval</span>(<span class="string">&quot;&#39;bar&#39;&quot;</span>), <span class="kw">unsafe</span> { <span class="ident">rb_id2str</span>(<span class="ident">bar</span>) });
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
