@@ -1,5 +1,5 @@
 require 'fileutils'
-require 'toml'
+require 'toml-rb'
 
 module Docs
   class CDef
@@ -349,7 +349,7 @@ module Docs
     end
 
     def cargo_pkg
-      @cargo_pkg ||= TOML.load_file(File.expand_path('Cargo.toml', @root))['package']
+      @cargo_pkg ||= TomlRB.load_file(File.expand_path('Cargo.toml', @root))['package']
     end
 
     def clone
