@@ -1,23 +1,71 @@
 use super::*;
 use libc::{c_char, c_int, c_long};
 
+// TODO: Make a macro for enums
+
 #[repr(transparent)]
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 #[allow(non_camel_case_types)]
-pub struct st_retval(c_int);
+pub struct rb_st_retval(c_int);
+
+#[allow(non_camel_case_types)]
+pub enum st_retval {
+    ST_CONTINUE,
+    ST_STOP,
+    ST_DELETE,
+    ST_CHECK
+}
+
+impl st_retval {
+    pub fn to_c(self) -> rb_st_retval {
+        rb_st_retval::from(self)
+    }
+
+    pub fn from_c(num: rb_st_retval) -> st_retval {
+         st_retval::from(num)
+    }
+}
+
+impl From<rb_st_retval> for st_retval {
+    fn from(num: rb_st_retval) -> Self {
+        if num == unsafe { ST_CONTINUE } {
+            st_retval::ST_CONTINUE
+        } else if num == unsafe { ST_STOP } {
+            st_retval::ST_STOP
+        } else if num == unsafe { ST_DELETE } {
+            st_retval::ST_DELETE
+        } else if num == unsafe { ST_CHECK } {
+            st_retval::ST_CHECK
+        } else {
+            panic!("int isn't a known st_retval")
+        }
+    }
+}
+
+impl From<st_retval> for rb_st_retval {
+    fn from(retval: st_retval) -> Self {
+        match retval {
+            st_retval::ST_CONTINUE => unsafe { ST_CONTINUE },
+            st_retval::ST_STOP     => unsafe { ST_STOP },
+            st_retval::ST_DELETE   => unsafe { ST_DELETE },
+            st_retval::ST_CHECK    => unsafe { ST_CHECK }
+        }
+    }
+}
+
 
 extern {
     #[link_name = "RS_ST_CONTINUE"]
-    pub static ST_CONTINUE: st_retval;
+    pub static ST_CONTINUE: rb_st_retval;
 
     #[link_name = "RS_ST_STOP"]
-    pub static ST_STOP: st_retval;
+    pub static ST_STOP: rb_st_retval;
 
     #[link_name = "RS_ST_DELETE"]
-    pub static ST_DELETE: st_retval;
+    pub static ST_DELETE: rb_st_retval;
 
     #[link_name = "RS_ST_CHECK"]
-    pub static ST_CHECK: st_retval;
+    pub static ST_CHECK: rb_st_retval;
 
     /// Constructs a new, empty array.
     ///
@@ -148,7 +196,7 @@ extern {
     ///
     /// * `hash` - a [`Hash`](rb_cHash)
     /// * `func` - a function that will be called for each key-value pair of the hash
-    ///     * Returns `st_retval`:
+    ///     * Returns `rb_st_retval`:
     ///         * `ST_CONTINUE`, `ST_CHECK`: iteration will continue
     ///         * `ST_DELETE`: entry will be deleted and iteration will continue
     ///         * `ST_STOP`: iteration will stop
@@ -166,7 +214,7 @@ extern {
     /// * User-defined iterator method could also raise an exception.
     ///
     //+ c-func: hash.c `void rb_hash_foreach(VALUE, int (*)(ANYARGS), VALUE)`
-    pub fn rb_hash_foreach(hash: VALUE, func: extern "C" fn(key: VALUE, val: VALUE, farg: VALUE) -> st_retval, farg: VALUE);
+    pub fn rb_hash_foreach(hash: VALUE, func: extern "C" fn(key: VALUE, val: VALUE, farg: VALUE) -> rb_st_retval, farg: VALUE);
 
     /// Constructs a new Ruby string from a UTF-8 encoded C string of a given length.
     ///
@@ -402,17 +450,19 @@ tests! {
 
     #[test]
     fn test_hash_foreach(assert: &mut Assertions) {
-        extern "C" fn __test_hash_foreach__(key: VALUE, val: VALUE, arg: VALUE) -> st_retval {
+        extern "C" fn __test_hash_foreach__(key: VALUE, val: VALUE, arg: VALUE) -> rb_st_retval {
             unsafe {
                 rb_ary_push(arg, key);
                 rb_ary_push(arg, val);
 
                 let id = rb_intern_str(key);
 
-                if      id == rb_intern(cstr!("foo"))  { ST_CONTINUE }
-                else if id == rb_intern(cstr!("baz"))  { ST_CHECK }
-                else if id == rb_intern(cstr!("hoge")) { ST_DELETE }
-                else                                   { ST_STOP }
+                {
+                    if      id == rb_intern(cstr!("foo"))  { st_retval::ST_CONTINUE }
+                    else if id == rb_intern(cstr!("baz"))  { st_retval::ST_CHECK }
+                    else if id == rb_intern(cstr!("hoge")) { st_retval::ST_DELETE }
+                    else                                   { st_retval::ST_STOP }
+                }.to_c()
             }
         }
 
