@@ -298,3 +298,7 @@ macro_rules! rb_init_items {
 pub fn lazy_eval(code: &str) -> VALUE {
     new!(*LAZY_VALUE, code.to_ruby())
 }
+
+pub fn c_bool(val: c_int) -> bool {
+    val != 0
+}

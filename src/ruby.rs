@@ -827,7 +827,7 @@ extern {
 tests! {
     use super::*;
     use super::super::intern;
-    use super::super::testing::{Assertions, ToRuby, lazy_eval};
+    use super::super::testing::{Assertions, ToRuby, lazy_eval, c_bool};
     use std::ptr::null;
 
     use std::ffi::{CStr, CString};
