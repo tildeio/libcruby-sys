@@ -11,6 +11,9 @@ jobs:
     - stage: docs
       script: IN_PLACE=true rake doc
       rvm: false
+      # intra-rustdoc links are nightly only
+      env:
+        - RUST_VERSION=nightly
       deploy:
         provider: pages
         skip-cleanup: true
