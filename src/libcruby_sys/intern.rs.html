@@ -761,10 +761,6 @@
 <span id="761">761</span>
 <span id="762">762</span>
 <span id="763">763</span>
-<span id="764">764</span>
-<span id="765">765</span>
-<span id="766">766</span>
-<span id="767">767</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>};
@@ -1186,15 +1182,11 @@
     <span class="doccomment">/// * `obj` - any Ruby object</span>
     <span class="doccomment">/// * Returns a [`Class`](rb_cClass) or a falsey `VALUE`</span>
     <span class="doccomment">///</span>
+    <span class="doccomment">/// Similar to [`CLASS_OF`] except that it will not return a singleton class.</span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// No known issues.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Miscellaneous</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The `CLASS_OF` macro  calls `rb_class_of` (as of now). It</span>
-    <span class="doccomment">/// [appears](https://github.com/ruby/ruby/blob/8867f285da534970c98f8fd388ea4d92ca750a67/doc/ChangeLog-2.4.0#L1459-L1463)</span>
-    <span class="doccomment">/// that `rb_obj_class` is what you want most of the time.</span>
     <span class="doccomment">///</span>
     <span class="comment">//+ c-func: object.c `VALUE rb_obj_class(VALUE)`</span>
     <span class="doccomment">/// # Defined In</span>

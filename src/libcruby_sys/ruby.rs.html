@@ -2896,6 +2896,43 @@
 <span id="2896">2896</span>
 <span id="2897">2897</span>
 <span id="2898">2898</span>
+<span id="2899">2899</span>
+<span id="2900">2900</span>
+<span id="2901">2901</span>
+<span id="2902">2902</span>
+<span id="2903">2903</span>
+<span id="2904">2904</span>
+<span id="2905">2905</span>
+<span id="2906">2906</span>
+<span id="2907">2907</span>
+<span id="2908">2908</span>
+<span id="2909">2909</span>
+<span id="2910">2910</span>
+<span id="2911">2911</span>
+<span id="2912">2912</span>
+<span id="2913">2913</span>
+<span id="2914">2914</span>
+<span id="2915">2915</span>
+<span id="2916">2916</span>
+<span id="2917">2917</span>
+<span id="2918">2918</span>
+<span id="2919">2919</span>
+<span id="2920">2920</span>
+<span id="2921">2921</span>
+<span id="2922">2922</span>
+<span id="2923">2923</span>
+<span id="2924">2924</span>
+<span id="2925">2925</span>
+<span id="2926">2926</span>
+<span id="2927">2927</span>
+<span id="2928">2928</span>
+<span id="2929">2929</span>
+<span id="2930">2930</span>
+<span id="2931">2931</span>
+<span id="2932">2932</span>
+<span id="2933">2933</span>
+<span id="2934">2934</span>
+<span id="2935">2935</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>, <span class="ident">uintptr_t</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">transmute</span>;
@@ -4734,6 +4771,34 @@
     <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">rb_eMathDomainError</span>: <span class="ident">VALUE</span>;
 
 
+    <span class="doccomment">/// Returns the Ruby class of the object.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `obj` - a Ruby object</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Similar to [`rb_obj_class`] but may return a singleton class.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// No known issues.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Miscellaneous</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * As of 2.5, wraps `rb_class_of`.</span>
+    <span class="doccomment">///</span>
+    <span class="comment">//+ c-macro: `#define CLASS_OF(v)`</span>
+    <span class="doccomment">/// # Defined In</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * **2.3:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/ruby.h#L470)</span>
+    <span class="doccomment">/// * **2.4:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/ruby.h#L453)</span>
+    <span class="doccomment">/// * **2.5:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L455)</span>
+    <span class="doccomment">/// * **2.6:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L458)</span>
+    <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;RS_CLASS_OF&quot;</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">CLASS_OF</span>(<span class="ident">obj</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="ident">VALUE</span>;
+
     <span class="doccomment">/// Returns the byte length of the Ruby [`String`](rb_cString).</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// * `string` - an instance of [`String`](rb_cString)</span>
@@ -5529,6 +5594,15 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_e_math_domain_error</span>(<span class="ident">assert</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Assertions</span>) {
         <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="ident">lazy_eval</span>(<span class="string">&quot;::Math::DomainError&quot;</span>), <span class="kw">unsafe</span> { <span class="ident">rb_eMathDomainError</span> });
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_class_of</span>(<span class="ident">assert</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Assertions</span>) {
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="kw">unsafe</span> { <span class="ident">rb_cString</span> }, <span class="kw">unsafe</span> { <span class="ident">CLASS_OF</span>(<span class="string">&quot;foo&quot;</span>.<span class="ident">to_ruby</span>()) });
+
+        <span class="comment">// `rb_obj_class` on a class returns the class itself, `CLASS_OF` returns the singleton class</span>
+        <span class="ident">assert</span>.<span class="ident">rb_ne</span>(<span class="kw">unsafe</span> { <span class="ident">intern</span>::<span class="ident">rb_obj_class</span>(<span class="ident">rb_cString</span>) }, <span class="kw">unsafe</span> { <span class="ident">CLASS_OF</span>(<span class="ident">rb_cString</span>) });
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(<span class="ident">lazy_eval</span>(<span class="string">&quot;String.singleton_class&quot;</span>), <span class="kw">unsafe</span> { <span class="ident">CLASS_OF</span>(<span class="ident">rb_cString</span>) });
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
