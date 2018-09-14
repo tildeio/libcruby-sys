@@ -103,6 +103,10 @@ impl Assertions {
     }
 
     pub fn rs_eq<T: Debug + PartialEq<U>, U: Debug + PartialEq<T>>(&mut self, lhs: T, rhs: U) {
+        self.rs_eq_msg(lhs, rhs, None)
+    }
+
+    pub fn rs_eq_msg<T: Debug + PartialEq<U>, U: Debug + PartialEq<T>>(&mut self, lhs: T, rhs: U, msg: Option<String>) {
         let predicate = {
             if lhs == rhs {
                 unsafe { Qtrue }
@@ -111,9 +115,13 @@ impl Assertions {
             }
         };
 
-        let message = format!("{:?} == {:?}", lhs, rhs).to_ruby();
+        let message = if let Some(m) = msg {
+            format!("{}; {:?} == {:?}", m, lhs, rhs)
+        } else {
+            format!("{:?} == {:?}", lhs, rhs)
+        };
 
-        self.assertions.push(new!(*ASSERT_OK, predicate, message));
+        self.assertions.push(new!(*ASSERT_OK, predicate, message.to_ruby()));
     }
 
     pub fn rb_ne(&mut self, expected: VALUE, actual: VALUE) {
