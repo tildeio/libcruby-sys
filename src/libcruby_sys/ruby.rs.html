@@ -3244,8 +3244,43 @@
 <span id="3244">3244</span>
 <span id="3245">3245</span>
 <span id="3246">3246</span>
+<span id="3247">3247</span>
+<span id="3248">3248</span>
+<span id="3249">3249</span>
+<span id="3250">3250</span>
+<span id="3251">3251</span>
+<span id="3252">3252</span>
+<span id="3253">3253</span>
+<span id="3254">3254</span>
+<span id="3255">3255</span>
+<span id="3256">3256</span>
+<span id="3257">3257</span>
+<span id="3258">3258</span>
+<span id="3259">3259</span>
+<span id="3260">3260</span>
+<span id="3261">3261</span>
+<span id="3262">3262</span>
+<span id="3263">3263</span>
+<span id="3264">3264</span>
+<span id="3265">3265</span>
+<span id="3266">3266</span>
+<span id="3267">3267</span>
+<span id="3268">3268</span>
+<span id="3269">3269</span>
+<span id="3270">3270</span>
+<span id="3271">3271</span>
+<span id="3272">3272</span>
+<span id="3273">3273</span>
+<span id="3274">3274</span>
+<span id="3275">3275</span>
+<span id="3276">3276</span>
+<span id="3277">3277</span>
+<span id="3278">3278</span>
+<span id="3279">3279</span>
+<span id="3280">3280</span>
+<span id="3281">3281</span>
 </pre><pre class="rust ">
-<span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>, <span class="ident">uintptr_t</span>};
+<span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>, <span class="ident">size_t</span>, <span class="ident">uintptr_t</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">transmute</span>;
 
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
@@ -5370,6 +5405,28 @@
     <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;RS_RARRAY_LEN&quot;</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">RARRAY_LEN</span>(<span class="ident">array</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="ident">c_long</span>;
 
+    <span class="doccomment">/// Returns the number of elements in the Ruby [`Hash`](rb_cHash).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `hash` - an instance of [`Hash`](rb_cHash)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Undefined behavior if `hash` is not a `Hash`</span>
+    <span class="doccomment">///</span>
+    <span class="comment">//+ c-macro: `#define RHASH_SIZE(h)`</span>
+    <span class="doccomment">/// # Defined In</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * **2.3:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/ruby.h#L1079)</span>
+    <span class="doccomment">/// * **2.4:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/ruby.h#L1066)</span>
+    <span class="doccomment">/// * **2.5:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1061)</span>
+    <span class="doccomment">/// * **2.6:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1061)</span>
+    <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;RS_RHASH_SIZE&quot;</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">RHASH_SIZE</span>(<span class="ident">hash</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="ident">size_t</span>;
+
     <span class="doccomment">/// Converts an ASCII-encoded, nul-terminated C string to an [`ID`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// * `cstr` - nul-terminated C string</span>
@@ -6218,6 +6275,19 @@
 
         <span class="kw">unsafe</span> { <span class="ident">intern</span>::<span class="ident">rb_ary_push</span>(<span class="ident">array</span>, <span class="string">&quot;bar&quot;</span>.<span class="ident">to_ruby</span>()); }
         <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="kw">unsafe</span> { <span class="ident">RARRAY_LEN</span>(<span class="ident">array</span>) }, <span class="number">2</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_rhash_size</span>(<span class="ident">assert</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Assertions</span>) {
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">intern</span>::<span class="ident">rb_hash_new</span>() };
+
+        <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="kw">unsafe</span> { <span class="ident">RHASH_SIZE</span>(<span class="ident">hash</span>) }, <span class="number">0</span>);
+
+        <span class="kw">unsafe</span> { <span class="ident">intern</span>::<span class="ident">rb_hash_aset</span>(<span class="ident">hash</span>, <span class="string">&quot;foo&quot;</span>.<span class="ident">to_ruby</span>(), <span class="string">&quot;bar&quot;</span>.<span class="ident">to_ruby</span>()); }
+        <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="kw">unsafe</span> { <span class="ident">RHASH_SIZE</span>(<span class="ident">hash</span>) }, <span class="number">1</span>);
+
+        <span class="kw">unsafe</span> { <span class="ident">intern</span>::<span class="ident">rb_hash_aset</span>(<span class="ident">hash</span>, <span class="string">&quot;baz&quot;</span>.<span class="ident">to_ruby</span>(), <span class="string">&quot;qux&quot;</span>.<span class="ident">to_ruby</span>()); }
+        <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="kw">unsafe</span> { <span class="ident">RHASH_SIZE</span>(<span class="ident">hash</span>) }, <span class="number">2</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
