@@ -2958,6 +2958,62 @@
 <span id="2958">2958</span>
 <span id="2959">2959</span>
 <span id="2960">2960</span>
+<span id="2961">2961</span>
+<span id="2962">2962</span>
+<span id="2963">2963</span>
+<span id="2964">2964</span>
+<span id="2965">2965</span>
+<span id="2966">2966</span>
+<span id="2967">2967</span>
+<span id="2968">2968</span>
+<span id="2969">2969</span>
+<span id="2970">2970</span>
+<span id="2971">2971</span>
+<span id="2972">2972</span>
+<span id="2973">2973</span>
+<span id="2974">2974</span>
+<span id="2975">2975</span>
+<span id="2976">2976</span>
+<span id="2977">2977</span>
+<span id="2978">2978</span>
+<span id="2979">2979</span>
+<span id="2980">2980</span>
+<span id="2981">2981</span>
+<span id="2982">2982</span>
+<span id="2983">2983</span>
+<span id="2984">2984</span>
+<span id="2985">2985</span>
+<span id="2986">2986</span>
+<span id="2987">2987</span>
+<span id="2988">2988</span>
+<span id="2989">2989</span>
+<span id="2990">2990</span>
+<span id="2991">2991</span>
+<span id="2992">2992</span>
+<span id="2993">2993</span>
+<span id="2994">2994</span>
+<span id="2995">2995</span>
+<span id="2996">2996</span>
+<span id="2997">2997</span>
+<span id="2998">2998</span>
+<span id="2999">2999</span>
+<span id="3000">3000</span>
+<span id="3001">3001</span>
+<span id="3002">3002</span>
+<span id="3003">3003</span>
+<span id="3004">3004</span>
+<span id="3005">3005</span>
+<span id="3006">3006</span>
+<span id="3007">3007</span>
+<span id="3008">3008</span>
+<span id="3009">3009</span>
+<span id="3010">3010</span>
+<span id="3011">3011</span>
+<span id="3012">3012</span>
+<span id="3013">3013</span>
+<span id="3014">3014</span>
+<span id="3015">3015</span>
+<span id="3016">3016</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>, <span class="ident">uintptr_t</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">transmute</span>;
@@ -5240,6 +5296,32 @@
     <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1808) |</span>
     <span class="doccomment">///     [variable.c](https://github.com/ruby/ruby/blob/v2_6_0_preview2/variable.c#L462-L466)</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rb_obj_classname</span>(<span class="ident">obj</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>;
+
+    <span class="doccomment">/// Returns a C boolean (zero if false, non-zero if true) indicated whether yield would</span>
+    <span class="doccomment">/// execute a block in the current method.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is the equivalent of `Kernel#block_given?`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// No known issues</span>
+    <span class="doccomment">///</span>
+    <span class="comment">//+ c-func: eval.c `int rb_block_given_p(void)`</span>
+    <span class="doccomment">/// # Defined In</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * **2.3:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_3_7/include/ruby/ruby.h#L1830) |</span>
+    <span class="doccomment">///     [eval.c](https://github.com/ruby/ruby/blob/v2_3_7/eval.c#L796-L807)</span>
+    <span class="doccomment">/// * **2.4:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_4_4/include/ruby/ruby.h#L1850) |</span>
+    <span class="doccomment">///     [eval.c](https://github.com/ruby/ruby/blob/v2_4_4/eval.c#L796-L806)</span>
+    <span class="doccomment">/// * **2.5:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_5_1/include/ruby/ruby.h#L1877) |</span>
+    <span class="doccomment">///     [eval.c](https://github.com/ruby/ruby/blob/v2_5_1/eval.c#L834-L843)</span>
+    <span class="doccomment">/// * **2.6:**</span>
+    <span class="doccomment">///     [ruby.h](https://github.com/ruby/ruby/blob/v2_6_0_preview2/include/ruby/ruby.h#L1894) |</span>
+    <span class="doccomment">///     [eval.c](https://github.com/ruby/ruby/blob/v2_6_0_preview2/eval.c#L848-L857)</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rb_block_given_p</span>() <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 }
 
 <span class="macro">tests</span><span class="macro">!</span> {
@@ -5917,6 +5999,36 @@
         <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="string">&quot;Class&quot;</span>, <span class="ident">class</span>.<span class="ident">to_string_lossy</span>());
         <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="string">&quot;Module&quot;</span>, <span class="ident">module</span>.<span class="ident">to_string_lossy</span>());
         <span class="ident">assert</span>.<span class="ident">rs_eq</span>(<span class="string">&quot;Object&quot;</span>, <span class="ident">instance</span>.<span class="ident">to_string_lossy</span>());
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_block_given_p</span>(<span class="ident">assert</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Assertions</span>) {
+        <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">__test_block_given_p__</span>(<span class="ident">_self</span>: <span class="ident">VALUE</span>) <span class="op">-&gt;</span> <span class="ident">VALUE</span> {
+            <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">rb_block_given_p</span>() <span class="op">!=</span> <span class="number">0</span> } {
+                <span class="kw">unsafe</span> { <span class="ident">Qtrue</span> }
+            } <span class="kw">else</span> {
+                <span class="kw">unsafe</span> { <span class="ident">Qfalse</span> }
+            }
+        }
+
+        <span class="kw">unsafe</span> {
+            <span class="ident">rb_define_method</span>(
+                <span class="ident">rb_mKernel</span>,
+                <span class="macro">cstr</span><span class="macro">!</span>(<span class="string">&quot;__test_block_given_p__&quot;</span>),
+                <span class="ident">ANYARGS</span>::<span class="ident">from_arity_1</span>(<span class="ident">__test_block_given_p__</span>),
+                <span class="number">0</span>
+            );
+        }
+
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(
+            <span class="ident">lazy_eval</span>(<span class="string">&quot;__test_block_given_p__&quot;</span>),
+            <span class="kw">unsafe</span> { <span class="ident">Qfalse</span> }
+        );
+
+        <span class="ident">assert</span>.<span class="ident">rb_eq</span>(
+            <span class="ident">lazy_eval</span>(<span class="string">&quot;__test_block_given_p__ { }&quot;</span>),
+            <span class="kw">unsafe</span> { <span class="ident">Qtrue</span> }
+        );
     }
 }
 </pre>
