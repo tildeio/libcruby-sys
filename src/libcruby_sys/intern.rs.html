@@ -745,44 +745,11 @@
 <span id="745">745</span>
 <span id="746">746</span>
 <span id="747">747</span>
-<span id="748">748</span>
-<span id="749">749</span>
-<span id="750">750</span>
-<span id="751">751</span>
-<span id="752">752</span>
-<span id="753">753</span>
-<span id="754">754</span>
-<span id="755">755</span>
-<span id="756">756</span>
-<span id="757">757</span>
-<span id="758">758</span>
-<span id="759">759</span>
-<span id="760">760</span>
-<span id="761">761</span>
-<span id="762">762</span>
-<span id="763">763</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>};
 
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_camel_case_types</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">st_retval</span>(<span class="ident">c_int</span>);
-
 <span class="kw">extern</span> {
-    <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;RS_ST_CONTINUE&quot;</span>]</span>
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">ST_CONTINUE</span>: <span class="ident">st_retval</span>;
-
-    <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;RS_ST_STOP&quot;</span>]</span>
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">ST_STOP</span>: <span class="ident">st_retval</span>;
-
-    <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;RS_ST_DELETE&quot;</span>]</span>
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">ST_DELETE</span>: <span class="ident">st_retval</span>;
-
-    <span class="attribute">#[<span class="ident">link_name</span> <span class="op">=</span> <span class="string">&quot;RS_ST_CHECK&quot;</span>]</span>
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">ST_CHECK</span>: <span class="ident">st_retval</span>;
-
     <span class="doccomment">/// Constructs a new, empty array.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// * Returns an [`Array`](rb_cArray)</span>
@@ -997,9 +964,10 @@
     <span class="doccomment">/// * `hash` - a [`Hash`](rb_cHash)</span>
     <span class="doccomment">/// * `func` - a function that will be called for each key-value pair of the hash</span>
     <span class="doccomment">///     * Returns `st_retval`:</span>
-    <span class="doccomment">///         * `ST_CONTINUE`, `ST_CHECK`: iteration will continue</span>
-    <span class="doccomment">///         * `ST_DELETE`: entry will be deleted and iteration will continue</span>
-    <span class="doccomment">///         * `ST_STOP`: iteration will stop</span>
+    <span class="doccomment">///         * [`ST_CONTINUE`]: iteration will continue</span>
+    <span class="doccomment">///         * [`ST_CHECK`]: iteration will continue, it appears that `ST_CONTINUE` is preferred</span>
+    <span class="doccomment">///         * [`ST_DELETE`]: entry will be deleted and iteration will continue</span>
+    <span class="doccomment">///         * [`ST_STOP`]: iteration will stop</span>
     <span class="doccomment">/// * `farg` - a Ruby object to be passed through to the `func`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
@@ -1351,10 +1319,10 @@
 
                 <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">rb_intern_str</span>(<span class="ident">key</span>);
 
-                <span class="kw">if</span>      <span class="ident">id</span> <span class="op">==</span> <span class="ident">rb_intern</span>(<span class="macro">cstr</span><span class="macro">!</span>(<span class="string">&quot;foo&quot;</span>))  { <span class="ident">ST_CONTINUE</span> }
-                <span class="kw">else</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">==</span> <span class="ident">rb_intern</span>(<span class="macro">cstr</span><span class="macro">!</span>(<span class="string">&quot;baz&quot;</span>))  { <span class="ident">ST_CHECK</span> }
-                <span class="kw">else</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">==</span> <span class="ident">rb_intern</span>(<span class="macro">cstr</span><span class="macro">!</span>(<span class="string">&quot;hoge&quot;</span>)) { <span class="ident">ST_DELETE</span> }
-                <span class="kw">else</span>                                   { <span class="ident">ST_STOP</span> }
+                <span class="kw">if</span>      <span class="ident">id</span> <span class="op">==</span> <span class="ident">rb_intern</span>(<span class="macro">cstr</span><span class="macro">!</span>(<span class="string">&quot;foo&quot;</span>))  { <span class="ident">st</span>::<span class="ident">ST_CONTINUE</span> }
+                <span class="kw">else</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">==</span> <span class="ident">rb_intern</span>(<span class="macro">cstr</span><span class="macro">!</span>(<span class="string">&quot;baz&quot;</span>))  { <span class="ident">st</span>::<span class="ident">ST_CHECK</span> }
+                <span class="kw">else</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">==</span> <span class="ident">rb_intern</span>(<span class="macro">cstr</span><span class="macro">!</span>(<span class="string">&quot;hoge&quot;</span>)) { <span class="ident">st</span>::<span class="ident">ST_DELETE</span> }
+                <span class="kw">else</span>                                   { <span class="ident">st</span>::<span class="ident">ST_STOP</span> }
             }
         }
 
