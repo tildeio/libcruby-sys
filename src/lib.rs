@@ -38,8 +38,10 @@ init! {
     mod ruby;
     mod intern;
     mod encoding;
+    mod st;
 
     pub use ruby::*;
     pub use intern::*;
     pub use encoding::*;
+    pub use st::*;
 }
