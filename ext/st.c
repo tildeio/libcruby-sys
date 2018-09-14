@@ -1,5 +1,5 @@
 #include "ruby/ruby.h"
-#include "ruby/intern.h"
+#include "ruby/st.h"
 
 // st_retval
 int RS_ST_CONTINUE = ST_CONTINUE;

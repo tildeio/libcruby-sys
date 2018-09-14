@@ -1,24 +1,7 @@
 use super::*;
 use libc::{c_char, c_int, c_long};
 
-#[repr(transparent)]
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
-#[allow(non_camel_case_types)]
-pub struct st_retval(c_int);
-
 extern {
-    #[link_name = "RS_ST_CONTINUE"]
-    pub static ST_CONTINUE: st_retval;
-
-    #[link_name = "RS_ST_STOP"]
-    pub static ST_STOP: st_retval;
-
-    #[link_name = "RS_ST_DELETE"]
-    pub static ST_DELETE: st_retval;
-
-    #[link_name = "RS_ST_CHECK"]
-    pub static ST_CHECK: st_retval;
-
     /// Constructs a new, empty array.
     ///
     /// * Returns an [`Array`](rb_cArray)
@@ -149,9 +132,10 @@ extern {
     /// * `hash` - a [`Hash`](rb_cHash)
     /// * `func` - a function that will be called for each key-value pair of the hash
     ///     * Returns `st_retval`:
-    ///         * `ST_CONTINUE`, `ST_CHECK`: iteration will continue
-    ///         * `ST_DELETE`: entry will be deleted and iteration will continue
-    ///         * `ST_STOP`: iteration will stop
+    ///         * [`ST_CONTINUE`]: iteration will continue
+    ///         * [`ST_CHECK`]: iteration will continue, it appears that `ST_CONTINUE` is preferred
+    ///         * [`ST_DELETE`]: entry will be deleted and iteration will continue
+    ///         * [`ST_STOP`]: iteration will stop
     /// * `farg` - a Ruby object to be passed through to the `func`
     ///
     /// # Safety
@@ -405,10 +389,10 @@ tests! {
 
                 let id = rb_intern_str(key);
 
-                if      id == rb_intern(cstr!("foo"))  { ST_CONTINUE }
-                else if id == rb_intern(cstr!("baz"))  { ST_CHECK }
-                else if id == rb_intern(cstr!("hoge")) { ST_DELETE }
-                else                                   { ST_STOP }
+                if      id == rb_intern(cstr!("foo"))  { st::ST_CONTINUE }
+                else if id == rb_intern(cstr!("baz"))  { st::ST_CHECK }
+                else if id == rb_intern(cstr!("hoge")) { st::ST_DELETE }
+                else                                   { st::ST_STOP }
             }
         }
 
