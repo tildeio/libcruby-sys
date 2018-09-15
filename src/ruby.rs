@@ -1,4 +1,4 @@
-use libc::{c_char, c_int, c_long, size_t, uintptr_t};
+use libc::{c_char, c_int, c_uint, c_long, c_ulong, c_longlong, c_ulonglong, c_double, size_t, uintptr_t};
 use std::mem::transmute;
 
 #[repr(transparent)]
@@ -713,6 +713,215 @@ extern {
     //+ c-class: math.c `VALUE rb_eMathDomainError`
     pub static rb_eMathDomainError: VALUE;
 
+    /// Converts a Ruby [`Numeric`](rb_cNumeric) to an integer.
+    ///
+    /// Calls `#to_int` on `num` if necessary.
+    ///
+    /// # Safety
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`TypeError`](rb_eTypeError)
+    ///     * if `num` doesn't have a conversion
+    ///     * if internal conversion doesn't generate an [`Integer`](rb_cInteger)
+    /// * [`RangeError`](rb_eRangeError)
+    ///     * if `num` is too large to convert into an int
+    /// * User-defined code may raise exceptions
+    ///
+    //+ c-macro: `#define NUM2INT(x)`
+    #[link_name = "RS_NUM2INT"]
+    pub fn NUM2INT(num: VALUE) -> c_int;
+
+    /// Converts an integer to a Ruby [`Numeric`](rb_cNumeric).
+    ///
+    /// # Safety
+    ///
+    /// No known concerns.
+    ///
+    //+ c-macro: `#define INT2NUM(x)`
+    #[link_name = "RS_INT2NUM"]
+    pub fn INT2NUM(i: c_int) -> VALUE;
+
+    /// Converts a Ruby [`Numeric`](rb_cNumeric) to an unsigned integer.
+    ///
+    /// Calls `#to_int` on `num` if necessary.
+    ///
+    /// # Safety
+    ///
+    /// * Internally cast from an unsigned long
+    /// * Undefined behavior when `num` is negative
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`TypeError`](rb_eTypeError)
+    ///     * if `num` doesn't have a conversion
+    ///     * if internal conversion doesn't generate an [`Integer`](rb_cInteger)
+    /// * [`RangeError`](rb_eRangeError)
+    ///     * if `num` is too large to convert into an unsigned int
+    /// * User-defined code may raise exceptions
+    ///
+    //+ c-macro: `#define NUM2UINT(x)`
+    #[link_name = "RS_NUM2UINT"]
+    pub fn NUM2UINT(num: VALUE) -> c_uint;
+
+    /// Converts an unsigned integer to a Ruby [`Numeric`](rb_cNumeric).
+    ///
+    /// # Safety
+    ///
+    /// No known concerns.
+    ///
+    //+ c-macro: `#define UINT2NUM(x)`
+    #[link_name = "RS_UINT2NUM"]
+    pub fn UINT2NUM(ui: c_uint) -> VALUE;
+
+    /// Converts a Ruby [`Numeric`](rb_cNumeric) to a long.
+    ///
+    /// Calls `#to_int` on `num` if necessary.
+    ///
+    /// # Safety
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`TypeError`](rb_eTypeError)
+    ///     * if `num` doesn't have a conversion
+    ///     * if internal conversion doesn't generate an [`Integer`](rb_cInteger)
+    /// * [`RangeError`](rb_eRangeError)
+    ///     * if `num` is too large to convert into a long
+    /// * User-defined code may raise exceptions
+    ///
+    //+ c-macro: `#define NUM2LONG(x)`
+    #[link_name = "RS_NUM2LONG"]
+    pub fn NUM2LONG(num: VALUE) -> c_long;
+
+    /// Converts a long to a Ruby [`Numeric`](rb_cNumeric).
+    ///
+    /// # Safety
+    ///
+    /// No known concerns.
+    ///
+    //+ c-macro: `#define LONG2NUM(x)`
+    #[link_name = "RS_LONG2NUM"]
+    pub fn LONG2NUM(l: c_long) -> VALUE;
+
+    /// Converts a Ruby [`Numeric`](rb_cNumeric) to an unsigned long.
+    ///
+    /// Calls `#to_int` on `num` if necessary.
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior when `num` is negative
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`TypeError`](rb_eTypeError)
+    ///     * if `num` doesn't have a conversion
+    ///     * if internal conversion doesn't generate an [`Integer`](rb_cInteger)
+    /// * [`RangeError`](rb_eRangeError)
+    ///     * if `num` is too large to convert into an unsigned long
+    /// * User-defined code may raise exceptions
+    ///
+    //+ c-macro: `#define NUM2ULONG(x)`
+    #[link_name = "RS_NUM2ULONG"]
+    pub fn NUM2ULONG(num: VALUE) -> c_ulong;
+
+    /// Converts an unsigned long to a Ruby [`Numeric`](rb_cNumeric).
+    ///
+    /// # Safety
+    ///
+    /// No known concerns.
+    ///
+    //+ c-macro: `#define ULONG2NUM(x)`
+    #[link_name = "RS_ULONG2NUM"]
+    pub fn ULONG2NUM(ul: c_ulong) -> VALUE;
+
+    /// Converts a Ruby [`Numeric`](rb_cNumeric) to a long long.
+    ///
+    /// Calls `#to_int` on `num` if necessary.
+    ///
+    /// # Safety
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`TypeError`](rb_eTypeError)
+    ///     * if `num` doesn't have a conversion
+    ///     * if internal conversion doesn't generate an [`Integer`](rb_cInteger)
+    /// * [`RangeError`](rb_eRangeError)
+    ///     * if `num` is too large to convert into a long long
+    /// * User-defined code may raise exceptions
+    ///
+    //+ c-macro: `# define NUM2LL(x)`
+    #[link_name = "RS_NUM2LL"]
+    pub fn NUM2LL(num: VALUE) -> c_longlong;
+
+    /// Converts a long long to a Ruby [`Numeric`](rb_cNumeric).
+    ///
+    /// # Safety
+    ///
+    /// No known concerns.
+    ///
+    //+ c-macro: `#define LL2NUM(v)`
+    #[link_name = "RS_LL2NUM"]
+    pub fn LL2NUM(ll: c_longlong) -> VALUE;
+
+    /// Converts a Ruby [`Numeric`](rb_cNumeric) to an unsigned long long.
+    ///
+    /// Calls `#to_int` on `num` if necessary.
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `num` is negative
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`TypeError`](rb_eTypeError)
+    ///     * if `num` doesn't have a conversion
+    ///     * if internal conversion doesn't generate an [`Integer`](rb_cInteger)
+    /// * [`RangeError`](rb_eRangeError)
+    ///     * if `num` is too large to convert into an unsigned long long
+    /// * User-defined code may raise exceptions
+    ///
+    //+ c-macro: `# define NUM2ULL(x)`
+    #[link_name = "RS_NUM2ULL"]
+    pub fn NUM2ULL(num: VALUE) -> c_ulonglong;
+
+    /// Converts an unsigned long long to a Ruby [`Numeric`](rb_cNumeric).
+    ///
+    /// # Safety
+    ///
+    /// No known concerns.
+    ///
+    //+ c-macro: `#define ULL2NUM(v)`
+    #[link_name = "RS_ULL2NUM"]
+    pub fn ULL2NUM(ull: c_ulonglong) -> VALUE;
+
+    /// Converts a Ruby [`Numeric`](rb_cNumeric) to an unsigned long long.
+    ///
+    /// Calls `#to_f` on `num` if necessary.
+    ///
+    /// # Safety
+    ///
+    /// * Undefined behavior if `num` is negative
+    ///
+    /// ## Exceptions
+    ///
+    /// * [`TypeError`](rb_eTypeError)
+    ///     * if `num` doesn't have a conversion
+    ///     * if internal conversion doesn't generate a [`Float`](rb_cFloat)
+    /// * User-defined code may raise exceptions
+    ///
+    //+ c-macro: `#define NUM2DBL(x)`
+    #[link_name = "RS_NUM2DBL"]
+    pub fn NUM2DBL(num: VALUE) -> c_double;
+
+    /// Converts a double to a Ruby [`Float`](rb_cFloat).
+    ///
+    /// # Safety
+    ///
+    /// No known concerns.
+    ///
+    //+ c-macro: `#define DBL2NUM(dbl)`
+    #[link_name = "RS_DBL2NUM"]
+    pub fn DBL2NUM(num: c_double) -> VALUE;
 
     /// Returns a C boolean (zero if false, non-zero if true) indicating
     /// whether the object is of the internal Ruby type.
@@ -1461,6 +1670,37 @@ tests! {
         // `rb_obj_class` on a class returns the class itself, `CLASS_OF` returns the singleton class
         assert.rb_ne(unsafe { intern::rb_obj_class(rb_cString) }, unsafe { CLASS_OF(rb_cString) });
         assert.rb_eq(lazy_eval("String.singleton_class"), unsafe { CLASS_OF(rb_cString) });
+    }
+
+    #[test]
+    fn test_numeric_conversions(assert: &mut Assertions) {
+        let int_max = c_int::max_value();
+        let long_max = c_long::max_value();
+        let long_long_max = c_longlong::max_value();
+
+        let val = -int_max + 1;
+        assert.rb_eq(lazy_eval(&format!("{}", val)), unsafe { INT2NUM(val) });
+        assert.rs_eq(val, unsafe { NUM2INT(INT2NUM(val)) });
+
+        let val = (int_max as c_uint) + 1;
+        assert.rb_eq(lazy_eval(&format!("{}", val)), unsafe { UINT2NUM(val) });
+        assert.rs_eq(val, unsafe { NUM2UINT(UINT2NUM(val)) });
+
+        let val = -long_max + 1;
+        assert.rb_eq(lazy_eval(&format!("{}", val)), unsafe { LONG2NUM(val) });
+        assert.rs_eq(val, unsafe { NUM2LONG(LONG2NUM(val)) });
+
+        let val = (long_max as c_ulong) + 1;
+        assert.rb_eq(lazy_eval(&format!("{}", val)), unsafe { ULONG2NUM(val) });
+        assert.rs_eq(val, unsafe { NUM2ULONG(ULONG2NUM(val)) });
+
+        let val = -long_long_max + 1;
+        assert.rb_eq(lazy_eval(&format!("{}", val)), unsafe { LL2NUM(val) });
+        assert.rs_eq(val, unsafe { NUM2LL(LL2NUM(val)) });
+
+        let val = (long_long_max as c_ulonglong) + 1;
+        assert.rb_eq(lazy_eval(&format!("{}", val)), unsafe { ULL2NUM(val) });
+        assert.rs_eq(val, unsafe { NUM2ULL(ULL2NUM(val)) });
     }
 
     #[test]
