@@ -53,8 +53,6 @@ VALUE RS_LONG2NUM(long l) { return LONG2NUM(l); }
 unsigned long RS_NUM2ULONG(VALUE num) { return NUM2ULONG(num); }
 VALUE RS_ULONG2NUM(unsigned long ul) { return ULONG2NUM(ul); }
 
-// Do we support any platforms that wouldn't have `long long`?
-// If so, these won't be present.
 long long RS_NUM2LL(VALUE num) { return NUM2LL(num); }
 VALUE RS_LL2NUM(long long ll) { return LL2NUM(ll); }
 
