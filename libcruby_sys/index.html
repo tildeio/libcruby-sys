@@ -913,6 +913,94 @@ that traversing should stop.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class="fn" href="fn.DBL2NUM.html"
+                                  title='fn libcruby_sys::DBL2NUM'>DBL2NUM</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts a double to a Ruby <a href="../libcruby_sys/static.rb_cFloat.html"><code>Float</code></a>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.INT2NUM.html"
+                                  title='fn libcruby_sys::INT2NUM'>INT2NUM</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts an integer to a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.LL2NUM.html"
+                                  title='fn libcruby_sys::LL2NUM'>LL2NUM</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts a long long to a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.LONG2NUM.html"
+                                  title='fn libcruby_sys::LONG2NUM'>LONG2NUM</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts a long to a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.NUM2DBL.html"
+                                  title='fn libcruby_sys::NUM2DBL'>NUM2DBL</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a> to an unsigned long long.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.NUM2INT.html"
+                                  title='fn libcruby_sys::NUM2INT'>NUM2INT</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a> to an integer.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.NUM2LL.html"
+                                  title='fn libcruby_sys::NUM2LL'>NUM2LL</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a> to a long long.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.NUM2LONG.html"
+                                  title='fn libcruby_sys::NUM2LONG'>NUM2LONG</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a> to a long.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.NUM2UINT.html"
+                                  title='fn libcruby_sys::NUM2UINT'>NUM2UINT</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a> to an unsigned integer.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.NUM2ULL.html"
+                                  title='fn libcruby_sys::NUM2ULL'>NUM2ULL</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a> to an unsigned long long.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.NUM2ULONG.html"
+                                  title='fn libcruby_sys::NUM2ULONG'>NUM2ULONG</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a> to an unsigned long.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="fn" href="fn.RARRAY_LEN.html"
                                   title='fn libcruby_sys::RARRAY_LEN'>RARRAY_LEN</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
                            <td class='docblock-short'>
@@ -950,6 +1038,30 @@ whether the object is of the internal Ruby type.</p>
                                   title='fn libcruby_sys::RSTRING_PTR'>RSTRING_PTR</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
                            <td class='docblock-short'>
                                 <p>Returns a pointer to the Ruby <a href="../libcruby_sys/static.rb_cString.html"><code>String</code></a> data.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.UINT2NUM.html"
+                                  title='fn libcruby_sys::UINT2NUM'>UINT2NUM</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts an unsigned integer to a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.ULL2NUM.html"
+                                  title='fn libcruby_sys::ULL2NUM'>ULL2NUM</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts an unsigned long long to a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.ULONG2NUM.html"
+                                  title='fn libcruby_sys::ULONG2NUM'>ULONG2NUM</a><a title='unsafe function' href='#'><sup>⚠</sup></a></td>
+                           <td class='docblock-short'>
+                                <p>Converts an unsigned long to a Ruby <a href="../libcruby_sys/static.rb_cNumeric.html"><code>Numeric</code></a>.</p>
 
                            </td>
                        </tr>
