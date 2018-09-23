@@ -9,7 +9,10 @@ pub struct VALUE(uintptr_t);
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
 pub struct ID(uintptr_t);
 
-// TODO: explain why this is ok
+// `ID` is just an index into a Ruby array representing all symbols
+// and interned strings. Since this type is just an index into that
+// array, not an actual pointer to a Ruby object, it is safe to share
+// between threads.
 unsafe impl Sync for ID {}
 
 #[repr(transparent)]
